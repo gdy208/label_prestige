@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Label Prestige — Excellence Académique & Collective</title>
+  
+  <!-- Google Fonts: Cinzel (Luxury Display), Playfair Display (Headings), Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="/src/styles/main.css">
+  <link rel="stylesheet" href="/src/styles/components.css">
+  <link rel="stylesheet" href="/src/styles/responsive.css">
+</head>
+<body>
+  <!-- 3D Canvas Background Layer -->
+  <div id="canvas-container"></div>
+
+  <!-- Main Navigation Header -->
+  <header class="luxury-header">
+    <div class="header-container">
+      <a href="#" class="brand-logo">Label Prestige</a>
+      
+      <nav class="nav-menu" id="nav-menu">
+        <a href="#histoire" class="nav-link">Histoire</a>
+        <a href="#activites" class="nav-link">Activités</a>
+        <a href="#documents" class="nav-link">Documents</a>
+        <a href="#concours" class="nav-link">Concours</a>
+        <a href="#serment-techno" class="nav-link">Serment Techno</a>
+        <a href="#suggestions" class="nav-link">Suggestions</a>
+      </nav>
+
+      <div class="header-actions">
+        <button id="login-btn" class="btn btn-outline-gold">Connexion Bureau</button>
+        <!-- Mobile Hamburger Menu Button -->
+        <button class="hamburger-btn" id="hamburger-btn" aria-label="Menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main>
+    <!-- Section 1: Hero -->
+    <section id="hero" class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">L'Excellence en Partage</h1>
+        <p class="hero-subtitle">Association & Alliance des Classes Préparatoires et Grandes Écoles</p>
+        <div class="hero-actions">
+          <a href="#documents" class="btn btn-gold">Accéder aux Ressources</a>
+          <a href="#histoire" class="btn btn-outline">En savoir plus</a>
+        </div>
+      </div>
+      <div class="hero-overlay"></div>
+    </section>
+
+    <!-- Section 2: Histoire -->
+    <section id="histoire" class="section-container">
+      <div class="section-content">
+        <h2 class="section-title">Notre Histoire</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    </section>
+
+    <!-- Section 3: Activités -->
+    <section id="activites" class="section-container">
+      <div class="section-content">
+        <h2 class="section-title">Nos Activités</h2>
+        <div id="timeline-container"></div>
+      </div>
+    </section>
+
+    <!-- Section 4: Concours -->
+    <section id="concours" class="section-container">
+      <div class="section-content">
+        <h2 class="section-title">Les Concours</h2>
+        <p>Informations et ressources pour réussir les concours les plus prestigieux.</p>
+      </div>
+    </section>
+
+    <!-- Section 5: Serment Techno -->
+    <section id="serment-techno" class="section-container">
+      <div class="section-content">
+        <h2 class="section-title">Serment Techno</h2>
+        <p>Engagement, valeurs et adhésion au collectif.</p>
+      </div>
+    </section>
+
+    <!-- Section 6: Suggestions -->
+    <section id="suggestions" class="section-container">
+      <div class="section-content">
+        <h2 class="section-title">Boîte à Suggestions</h2>
+        <div id="suggestions-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modals & Overlay Containers -->
+  <div id="modal-root"></div>
+
+  <!-- App Entry Script -->
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>
