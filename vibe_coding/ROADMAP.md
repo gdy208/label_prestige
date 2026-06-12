@@ -5,6 +5,18 @@
 
 ---
 
+## 🤖 Instructions for the AI Agent
+
+This roadmap is specifically designed for an AI agent guiding the implementation of the Label Prestige project.
+
+1.  **No Autonomous Content Generation:** DO NOT generate informational text, descriptions, or copy for the various sections (Histoire, Activités, Concours, Serment Techno, etc.) yourself.
+2.  **User Consultation Mandate:** ALWAYS ask the user for the specific text and information to be used for each section. If a placeholder is needed for UI testing, explicitly state it is a temporary placeholder and ask for the final content.
+3.  **Sequential Execution:** Follow each phase and task in order. Do not skip ahead unless explicitly directed by the user.
+4.  **Verification:** After completing a task or a phase, confirm the results with the user and wait for approval before moving to the next one.
+5.  **Technical Fidelity:** Strictly adhere to the technical stack and branding guidelines defined in `PROMOTIONAL_WEBSITE_SPEC.md`.
+
+---
+
 ## How to Use This Roadmap
 
 Each **phase** is a self-contained milestone. Complete all tasks within a phase before moving to the next. Each task has:
@@ -124,6 +136,8 @@ src/
 | 2.4 | [ ] Create `<section id="histoire">`: association mission & vision content | Frontend | Use Playfair Display for headings, Inter for body |
 | 2.5 | [ ] Create `<section id="activites">`: placeholder timeline structure | Frontend | Will be enhanced in Phase 2b |
 | 2.6 | [ ] Build `Timeline.js`: a vertical or horizontal timeline component with activity cards (date, description, theme/keywords) | Frontend | Start with hardcoded data; data-driven version can come later |
+| 2.6.1 | [ ] Design & create CSS styles for "Révélation Temporelle" (blur élégant, gold mystery text, contrast handling, user-select control) | Design | Visuals must match glassmorphism & luxury token system; include `will-change: filter` and mobile fallbacks |
+| 2.6.2 | [ ] Implement JS logic in `Timeline.js` / `app.js`: real-time date comparison (Date.now() vs event.date), dynamic toggling of CSS classes, and light polling/update strategy (e.g., per-minute re-evaluation + IntersectionObserver optimization) | Frontend | Ensure minimal DOM work; use class toggles and ARIA attributes; fall back gracefully when `mysteryText` absent |
 | 2.7 | [ ] Style activity cards: glassmorphism card with gold border on hover, subtle scale animation | Design | — |
 | 2.8 | [ ] Create `<section id="concours">`: descriptions for CCINP, X Polytechnique, etc. | Frontend | Use grid/flexbox cards layout |
 | 2.9 | [ ] Create `<section id="serment-techno">`: membership, commitments, payment/promo info | Frontend | — |

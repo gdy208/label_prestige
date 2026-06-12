@@ -1,11 +1,15 @@
 import { auth } from './firebase.js';
 import { onAuthStateChanged } from 'firebase/auth';
+import { setupHeader } from './components/Header.js';
 
 console.log("Label Prestige promotional website loaded.");
 
 function initApp() {
   console.log("Initializing Application...");
   
+  // Initialize Header logic
+  setupHeader();
+
   // Set up Firebase Auth listener
   onAuthStateChanged(auth, (user) => {
     if (user) {

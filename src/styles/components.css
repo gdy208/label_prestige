@@ -9,13 +9,13 @@
   border-bottom: 1px solid var(--color-glass-border);
   backdrop-filter: blur(var(--blur-glass));
   -webkit-backdrop-filter: blur(var(--blur-glass));
-  transition: padding var(--transition-smooth);
+  transition: all var(--transition-smooth);
 }
 
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 15px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,12 +23,13 @@
 
 .brand-logo {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--color-gold);
   text-decoration: none;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   transition: color var(--transition-smooth);
+  text-transform: uppercase;
 }
 
 .brand-logo:hover {
@@ -37,19 +38,20 @@
 
 .nav-menu {
   display: flex;
-  gap: 30px;
+  gap: 25px;
 }
 
 .nav-link {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   color: var(--color-text-secondary);
   text-decoration: none;
   font-weight: 500;
   transition: color var(--transition-smooth);
   position: relative;
+  padding: 5px 0;
 }
 
 .nav-link:hover {
@@ -59,7 +61,7 @@
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: -4px;
+  bottom: 0;
   left: 0;
   width: 0;
   height: 1px;
@@ -74,7 +76,13 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
+}
+
+/* Specific Login Button Styling (Ghost/Outlined Gold) */
+#login-btn {
+  font-size: 0.75rem;
+  padding: 8px 18px;
 }
 
 /* Hamburger button styling */
