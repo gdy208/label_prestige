@@ -2,20 +2,26 @@ import { db } from '../firebase.js';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { createDocumentCard } from './DocumentCard.js';
 
+const subcategories = [
+  { id: 'matieres-maths', label: 'Mathématiques' },
+  { id: 'matieres-physique', label: 'Physique' },
+  { id: 'matieres-chimie', label: 'Chimie' },
+  { id: 'matieres-si', label: 'Sciences Industrielles' },
+  { id: 'matieres-info', label: 'Informatique' },
+];
+
 const tree = [
   {
     id: '1ere',
     label: '1ère Année',
-    children: [
-      { id: '1ere-maths', label: 'Mathématiques', category: '1ère Année/Mathématiques' },
-      { id: '1ere-physique', label: 'Physique', category: '1ère Année/Physique' },
-      { id: '1ere-chimie', label: 'Chimie', category: '1ère Année/Chimie' },
-      { id: '1ere-si', label: 'Sciences Industrielles', category: '1ère Année/Sciences Industrielles' },
-      { id: '1ere-info', label: 'Informatique', category: '1ère Année/Informatique' },
-    ],
+    children: subcategories.map(s => ({ ...s, category: `1ère Année/${s.label}` })),
   },
-  { id: '2eme', label: '2ème Année', children: [], category: '2ème Année' },
-  { id: 'concours', label: 'Concours Spéciaux', children: [], category: 'Concours Spéciaux' },
+  {
+    id: '2eme',
+    label: '2ème Année',
+    children: subcategories.map(s => ({ ...s, category: `2ème Année/${s.label}` })),
+  },
+  { id: 'concours', label: 'Sujets Concours', children: [], category: 'Sujets Concours' },
 ];
 
 let overlay = null;
@@ -26,8 +32,10 @@ function createModal() {
   overlay.className = 'login-modal-overlay';
   overlay.innerHTML = `
     <div class="doc-library">
-      <button class="login-modal-close" aria-label="Fermer">&times;</button>
-      <h2 class="admin-title" style="padding:24px 24px 0">Bibliothèque Technique</h2>
+      <div class="doc-library-header">
+        <h2 class="doc-library-title">Bibliothèque Technique</h2>
+        <button class="login-modal-close" aria-label="Fermer">&times;</button>
+      </div>
       <div class="doc-library-body">
         <div class="doc-library-tree" id="doc-tree"></div>
         <div class="doc-library-content" id="doc-content">

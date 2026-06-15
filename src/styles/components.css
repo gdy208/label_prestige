@@ -728,11 +728,28 @@
   transform: translateY(0);
 }
 
+.doc-library-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+  gap: 16px;
+}
+
+.doc-library-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  margin: 0;
+  line-height: 1.2;
+}
+
 .doc-library-body {
   display: flex;
   flex: 1;
   overflow: hidden;
-  padding: 20px 24px 24px;
+  padding: 16px 24px 24px;
   gap: 20px;
 }
 
