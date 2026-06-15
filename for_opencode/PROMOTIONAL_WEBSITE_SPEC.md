@@ -24,53 +24,7 @@ Navigation & layout
 Pages / Sections
 1. Home (hero, brief mission, CTA)
 2. Histoire — Association mission & vision
-3. Activités — Timeline roadmap + activity cards (date, description, theme/keywords)
-
-### Fonctionnalité : Révélation Temporelle (Événements Mystères)
-
-- Objectif : Ajouter un effet de teasing sur la frise chronologique afin que certaines activités apparaissent comme « mystérieuses » avant leur date officielle, puis se révèlent automatiquement une fois la date atteinte.
-
-- Comportement fonctionnel :
-  - Chaque activité possède dans ses données : date de l'événement, titre, description détaillée, et une "phrase mystère" (court texte alternatif).
-  - Si la date système est antérieure à la date de l'événement => état FUTUR (mystère) :
-    - Le titre et la description détaillée visibles dans la carte/ligne de la timeline sont floutés (CSS `filter: blur(...)`), non sélectionnables (`user-select: none`) et inaccessibles à la lecture par copie.
-    - À la place, la "phrase mystère" est affichée au centre de la carte en couleur dorée (--color-gold) avec un contraste élevé; un petit badge « Révélation à : YYYY‑MM‑JJ » peut être affiché en bas en texte secondaire.
-  - Si la date système est égale ou postérieure à la date de l'événement => état ACTUEL / PASSÉ :
-    - Le flou est retiré dynamiquement, le vrai titre et la description détaillée redeviennent lisibles et sélectionnables.
-
-- Exigences techniques :
-  - Le composant Timeline (Timeline.js) doit effectuer, côté client, une comparaison en temps réel entre la date système (Date.now()) et la date de chaque activité.
-  - L'application doit écouter les horodatages affichés et mettre à jour l'état visuel sans nécessiter un rechargement de page (par ex. recalcul chaque minute via `setInterval` ou `requestAnimationFrame` optimisé si nécessaire).
-  - Le texte flouté doit rester présent dans le DOM pour le SEO côté rendu initial (si rendu serveur), mais visuellement caché par CSS et inaccessible à la sélection. Pour les crawlers, s'assurer que le contenu n'est pas masqué via `display:none` afin de préserver l'indexation.
-
-- Exigences visuelles & d'accessibilité :
-  - Respect de la charte luxe / glassmorphism : la carte timeline conserve un fond verre (`backdrop-filter`), bords arrondis et bordure dorée subtile pour les activités mystères.
-  - La "phrase mystère" doit utiliser `--color-gold` et une typographie affichée (Playfair/Cinzel) avec taille légèrement augmentée pour l'effet teasing.
-  - Ajouter un attribut ARIA sur la carte : `aria-hidden="true"` pour le texte flouté lorsque l'état est FUTUR, et `aria-hidden="false"` lorsque révélé. Fournir un `aria-label` ou `aria-describedby` pour indiquer « Événement mystère, révélation le YYYY‑MM‑JJ » afin d'aider les lecteurs d'écran.
-
-- Contraintes de performance :
-  - Le rendu du flou et le calcul des dates doivent être légers : appliquer/retirer une classe CSS au niveau du conteneur plutôt que modifier individuellement plusieurs styles inline.
-  - Limiter les opérations DOM : pré-calculer les états (futur/actuel) pour la page visible et n'itérer que sur les éléments dans le viewport quand possible (utiliser `IntersectionObserver`).
-  - L'effet de flou doit être GPU-accelerated (utiliser `will-change: filter` et transitions CSS) pour ne pas ralentir le scrolling ni provoquer de jank.
-
-- Données & API :
-  - Schéma recommandé pour chaque activité (Firestore / JSON) :
-    - id
-    - date (ISO 8601)
-    - title
-    - description
-    - mysteryText
-    - tags
-    - createdAt
-  - Backwards compatibility : si `mysteryText` est absent, le comportement par défaut est d'afficher le titre et la description normalement.
-
-- Tests d'acceptation :
-  - [ ] Une activité avec date future affiche la phrase mystère en doré et masque le titre/description
-  - [ ] Après la date, l'activité révèle automatiquement le titre et la description sans rechargement
-  - [ ] Le flou n'affecte pas la performance de scroll (mesure cible : 60 fps sur desktop moyen)
-  - [ ] Les lecteurs d'écran lisent l'état via `aria-label`/`aria-describedby` approprié
-
-
+3. Activités — Timeline roadmap + activity cards (date, description, theme/keywords). Les activités futures sont floutées (blur 8px) ; le survol révèle le contenu et affiche une énigme en grec ancien. La connexion admin supprime définitivement le flou.
 4. Documents — "Base de Documents" modal/library with sidebar tree and document viewer
 5. Concours — Contest descriptions (CCINP, X Polytechnique, etc.)
 6. Serment Techno — Membership, commitments, payment/promo
@@ -88,7 +42,7 @@ Document Library (UI + behavior)
 Member / Admin Access
 - Login form (email/password) for bureau members
 - Role-based access: admin/bureau flag in Firestore 'users' collection (or Firebase custom claims)
-- After login, admin-only UI appears: upload form, Suggestions sidebar item, suggestions dashboard
+- After login, admin-only UI appears: upload form, Suggestions sidebar item, suggestions dashboard, and future activities unblurred (`.future-activity` class removed from timeline cards)
 
 Document upload flow
 - Admin upload form fields: document name, category, document type, academic year, file input
@@ -135,6 +89,8 @@ UI/UX & interactions
 - Animated entrance effects (scroll-triggered) for sections and cards
 - Success/alert notifications for upload/delete/submit actions
 - Live preview for suggestion form (mirrors title and description in a styled card)
+- Future activities blurred (filter: blur(8px)); hover reveals content + ancient Greek enigma
+- Admin login removes blur from all future activities permanently
 - Accessibility: labels on forms, keyboard focus for modal, alt text for images
 
 3D Canvas & Particles
@@ -184,7 +140,7 @@ Acceptance criteria / checklist
 - [ ] Header with fixed luxury styling + nav links (works across viewport sizes)
 - [ ] Hero with 3D canvas background + CTA
 - [ ] Histoire section content
-- [ ] Activités timeline + activity cards (data-driven)
+- [ ] Activités timeline + activity cards (data-driven) with future activities blurred, hover-to-reveal with Greek enigmas, and unblur on admin login
 - [ ] Documents modal with sidebar tree, document cards, download, delete
 - [ ] Admin login and role-based UI gating
 - [ ] Document upload: Storage + Firestore metadata + success/failure notifications
