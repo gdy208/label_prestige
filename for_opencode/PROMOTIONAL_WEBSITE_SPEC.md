@@ -164,7 +164,7 @@ src/
 - [x] Phase 6.5: Concours management (Firestore + AdminConcours + ConcoursForm ajout/édition)
 - [x] Phase 7: Members management (Firestore users + AdminMembers) — permission par `poste`
 - [x] Phase 8: Document Library modal (Firestore read)
-- [ ] Phase 9: Document upload + delete (admin only)
+- [x] Phase 9: Document upload + delete (admin only)
 - [ ] Phase 10: Suggestions form + admin dashboard
 - [ ] Phase 11: Firebase Security Rules
 - [ ] Phase 12: Polish, responsiveness, deployment

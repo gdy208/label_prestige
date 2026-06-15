@@ -216,7 +216,7 @@ Objectif : Modale bibliothèque de documents avec lecture depuis Firestore.
 ---
 
 ## Phase 9 — Document Upload + Delete (Admin)
-**Statut : ⏳ À faire**
+**Statut : ✅ Terminée**
 
 Objectif : Upload/suppression de documents par les membres connectés.
 
@@ -227,11 +227,11 @@ Objectif : Upload/suppression de documents par les membres connectés.
 
 | # | Tâche | Notes |
 |---|-------|-------|
-| 9.1 | UI formulaire upload (visible si connecté) | |
-| 9.2 | `uploadDocument()` : Storage + Firestore | |
-| 9.3 | Barre de progression + notification | |
-| 9.4 | Bouton Delete sur DocumentCard (admin) + confirmation | |
-| 9.5 | `deleteDocument()` : Firestore + Storage cleanup | |
+| 9.1 | UI formulaire upload (visible si connecté) | Bouton "Téléverser" dans l'en-tête de la bibliothèque |
+| 9.2 | `handleUpload()` : Storage + Firestore | Upload via `uploadBytesResumable`, écriture Firestore avec `storageRef` |
+| 9.3 | Barre de progression + notification | Barre de progression temps réel, notification succès/erreur |
+| 9.4 | Bouton Delete sur DocumentCard (admin) + confirmation | Bouton rouge "Supprimer", confirmation `confirm()` |
+| 9.5 | `handleDelete()` : Firestore + Storage cleanup | Suppression du fichier Storage + document Firestore |
 
 ---
 
@@ -279,4 +279,4 @@ Objectif : Audit visuel, responsive, accessibilité, déploiement.
 
 ---
 
-*Roadmap générée le 15/06/2026 — 9 phases terminées (dont Phase 6.5), 4 à faire.*
+*Roadmap générée le 15/06/2026 — 10 phases terminées (dont Phase 6.5), 3 à faire.*

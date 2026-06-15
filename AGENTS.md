@@ -15,7 +15,7 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 - **3D**: Three.js (low-poly floating geometry + particles, CSS fallback on mobile)
 - **Fonts**: Cinzel (display), Playfair Display (headings), Inter (body)
 
-## Project state — Phases 0-8 complete (9 done, 4 to go)
+## Project state — Phases 0-9 complete (10 done, 3 to go)
 
 ### Components implemented
 | Component | Status | Description |
@@ -74,7 +74,7 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 | `enigmes` | enigme (grec ancien), enigmeHint (traduction), used (boolean) |
 | `concours` | category, name, ecole, option, filieres, frais, composition, matieres, periode, resultats, description, order, createdAt |
 | `suggestions` | category, title, description, status (unread/read), createdAt, email |
-| `documents` | name, category, type, academicYear, storagePath, filename, createdBy, createdAt |
+| `documents` | name, category, type, academicYear, storagePath, storageRef, filename, createdBy, createdAt |
 | `users/{uid}` | name, email, role (super_admin/bureau), poste, promotion, active |
 | `config/roles` | items (array of poste names) — plus utilisé, poste est texte libre |
 
@@ -96,8 +96,9 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 | `TEXTES_MODIFIABLES.md` | ~80 editable text fields grouped by section |
 
 ## Upcoming phases
-- Phase 9: Document upload + delete (admin) ← **en cours**
 - Phase 10: SuggestionsForm.js + SuggestionList.js
+- Phase 11: Firebase Security Rules
+- Phase 12: Polish, responsiveness, deployment
 - Phase 11: Firebase Security Rules
 - Phase 12: Polish, responsiveness, deployment
 - Phase 11: Firebase Security Rules

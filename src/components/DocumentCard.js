@@ -1,4 +1,5 @@
-export function createDocumentCard(doc) {
+export function createDocumentCard(doc, opts = {}) {
+  const { showDelete = false, onDelete } = opts;
   const card = document.createElement('div');
   card.className = 'doc-card';
 
@@ -16,14 +17,14 @@ export function createDocumentCard(doc) {
       ${doc.filename ? `<span class="doc-meta-item">${esc(doc.filename)}</span>` : ''}
     </div>
     <div class="doc-card-actions">
-      <button class="btn btn-outline-gold doc-download" data-path="${esc(doc.storagePath || '')}" style="font-size:0.7rem;padding:6px 14px">
+      <button class="btn btn-outline-gold doc-download" style="font-size:0.7rem;padding:6px 14px">
         Télécharger
       </button>
+      ${showDelete ? '<button class="btn btn-outline doc-delete" style="font-size:0.7rem;padding:6px 14px;border-color:rgba(255,80,80,0.3);color:#ff5050">Supprimer</button>' : ''}
     </div>
   `;
 
-  const dlBtn = card.querySelector('.doc-download');
-  dlBtn.addEventListener('click', () => {
+  card.querySelector('.doc-download').addEventListener('click', () => {
     if (doc.storagePath) {
       const link = document.createElement('a');
       link.href = doc.storagePath;
@@ -32,6 +33,11 @@ export function createDocumentCard(doc) {
       link.click();
     }
   });
+
+  const delBtn = card.querySelector('.doc-delete');
+  if (delBtn && onDelete) {
+    delBtn.addEventListener('click', () => onDelete(doc));
+  }
 
   return card;
 }
