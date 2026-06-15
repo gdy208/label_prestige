@@ -1,6 +1,7 @@
 import { getState, subscribe } from '../auth.js';
 import { setupAdminActivities } from './AdminActivities.js';
 import { setupAdminConcours } from './AdminConcours.js';
+import { setupAdminMembers } from './AdminMembers.js';
 
 let overlay = null;
 let currentPoste = null;
@@ -100,6 +101,8 @@ function selectTab(tabId) {
     setupAdminActivities(panel);
   } else if (tabId === 'concours') {
     setupAdminConcours(panel);
+  } else if (tabId === 'members') {
+    setupAdminMembers(panel);
   }
 }
 

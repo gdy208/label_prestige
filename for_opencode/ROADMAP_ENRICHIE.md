@@ -175,22 +175,22 @@ Objectif : Les président·es et le développeur peuvent ajouter et modifier les
 ---
 
 ## Phase 7 — Members Management
-**Statut : ⏳ À faire**
+**Statut : ✅ Terminée**
 
 Objectif : Gérer les membres du bureau selon les permissions par poste.
 
 ### Règles d'affichage AdminMembers.js
-- `developpeur` : édition complète (rôle, poste, activation)
-- `président` : activation/désactivation uniquement (pas d'édition rôle/poste)
+- `developpeur` : édition complète (rôle, poste, activation), postes depuis `config/roles`
+- `président` : activation/désactivation instantanée uniquement
 - Autres : liste en lecture seule
 
 | # | Tâche | Notes |
 |---|-------|-------|
 | 7.1 | AdminMembers.js : liste des membres Firestore | Onglet Membres (visible `developpeur` uniquement) |
-| 7.2 | Édition rôle/poste par `developpeur` uniquement | Postes depuis `config/roles` |
-| 7.3 | Activation/désactivation (`active: true/false`) | `developpeur` + `président` |
+| 7.2 | Édition rôle/poste par `developpeur` uniquement | Postes depuis `config/roles`, selects inline avec bouton Sauvegarder |
+| 7.3 | Activation/désactivation (`active: true/false`) | `developpeur` + `président` ; instantanée pour président, via save pour dev |
 | 7.4 | Création des comptes via Firebase Console (documenté dans l'UI) | Hors scope de l'application |
-| 7.5 | CSS table membres + formulaires | |
+| 7.5 | CSS table membres + formulaires | Inline selects + toggle checkbox |
 
 ---
 
@@ -279,4 +279,4 @@ Objectif : Audit visuel, responsive, accessibilité, déploiement.
 
 ---
 
-*Roadmap générée le 15/06/2026 — 7 phases terminées (dont Phase 6.5), 6 à faire.*
+*Roadmap générée le 15/06/2026 — 8 phases terminées (dont Phase 6.5), 5 à faire.*

@@ -83,13 +83,14 @@ Les droits sont gérés par le champ **`poste`** (pas `role`). Le `role` est un 
 - Matching flexible des postes : `"presidente_24"` match `"président"` (startsWith insensible à la casse et aux accents)
 
 ## Members management
-- `AdminMembers.js` panel affiché dans l'onglet Membres du dashboard
+- `AdminMembers.js` panel affiché dans l'onglet Membres du dashboard (visible `developpeur` uniquement)
 - **Fonctionnalités selon poste :**
-  - `"developpeur"` : lister, éditer rôle + poste, activer/désactiver
-  - `"président"` : lister, activer/désactiver uniquement
+  - `"developpeur"` : lister, éditer rôle (select bureau/super_admin) + poste (select depuis `config/roles`), activer/désactiver — bouton Sauvegarder par ligne
+  - `"président"` (matching flexible) : lister, activer/désactiver instantanément (toggle direct)
   - Autres : liste en lecture seule
 - Création des comptes Firebase Auth via la console Firebase (hors scope de l'UI)
 - La collection `users` expose : `name`, `email`, `role`, `poste`, `active`, `promotion`
+- `config/roles` document : `{ items: ["Président", "Vice-Président", ...] }` pour le select des postes
 
 ## Document Library
 - Triggered modal / overlay "Base de Documents" with two-pane layout:
@@ -158,7 +159,7 @@ src/
 - [x] Phase 5: Admin Dashboard hub (tabs: Activités, Membres, Suggestions)
 - [x] Phase 6: Activities CRUD (Firestore + AdminActivities + Timeline refactor + riddle pool)
 - [x] Phase 6.5: Concours management (Firestore + AdminConcours + ConcoursForm ajout/édition)
-- [ ] Phase 7: Members management (Firestore users + AdminMembers) — permission par `poste`
+- [x] Phase 7: Members management (Firestore users + AdminMembers) — permission par `poste`
 - [ ] Phase 8: Document Library modal (Firestore read)
 - [ ] Phase 9: Document upload + delete (admin only)
 - [ ] Phase 10: Suggestions form + admin dashboard
