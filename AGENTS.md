@@ -12,58 +12,93 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 ## Stack
 - **Build**: Vite 8 (vanilla JS, ES modules — `"type": "module"` in package.json)
 - **Runtime**: Firebase 12 (Auth, Firestore, Storage)
-- **3D**: Three.js (import not yet added to package.json; planned for canvas background)
-- **Fonts**: Cinzel (display), Playfair Display (headings), Inter (body) — loaded via Google Fonts in `index.html`
+- **3D**: Three.js (low-poly floating geometry + particles, CSS fallback on mobile)
+- **Fonts**: Cinzel (display), Playfair Display (headings), Inter (body)
 
-## Project state — Phase 2 (Hero + Content Sections) complete
-- **`Header.js` (27 loc)** — smooth-scroll + hamburger toggle
-- **`Hero.js`** — entrance fade-in/stagger animation on load
-- **`Timeline.js`** — 8 activities from data array, future-date blur, Greek riddles on hover
-- **`ScrollAnimations.js`** — IntersectionObserver for sections and cards
-- **Empty stubs still (0 lines)**: Canvas3D, Particles, DocumentLibrary, DocumentCard, LoginForm, AdminDashboard, SuggestionsForm, SuggestionList
-- **CSS is complete**: design tokens in `main.css`, component styles in `components.css`, responsive breakpoints in `responsive.css`
-- **Firebase init** is done in `src/firebase.js` — uses `import.meta.env.VITE_FIREBASE_*` env vars with dummy fallbacks
+## Project state — Phases 0-6.5 complete (7 done, 6 to go)
+
+### Components implemented
+| Component | Status | Description |
+|---|---|---|
+| Header.js | ✅ | Smooth-scroll, hamburger toggle, login/admin/logout buttons wired to auth state |
+| Hero.js | ✅ | Entrance fade-in/stagger animation |
+| Timeline.js | ✅ | Reads from Firestore `activites`, fallback to static array; future-date blur, Greek riddles on hover; real-time blur removal on login |
+| ScrollAnimations.js | ✅ | IntersectionObserver for sections and cards |
+| Canvas3D.js | ✅ | 4 low-poly icosahedrons wireframe (Three.js) |
+| Particles.js | ✅ | 300 gold particles with brownian motion |
+| LoginForm.js | ✅ | Email/password modal, Firestore role+poste check, specific error messages per auth code, recreates DOM on each open |
+| AdminDashboard.js | ✅ | Hub with tabs (Activités, Concours, Membres, Suggestions), tab visibility by poste, matching flexible des postes présidents |
+| AdminActivities.js | ✅ | CRUD table for activities (add/edit/delete) with Firestore |
+| ActivityForm.js | ✅ | Modal form with auto riddle assignment from `enigmes` pool (cycle) |
+| AdminConcours.js | ✅ | Liste + ajouter + modifier concours (8 seedés) |
+| ConcoursForm.js | ✅ | Modal with all fields (text, select, textarea) — add/edit |
+| seed.js | ✅ | Auto-seed activites (8), enigmes (15), concours (8) if collections empty |
+| auth.js | ✅ | Global state store with subscribe pattern (user, role, poste, isAdmin) |
+
+### Stubs (0 lines)
+- AdminMembers.js
+- DocumentLibrary.js
+- DocumentCard.js
+- SuggestionsForm.js
+- SuggestionList.js
 
 ## Architecture
 
 ### Entrypoint
 `index.html` → `<script type="module" src="/src/app.js">`
-- `app.js` imports `firebase.js` and `Header.js`
-- Mounts header, sets up Firebase `onAuthStateChanged`, toggles mobile nav
+- `app.js` imports Firebase, auth, all components, seed
+- `onAuthStateChanged` + `onSnapshot` on `users/{uid}` for real-time permission/activation changes
+- All overlays injected into `<div id="modal-root">`
 
-### Firebase config pattern
+### Auth state (src/auth.js)
 ```js
-import.meta.env.VITE_FIREBASE_API_KEY || "dummy-api-key"
+{ user, role, poste, isAdmin }
 ```
-All Firebase env vars follow `VITE_FIREBASE_*` naming (Vite convention). Dummy fallbacks prevent crashes at dev time; create `.env.local` for real values (already gitignored).
+- `subscribe(fn)` — called on every state change
+- `getState()` — sync read
+- `setState(partial)` — Object.assign + notify listeners
 
-## Important conventions
-- **Language**: All UI text is French (navigation, labels, messages, content)
-- **Design system**: Gold (`#C9A34D`) on navy (`#0A0E1A`), glassmorphism (`backdrop-filter: blur(20px)`), Cinzel for display, Playfair Display for headings
-- **No JS framework** — vanilla DOM manipulation only
-- **File structure mirrors spec**: `src/components/` matches the component list in `for_opencode/PROMOTIONAL_WEBSITE_SPEC.md`
+### Permission model — by `poste` (not `role`)
+| poste | Membres (éditer) | Membres (activer) | Activités | Concours | Suggestions | Documents |
+|---|---|---|---|---|---|---|
+| developpeur | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| président* | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| *bureau* (autres) | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+
+* Matching flexible : `"presidente_24"` match `"président"` (startsWith, insensible à la casse et aux accents)
+
+### Firestore collections
+| Collection | Fields |
+|---|---|
+| `activites` | date, title, description, enigme, enigmeHint, order, createdAt |
+| `enigmes` | enigme (grec ancien), enigmeHint (traduction), used (boolean) |
+| `concours` | category, name, ecole, option, filieres, frais, composition, matieres, periode, resultats, description, order, createdAt |
+| `suggestions` | category, title, description, status (unread/read), createdAt, email |
+| `documents` | name, category, type, academicYear, storagePath, filename, createdBy, createdAt |
+| `users/{uid}` | name, email, role (super_admin/bureau), poste, promotion, active |
+| `config/roles` | items (array of poste names) |
+
+## Key behaviors to preserve
+- **Future activities** (date > now) blurred (`filter: blur(8px)`); hover reveals content + Greek riddle. Admin login removes blur (`.future-activity` class removed via `renderTimeline(true)`)
+- **Riddle assignment**: random pick from `enigmes` where `used: false` → mark `used: true`. If all used, reset all to `false` (cycle)
+- **Admin dashboard tabs**: Activités + Concours (developpeur/président), Membres (developpeur only), Suggestions (all admins)
+- **Modal overflow**: All admin modals use `max-height:85vh; overflow-y:auto`
+- **Account creation**: via Firebase Console only (Option B). Never from UI.
+- **Deactivation**: `active: false` in Firestore → instant signOut via `onSnapshot`
+- **Real-time monitoring**: `onSnapshot` on `users/{uid}` catches role/poste/active changes live
 
 ## Reference documents (in `for_opencode/`)
 | File | Use |
 |---|---|
 | `PROMOTIONAL_WEBSITE_SPEC.md` | Full feature spec, UI behavior, data models |
-| `CARTOGRAPHIE_TEXTE.md` | Audit of all visible text on the site (French, exact strings) |
-| `ROADMAP_ENRICHIE.md` | Step-by-step build plan with all UI text per phase |
+| `ROADMAP_ENRICHIE.md` | Step-by-step build plan with phase status |
+| `CARTOGRAPHIE_TEXTE.md` | Audit of all visible text (French) |
 | `TEXTES_MODIFIABLES.md` | ~80 editable text fields grouped by section |
 
-Use these instead of guessing UI strings — all French text content is defined there.
-
-## Firestore collections
-- `documents` — fields: `name`, `category`, `type`, `academicYear`, `storagePath`, `filename`, `createdBy`, `createdAt`
-- `suggestions` — fields: `category`, `title`, `description`, `status` ("unread" | "read"), `createdAt`, `email` (optional)
-
-## Key behaviors to preserve
-- **Future activities** (date > now) are blurred (`filter: blur(8px)`); hover reveals content + ancient Greek riddle. Admin login permanently removes blur (removes `.future-activity` class)
-- **Activities are CRUD via Firestore**: `activites` collection, riddle pool in `enigmes` collection, auto-assign with no-repeat cycle
-- **Document library** is a modal with sidebar tree (categories/subjects) and card grid
-- **Suggestions**: public submit form with live preview; admin-only dashboard with stats (total, unread, last 7 days) and filters by category
-- **Admin gating**: Firebase Auth email/password. Two roles in Firestore `users/{uid}.role`:
-  - `super_admin` (Président/VP) — manages members + all bureau rights
-  - `bureau` — manages activities, documents, suggestions
-- **AdminDashboard.js** is the central hub with tabs: Activités, Membres (super_admin only), Suggestions
-- **Members created via Firebase Console** (Option B — not via app UI)
+## Upcoming phases
+- Phase 7: AdminMembers.js (list, edit role/poste, activate/deactivate by permission)
+- Phase 8: DocumentLibrary.js modal (Firestore read)
+- Phase 9: Document upload + delete (admin)
+- Phase 10: SuggestionsForm.js + SuggestionList.js
+- Phase 11: Firebase Security Rules
+- Phase 12: Polish, responsiveness, deployment
