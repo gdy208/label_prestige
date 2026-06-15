@@ -76,6 +76,43 @@
   }
 }
 
+/* Timeline responsive */
+@media (max-width: 768px) {
+  .timeline-line {
+    left: 20px;
+  }
+
+  .timeline-card {
+    width: 100%;
+    margin-left: 40px;
+    margin-bottom: 25px;
+  }
+
+  .timeline-left,
+  .timeline-right {
+    left: 0;
+  }
+
+  .timeline-left .timeline-dot,
+  .timeline-right .timeline-dot {
+    left: -30px;
+    right: auto;
+  }
+
+  .concours-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .serment-pulls-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .serment-texts p {
+    font-size: 0.9rem;
+    padding: 12px 16px;
+  }
+}
+
 /* Hamburger animations */
 .hamburger-btn.active .bar:nth-child(1) {
   transform: translateY(7px) rotate(45deg);

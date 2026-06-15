@@ -95,6 +95,10 @@ UI/UX & interactions
 
 3D Canvas & Particles
 - Lightweight Three.js scene (low poly floating geometry) or a WebGL shader-based particle system
+- **Performance strategy** (cumulable) :
+  - Détection mobile (`window.innerWidth < 768`) → désactiver Three.js
+  - Respecter `prefers-reduced-motion` du système
+  - CSS fallback : remplacer le canvas 3D par un `linear-gradient` animé via CSS (GPU-native, zéro impact CPU/JS) sur mobile et/ou reduced-motion
 - Provide an option to pause/disable animation for mobile or low-power devices
 - Place canvas as background layer behind hero and header (z-index and pointer-events management)
 

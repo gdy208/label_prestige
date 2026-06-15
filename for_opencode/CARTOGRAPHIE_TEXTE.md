@@ -349,55 +349,65 @@ Impossible de charger les suggestions. Vérifiez votre connexion internet.
 Concours
 ```
 
-### CONCOURS INP-HB ("Gbinzin")
+### CONCOURS INP-HB
 
-#### Concours GIC
-```
-Concours GIC
-École : ESTP, ESPE
-Frais de concours : 20.000 XOF
-Composition : Écrit uniquement
-Matières de composition : Mathématiques, Physiques-Chimie, Informatique, Sciences Industrielles, Français et Anglais
-Période de composition : mi-Mai
-Annonce des résultats : Juillet
-Description : Mines, Pétrole, Bâtiment, Urbanisme... À la fin de votre cursus vous aurez toutes les capacités nécessaires pour intégrer le monde actif dans l'un de ces domaines.
-```
-
-#### Concours CAE
+#### Concours CAE (Commerce et Administration des Entreprises)
 ```
 Concours CAE
-École : ESCAE
-Filières : HEA et ILT
-Frais de concours : 20.000 XOF
+École : ESCAE (École Supérieure de Commerce et d'Administration des Entreprises)
+Option : Mathématiques, Sciences de l'Ingénieur et Physique (CAE-MATHS)
+Filières : HEA-BF (Banque Finance et Assurance), ILT-SCM (Supply Chain Management)
+Frais : 20.000 XOF
 Composition : Écrit uniquement
-Matières de composition : Mathématiques, Français et Anglais
-Période de composition : mi-Mai
-Annonce des résultats : Juillet
-Description : Bien qu'étant étudiants technos vous aussi avez la possibilité bien que vous n'ayez pas forçément des notions en économie d'intégrer l'ESCAE tout comme un ECS.
+Matières : Mathématiques 1, Culture générale (français, philosophie), Anglais 1
+Période : Avril
+Résultats : Mai
 ```
 
-#### Concours A2GP
+#### Concours GIN (Génies Industriel et Numérique)
+```
+Concours GIN
+École : ESI (École Supérieure d'Industrie)
+Filières : STGI (→ EAI, MIP, PGE), STIC (→ EIT, INFO, TLR), ISEM
+Options : Mathématiques | Physique et Chimie | Sciences de l'Ingénieur
+Frais : 20.000 XOF
+Composition : Écrit uniquement
+Matières : Mathématiques 2, Informatique 1, Français 2, Anglais 2, Physique 1/2, Sciences Industrielles 1/2, Chimie 1/2
+Période : Avril
+```
+
+#### Concours GCN (Génies Civil et Naval) — CCGIU
+```
+Concours GCN (CCGIU)
+Écoles : INP-HB Yamoussoukro + Université de San-Pedro (USP)
+Filières : GCTP (→ GCBU, GCHE, GCIT), GCGT, TCCN (USP), BTP (USP)
+Options : Mathématiques | Physique et Chimie | Sciences de l'Ingénieur
+Frais : 20.000 XOF
+Composition : Écrit uniquement
+Matières : Mathématiques 2, Informatique 1, Français 2, Anglais 2, Physique 1/2, Sciences Industrielles 1/2, Chimie 1/2
+Période : Avril
+```
+
+#### Concours A2GP (Agronomie, Géo-Ressources et Génie des Procédés)
 ```
 Concours A2GP
-École : ESMG, ESA
-Filière : Agronomie, Mines, Pétrole
-Frais de concours : 20.000 XOF
+Écoles : ESMG, ESA, ESPE (École Supérieure de Chimie, de Pétrole et d'Énergie)
+Options : Maths, Sciences de l'Ingénieur et Physique | Chimie
+Filières : TCCGP (→ GPI, FPF, GBP), TCMG (→ ETDE, MICA, PE)
+Frais : 20.000 XOF
 Composition : Écrit uniquement
-Matières de composition : Mathematiques, Physique, Chimie, Informatique, Français, Anglais
-Période de composition : mi-Mai
-Annonce des résultats : Juillet
+Matières : Mathématiques 3, Informatique 1, Français 2, Anglais 2, Physique 3, Chimie 1/2
+Période : Avril
 ```
 
-#### Concours STIC
+#### Calendrier général (session Ingénieur 2026)
 ```
-Concours STIC
-Ecole : ESI
-Filière : STIC (Sciences et Technologies de l'Information et de la Communication)
-Frais de concours : 20.000 XOF
-Composition : Ecrit uniquement
-Matières de composition : Mathématiques, Physiques, Informatique, Sciences Industrielles, Français et Anglais
-Période de composition : mi-Mai
-Annonce des résultats : Juillet
+Préinscription en ligne : 23 février — 23 mars 2026
+Dépôt des dossiers : 23 février — 27 mars 2026
+Composition GIN, GCN, A2GP : 13 — 16 avril 2026
+Composition CAE : 17 — 18 avril 2026
+Publication des résultats : 13 mai 2026
+Contact : 27 30 64 66 99 / 05 84 14 42 42 / concours@inphb.ci
 ```
 
 ### CONCOURS EXTÉRIEUR

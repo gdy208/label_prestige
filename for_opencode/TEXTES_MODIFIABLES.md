@@ -71,13 +71,18 @@ Textes d'information à externaliser (JSON / CMS / config) pour permettre au cli
 **8 concours, répartis en 2 catégories (INP-HB et Extérieur), chacun avec :**
 | Champ | Exemple |
 |---|---|
-| École(s) | `ESTP, ESPE` |
+| École(s) | `ESCAE — INP-HB Yamoussoukro` |
 | Frais | `20.000 XOF` |
 | Composition | `Écrit uniquement` |
-| Matières | `Mathématiques, Physiques-Chimie, Informatique...` |
-| Période | `mi-Mai` |
-| Résultats | `Juillet` |
-| Description | *paragraphe de présentation* |
+| Matières | `Mathématiques 1, Culture générale, Anglais 1...` |
+| Période | `Avril` |
+| Résultats | `Mai` |
+
+**Concours INP-HB (4) :**
+- **CAE** — ESCAE, option CAE-MATHS, filières HEA-BF / ILT-SCM
+- **GIN** — ESI, 3 options, filières STGI / STIC / ISEM
+- **GCN** — INP-HB + USP, 3 options, filières GCTP / GCGT / TCCN / BTP
+- **A2GP** — ESMG / ESA / ESPE, 2 options, filières TCCGP / TCMG
 
 ## 7. Section Serment Techno
 

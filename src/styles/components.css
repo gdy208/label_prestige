@@ -150,3 +150,289 @@
   z-index: 1;
   pointer-events: none;
 }
+
+/* Timeline / Activités */
+#timeline-container {
+  width: 100%;
+}
+
+.timeline-wrapper {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--color-gold), transparent);
+  transform: translateX(-50%);
+}
+
+.timeline-card {
+  position: relative;
+  width: 45%;
+  padding: 20px;
+  margin-bottom: 40px;
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-glass);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  transition: all var(--transition-smooth);
+}
+
+.timeline-card:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(201, 163, 77, 0.15);
+}
+
+.timeline-left {
+  left: 0;
+}
+
+.timeline-right {
+  left: 55%;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 30px;
+  width: 14px;
+  height: 14px;
+  background: var(--color-gold);
+  border-radius: 50%;
+  border: 3px solid var(--color-navy);
+  z-index: 1;
+}
+
+.timeline-left .timeline-dot {
+  right: -37px;
+}
+
+.timeline-right .timeline-dot {
+  left: -37px;
+}
+
+.activity-date {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-gold);
+  margin-bottom: 8px;
+}
+
+.activity-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.activity-description {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.future-activity {
+  filter: blur(8px);
+  cursor: pointer;
+  transition: filter var(--transition-smooth);
+}
+
+.future-activity:hover {
+  filter: blur(0);
+}
+
+.future-activity .activity-riddle {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-glass-border);
+}
+
+.future-activity:hover .activity-riddle {
+  display: block;
+}
+
+.riddle-text {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--color-gold);
+  margin-bottom: 4px;
+}
+
+.riddle-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Section Concours */
+.concours-category {
+  margin-bottom: 40px;
+}
+
+.concours-category:last-child {
+  margin-bottom: 0;
+}
+
+.concours-category-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--color-gold-light);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-glass-border);
+}
+
+.concours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.concours-card {
+  padding: 24px;
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-glass);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  transition: all var(--transition-smooth);
+}
+
+.concours-card:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(201, 163, 77, 0.15);
+}
+
+.concours-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--color-gold);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-glass-border);
+}
+
+.concours-card p {
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: var(--color-text-secondary);
+}
+
+.concours-card p strong {
+  color: var(--color-text-primary);
+}
+
+.concours-description {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-glass-border);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Section Serment Techno */
+.serment-subtitle {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--color-gold-light);
+  text-align: center;
+  letter-spacing: 0.2em;
+  margin-bottom: 30px;
+}
+
+.serment-texts p {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-glass);
+  border-left: 3px solid var(--color-gold);
+}
+
+.serment-paiement {
+  margin: 30px 0;
+  padding: 24px;
+  text-align: center;
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-glass);
+}
+
+.serment-paiement-title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--color-gold);
+  margin-bottom: 15px;
+}
+
+.serment-numero {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--color-text-primary);
+  letter-spacing: 0.1em;
+  margin-bottom: 5px;
+}
+
+.serment-slogan {
+  font-style: italic;
+  color: var(--color-gold-light);
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.serment-pulls-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--color-gold);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.serment-pulls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.serment-pull-card {
+  aspect-ratio: 3 / 4;
+}
+
+.serment-pull-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-navy-light), var(--color-navy));
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-glass);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 20px;
+  transition: border-color var(--transition-smooth);
+}
+
+.serment-pull-placeholder:hover {
+  border-color: var(--color-gold);
+}

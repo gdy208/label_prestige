@@ -1,14 +1,19 @@
 import { auth } from './firebase.js';
 import { onAuthStateChanged } from 'firebase/auth';
 import { setupHeader } from './components/Header.js';
+import { setupHero } from './components/Hero.js';
+import { setupTimeline } from './components/Timeline.js';
+import { setupScrollAnimations } from './components/ScrollAnimations.js';
 
 console.log("Label Prestige promotional website loaded.");
 
 function initApp() {
   console.log("Initializing Application...");
   
-  // Initialize Header logic
   setupHeader();
+  setupHero();
+  setupTimeline();
+  setupScrollAnimations();
 
   // Set up Firebase Auth listener
   onAuthStateChanged(auth, (user) => {
@@ -19,7 +24,6 @@ function initApp() {
     }
   });
 
-  // Mobile Hamburger Navigation toggles
   setupMobileNav();
 }
 

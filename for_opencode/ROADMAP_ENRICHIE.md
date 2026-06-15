@@ -95,7 +95,7 @@
 ### Section Concours (source : section I)
 
 - **Titre :** `Concours`
-- **Catégorie INP-HB ("Gbinzin")** : GIC, CAE, A2GP, STIC
+- **Catégorie INP-HB** : CAE, GIN, GCN, A2GP (cf. `CARTOGRAPHIE_TEXTE.md` section 9 pour les textes exacts)
 - **Catégorie Extérieur** : ISE-ECO, ECC, CCINP, FUI-FF
 - Chaque concours avec : école(s), frais, composition, matières, période, résultats, description
 
@@ -133,21 +133,21 @@
 
 ## Phase 3 — 3D Canvas & Particle Background
 
-> **Objectif :** Scène Three.js légère derrière le hero.
+> **Objectif :** Scène Three.js légère derrière le hero. Fallback CSS animé sur mobile pour éviter les lags.
 
 **Textes du site concernés :** Aucun (élément visuel uniquement).
 
 | # | Tâche | Owner | Notes |
 |---|-------|-------|-------|
-| 3.1 | Installer Three.js | DevOps | — |
+| 3.1 | Installer Three.js | DevOps | `npm install three` |
 | 3.2 | `Canvas3D.js` : renderer, scene, camera | Frontend | — |
 | 3.3 | Géométrie flottante low-poly | Frontend | — |
 | 3.4 | Animation lente | Frontend | — |
 | 3.5 | `Particles.js` : système de particules | Frontend | — |
 | 3.6 | Calque position fixe, z-index, pointer-events | Design | — |
-| 3.7 | Toggle pause/disable | Frontend | — |
-| 3.8 | Auto-désactiver sur mobile | Frontend | — |
-| 3.9 | Audit performance | Frontend | — |
+| 3.7 | Détection mobile + `prefers-reduced-motion` | Frontend | Si mobile ou `reduce-motion`, désactiver Three.js et activer CSS fallback |
+| 3.8 | CSS fallback animé | Frontend | `linear-gradient` animé via CSS (GPU-native) comme remplacement léger |
+| 3.9 | Audit performance | Frontend | Vérifier FPS sur mobile + desktop |
 
 ---
 
