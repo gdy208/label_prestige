@@ -85,16 +85,16 @@ Les droits sont gérés par le champ **`poste`** (pas `role`). Le `role` est un 
 ## Members management
 - `AdminMembers.js` panel affiché dans l'onglet Membres du dashboard (visible `developpeur` uniquement)
 - **Fonctionnalités selon poste :**
-  - `"developpeur"` : lister, éditer rôle (select bureau/super_admin) + poste (select depuis `config/roles`), activer/désactiver — bouton Sauvegarder par ligne
+  - `"developpeur"` : lister, éditer rôle (select bureau/super_admin) + poste (input texte libre) + promotion (input texte libre), activer/désactiver — bouton Sauvegarder par ligne
   - `"président"` (matching flexible) : lister, activer/désactiver instantanément (toggle direct)
   - Autres : liste en lecture seule
 - Création des comptes Firebase Auth via la console Firebase (hors scope de l'UI)
 - La collection `users` expose : `name`, `email`, `role`, `poste`, `active`, `promotion`
-- `config/roles` document : `{ items: ["Président", "Vice-Président", ...] }` pour le select des postes
+- `poste` et `promotion` sont des champs texte libre (input), pas de sélection depuis une liste prédéfinie
 
 ## Document Library
 - Triggered modal / overlay "Bibliothèque Technique" with two-pane layout:
-  - Left: Tree navigation (1ère Année → Mathématiques/Physique/Chimie/Sciences Industrielles/Informatique, 2ème Année, Concours Spéciaux)
+  - Left: Tree navigation (1ère Année & 2ème Année → Mathématiques/Physique/Chimie/Sciences Industrielles/Informatique, Sujets Concours)
   - Right: Document grid of document cards
 - Ouverture via lien de navigation "Documents" ou bouton hero "Accéder aux Ressources"
 - DocumentCard : badge type (Cours/TD/Devoir/Correction/Autre), meta, bouton Télécharger

@@ -1,17 +1,16 @@
 import { db } from '../firebase.js';
-import { collection, getDocs, getDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { getState } from '../auth.js';
 
 let container = null;
 let members = [];
-let roleOptions = [];
 let currentUserPoste = null;
 
 export async function setupAdminMembers(target) {
   container = target;
   currentUserPoste = getState().poste;
   target.innerHTML = '<p class="admin-placeholder">Chargement des membres...</p>';
-  await Promise.all([loadMembers(), loadRoles()]);
+  await loadMembers();
   render();
 }
 
@@ -22,16 +21,6 @@ async function loadMembers() {
   } catch (err) {
     console.error('Erreur chargement membres :', err);
     members = [];
-  }
-}
-
-async function loadRoles() {
-  try {
-    const snap = await getDoc(doc(db, 'config', 'roles'));
-    roleOptions = snap.exists() ? (snap.data().items || []) : [];
-  } catch (err) {
-    console.error('Erreur chargement rôles :', err);
-    roleOptions = [];
   }
 }
 
@@ -85,9 +74,9 @@ function render() {
         row.querySelector('.save-member').disabled = false;
       });
     });
-    container.querySelectorAll('.member-poste').forEach(sel => {
-      sel.addEventListener('change', () => {
-        const row = sel.closest('tr');
+    container.querySelectorAll('.member-field').forEach(inp => {
+      inp.addEventListener('input', () => {
+        const row = inp.closest('tr');
         row.querySelector('.save-member').disabled = false;
       });
     });
@@ -119,9 +108,7 @@ function renderRow(m) {
     <option value="super_admin" ${m.role === 'super_admin' ? 'selected' : ''}>super_admin</option>
   `;
 
-  const posteOpts = roleOptions.map(o =>
-    `<option value="${esc(o)}"${o === m.poste ? ' selected' : ''}>${esc(o)}</option>`
-  ).join('');
+  const fieldStyle = 'padding:4px 6px;font-size:0.8rem;width:100%;min-width:120px;background:var(--color-navy);color:var(--color-text-primary);border:1px solid var(--color-glass-border);border-radius:var(--radius-button)';
 
   const actions = isDev
     ? `<td><button class="btn btn-gold save-member" data-id="${m.id}" disabled style="font-size:0.7rem;padding:4px 10px">Sauvegarder</button></td>`
@@ -132,14 +119,17 @@ function renderRow(m) {
       <td>${esc(m.name || '—')}</td>
       <td>${esc(m.email || '—')}</td>
       <td>${isDev
-        ? `<select class="member-role" data-id="${m.id}" style="padding:4px 6px;font-size:0.8rem;background:var(--color-navy);color:var(--color-text-primary);border:1px solid var(--color-glass-border);border-radius:var(--radius-button)">${roleOpts}</select>`
+        ? `<select class="member-role" style="${fieldStyle}">${roleOpts}</select>`
         : `<span style="color:var(--color-text-secondary)">${esc(m.role || '—')}</span>`
       }</td>
       <td>${isDev
-        ? `<select class="member-poste" data-id="${m.id}" style="padding:4px 6px;font-size:0.8rem;background:var(--color-navy);color:var(--color-text-primary);border:1px solid var(--color-glass-border);border-radius:var(--radius-button)">${posteOpts}</select>`
+        ? `<input type="text" class="member-field member-poste" value="${esc(m.poste || '')}" style="${fieldStyle}" placeholder="poste" />`
         : `<span style="color:var(--color-text-secondary)">${esc(m.poste || '—')}</span>`
       }</td>
-      <td>${esc(m.promotion || '—')}</td>
+      <td>${isDev
+        ? `<input type="text" class="member-field member-promotion" value="${esc(m.promotion || '')}" style="${fieldStyle}" placeholder="promotion" />`
+        : `<span style="color:var(--color-text-secondary)">${esc(m.promotion || '—')}</span>`
+      }</td>
       <td style="text-align:center">
         <input type="checkbox" class="toggle-active" data-id="${m.id}" ${active ? 'checked' : ''} ${!canToggle() ? 'disabled' : ''} style="width:18px;height:18px;cursor:${canToggle() ? 'pointer' : 'default'};accent-color:var(--color-gold)" />
       </td>
@@ -154,10 +144,11 @@ async function saveMember(id) {
 
   const role = row.querySelector('.member-role')?.value;
   const poste = row.querySelector('.member-poste')?.value;
+  const promotion = row.querySelector('.member-promotion')?.value;
   const active = row.querySelector('.toggle-active')?.checked;
 
   try {
-    await updateDoc(doc(db, 'users', id), { role, poste, active });
+    await updateDoc(doc(db, 'users', id), { role, poste, promotion, active });
     row.querySelector('.save-member').disabled = true;
   } catch (err) {
     console.error('Erreur mise à jour membre :', err);

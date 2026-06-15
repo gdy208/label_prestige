@@ -114,6 +114,12 @@ function open() {
   currentPoste = getState().poste;
   if (!overlay) createDashboard();
   overlay.classList.add('active');
+  renderTabs();
+  const tabBtn = document.querySelector(`.admin-tab[data-tab="${currentTab}"]`);
+  if (!tabBtn) {
+    const first = firstVisibleTab();
+    if (first) selectTab(first.id);
+  }
 }
 
 subscribe(state => {

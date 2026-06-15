@@ -33,7 +33,7 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 | AdminConcours.js | ✅ | Liste + ajouter + modifier concours (8 seedés) |
 | ConcoursForm.js | ✅ | Modal with all fields (text, select, textarea) — add/edit |
 | AdminMembers.js | ✅ | Liste + édition rôle/poste/actif, permissions par poste (dev/président/bureau) |
-| DocumentLibrary.js | ✅ | Modal bibliothèque avec arborescence (1ère/2ème/Concours) + grille documents |
+| DocumentLibrary.js | ✅ | Modal bibliothèque avec arborescence (1ère/2ème avec sous-catégories, Sujets Concours) + upload/delete admin |
 | DocumentCard.js | ✅ | Carte document avec badge type, meta, bouton télécharger |
 | seed.js | ✅ | Auto-seed activites (8), enigmes (15), concours (8) if collections empty |
 | auth.js | ✅ | Global state store with subscribe pattern (user, role, poste, isAdmin) |
@@ -76,7 +76,7 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 | `suggestions` | category, title, description, status (unread/read), createdAt, email |
 | `documents` | name, category, type, academicYear, storagePath, filename, createdBy, createdAt |
 | `users/{uid}` | name, email, role (super_admin/bureau), poste, promotion, active |
-| `config/roles` | items (array of poste names) |
+| `config/roles` | items (array of poste names) — plus utilisé, poste est texte libre |
 
 ## Key behaviors to preserve
 - **Future activities** (date > now) blurred (`filter: blur(8px)`); hover reveals content + Greek riddle. Admin login removes blur (`.future-activity` class removed via `renderTimeline(true)`)
@@ -96,8 +96,9 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 | `TEXTES_MODIFIABLES.md` | ~80 editable text fields grouped by section |
 
 ## Upcoming phases
-- Phase 9: Document upload + delete (admin)
-- Phase 9: Document upload + delete (admin)
+- Phase 9: Document upload + delete (admin) ← **en cours**
 - Phase 10: SuggestionsForm.js + SuggestionList.js
+- Phase 11: Firebase Security Rules
+- Phase 12: Polish, responsiveness, deployment
 - Phase 11: Firebase Security Rules
 - Phase 12: Polish, responsiveness, deployment
