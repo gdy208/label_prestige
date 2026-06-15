@@ -15,7 +15,7 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 - **3D**: Three.js (low-poly floating geometry + particles, CSS fallback on mobile)
 - **Fonts**: Cinzel (display), Playfair Display (headings), Inter (body)
 
-## Project state — Phases 0-7 complete (8 done, 5 to go)
+## Project state — Phases 0-8 complete (9 done, 4 to go)
 
 ### Components implemented
 | Component | Status | Description |
@@ -33,12 +33,12 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 | AdminConcours.js | ✅ | Liste + ajouter + modifier concours (8 seedés) |
 | ConcoursForm.js | ✅ | Modal with all fields (text, select, textarea) — add/edit |
 | AdminMembers.js | ✅ | Liste + édition rôle/poste/actif, permissions par poste (dev/président/bureau) |
+| DocumentLibrary.js | ✅ | Modal bibliothèque avec arborescence (1ère/2ème/Concours) + grille documents |
+| DocumentCard.js | ✅ | Carte document avec badge type, meta, bouton télécharger |
 | seed.js | ✅ | Auto-seed activites (8), enigmes (15), concours (8) if collections empty |
 | auth.js | ✅ | Global state store with subscribe pattern (user, role, poste, isAdmin) |
 
 ### Stubs (0 lines)
-- DocumentLibrary.js
-- DocumentCard.js
 - SuggestionsForm.js
 - SuggestionList.js
 
@@ -96,7 +96,7 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 | `TEXTES_MODIFIABLES.md` | ~80 editable text fields grouped by section |
 
 ## Upcoming phases
-- Phase 8: DocumentLibrary.js modal (Firestore read)
+- Phase 9: Document upload + delete (admin)
 - Phase 9: Document upload + delete (admin)
 - Phase 10: SuggestionsForm.js + SuggestionList.js
 - Phase 11: Firebase Security Rules

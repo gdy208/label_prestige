@@ -195,7 +195,7 @@ Objectif : Gérer les membres du bureau selon les permissions par poste.
 ---
 
 ## Phase 8 — Document Library Modal (Read-Only)
-**Statut : ⏳ À faire**
+**Statut : ✅ Terminée**
 
 Objectif : Modale bibliothèque de documents avec lecture depuis Firestore.
 
@@ -207,11 +207,11 @@ Objectif : Modale bibliothèque de documents avec lecture depuis Firestore.
 
 | # | Tâche | Notes |
 |---|-------|-------|
-| 8.1 | Créer collection Firestore `documents` | |
-| 8.2 | DocumentLibrary.js : modale overlay + arborescence | Expand/collapse, highlight |
-| 8.3 | DocumentCard.js : carte document | badge type, download |
-| 8.4 | `fetchDocuments(category)` : requête Firestore | |
-| 8.5 | Animation ouverture/fermeture modale | |
+| 8.1 | Création collection Firestore `documents` | Créée à l'upload (Phase 9) |
+| 8.2 | DocumentLibrary.js : modale overlay + arborescence | Expand/collapse, highlight, ouverture via nav + hero |
+| 8.3 | DocumentCard.js : carte document | Badge type, meta, bouton Télécharger |
+| 8.4 | `fetchDocuments(category)` : requête Firestore | `where('category', '==', ...)` |
+| 8.5 | Animation ouverture/fermeture modale | Réutilise le pattern `.login-modal-overlay` |
 
 ---
 
@@ -279,4 +279,4 @@ Objectif : Audit visuel, responsive, accessibilité, déploiement.
 
 ---
 
-*Roadmap générée le 15/06/2026 — 8 phases terminées (dont Phase 6.5), 5 à faire.*
+*Roadmap générée le 15/06/2026 — 9 phases terminées (dont Phase 6.5), 4 à faire.*

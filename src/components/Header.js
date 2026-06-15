@@ -2,6 +2,7 @@ import { auth } from '../firebase.js';
 import { signOut } from 'firebase/auth';
 import { openLoginModal } from './LoginForm.js';
 import { openAdminDashboard } from './AdminDashboard.js';
+import { openDocumentLibrary } from './DocumentLibrary.js';
 import { subscribe, setState } from '../auth.js';
 
 export function setupHeader() {
@@ -10,6 +11,11 @@ export function setupHeader() {
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       const targetId = link.getAttribute('href');
+      if (targetId === '#documents') {
+        e.preventDefault();
+        openDocumentLibrary();
+        return;
+      }
       if (targetId.startsWith('#')) {
         e.preventDefault();
         const targetElement = document.querySelector(targetId);
@@ -19,6 +25,14 @@ export function setupHeader() {
       }
     });
   });
+
+  const heroDocsBtn = document.querySelector('.hero-actions .btn-outline[href="#documents"]');
+  if (heroDocsBtn) {
+    heroDocsBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openDocumentLibrary();
+    });
+  }
 
   const loginBtn = document.getElementById('login-btn');
   const adminBtn = document.getElementById('admin-btn');

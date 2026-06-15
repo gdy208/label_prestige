@@ -93,10 +93,13 @@ Les droits sont gérés par le champ **`poste`** (pas `role`). Le `role` est un 
 - `config/roles` document : `{ items: ["Président", "Vice-Président", ...] }` pour le select des postes
 
 ## Document Library
-- Triggered modal / overlay "Base de Documents" with two-pane layout:
-  - Left: Tree navigation (1ère Année, 2ème Année, Concours Spéciaux)
-  - Right: Document viewer & grid of document cards
-- Admin-only: upload button, delete action
+- Triggered modal / overlay "Bibliothèque Technique" with two-pane layout:
+  - Left: Tree navigation (1ère Année → Mathématiques/Physique/Chimie/Sciences Industrielles/Informatique, 2ème Année, Concours Spéciaux)
+  - Right: Document grid of document cards
+- Ouverture via lien de navigation "Documents" ou bouton hero "Accéder aux Ressources"
+- DocumentCard : badge type (Cours/TD/Devoir/Correction/Autre), meta, bouton Télécharger
+- Firestore `documents` collection : `{ name, category, type, academicYear, storagePath, filename, createdBy, createdAt }`
+- Admin-only upload/delete : Phase 9
 
 ## Suggestions system
 - Public submit form: category selector, title, description, live preview
@@ -160,7 +163,7 @@ src/
 - [x] Phase 6: Activities CRUD (Firestore + AdminActivities + Timeline refactor + riddle pool)
 - [x] Phase 6.5: Concours management (Firestore + AdminConcours + ConcoursForm ajout/édition)
 - [x] Phase 7: Members management (Firestore users + AdminMembers) — permission par `poste`
-- [ ] Phase 8: Document Library modal (Firestore read)
+- [x] Phase 8: Document Library modal (Firestore read)
 - [ ] Phase 9: Document upload + delete (admin only)
 - [ ] Phase 10: Suggestions form + admin dashboard
 - [ ] Phase 11: Firebase Security Rules

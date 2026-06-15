@@ -705,3 +705,204 @@
 .admin-table textarea {
   font-family: var(--font-body);
 }
+
+/* Document Library */
+.doc-library {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-navy-light);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-glass);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  transform: translateY(20px);
+  transition: transform var(--transition-smooth);
+  overflow: hidden;
+}
+
+.login-modal-overlay.active .doc-library {
+  transform: translateY(0);
+}
+
+.doc-library-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding: 20px 24px 24px;
+  gap: 20px;
+}
+
+.doc-library-tree {
+  width: 240px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  border-right: 1px solid var(--color-glass-border);
+  padding-right: 16px;
+}
+
+.doc-tree-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.doc-tree-node {
+  margin-bottom: 4px;
+}
+
+.doc-tree-header {
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-button);
+  transition: all var(--transition-smooth);
+  user-select: none;
+}
+
+.doc-tree-header:hover {
+  color: var(--color-gold);
+  background: rgba(201, 163, 77, 0.08);
+}
+
+.doc-tree-header.active {
+  color: var(--color-gold);
+  background: rgba(201, 163, 77, 0.12);
+}
+
+.doc-tree-parent::before {
+  content: '▾ ';
+  font-size: 0.7rem;
+}
+
+.doc-tree-parent.collapsed::before {
+  content: '▸ ';
+}
+
+.doc-tree-sublist {
+  list-style: none;
+  padding: 0 0 0 16px;
+  margin: 2px 0;
+}
+
+.doc-tree-leaf {
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-button);
+  transition: all var(--transition-smooth);
+}
+
+.doc-tree-leaf:hover {
+  color: var(--color-gold);
+  background: rgba(201, 163, 77, 0.08);
+}
+
+.doc-tree-leaf.active {
+  color: var(--color-gold);
+  background: rgba(201, 163, 77, 0.12);
+}
+
+.doc-library-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 300px;
+}
+
+.doc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.doc-card {
+  padding: 16px;
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-glass);
+  transition: all var(--transition-smooth);
+}
+
+.doc-card:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(201, 163, 77, 0.1);
+}
+
+.doc-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.doc-card-title {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.doc-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.doc-badge-cours { background: rgba(201, 163, 77, 0.2); color: var(--color-gold); }
+.doc-badge-td { background: rgba(100, 200, 255, 0.2); color: #64c8ff; }
+.doc-badge-devoir { background: rgba(255, 100, 100, 0.2); color: #ff6464; }
+.doc-badge-correction { background: rgba(100, 255, 150, 0.2); color: #64ff96; }
+.doc-badge-autre { background: rgba(255, 255, 255, 0.1); color: var(--color-text-secondary); }
+
+.doc-card-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.doc-meta-item {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.doc-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .doc-library-body {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .doc-library-tree {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--color-glass-border);
+    padding-right: 0;
+    padding-bottom: 12px;
+    max-height: 200px;
+  }
+
+  .doc-grid {
+    grid-template-columns: 1fr;
+  }
+}
