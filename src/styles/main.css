@@ -52,6 +52,19 @@ body {
   pointer-events: none;
 }
 
+/* CSS fallback pour mobile / reduced-motion */
+#canvas-container.css-bg-fallback {
+  background: linear-gradient(135deg, #0A0E1A 0%, #141B2D 25%, #1A2440 50%, #141B2D 75%, #0A0E1A 100%);
+  background-size: 400% 400%;
+  animation: bgShift 15s ease infinite;
+}
+
+@keyframes bgShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* Headings & Typography */
 h1, h2, h3, h4 {
   font-weight: 600;

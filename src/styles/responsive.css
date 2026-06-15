@@ -113,6 +113,25 @@
   }
 }
 
+/* Header actions responsive */
+@media (max-width: 768px) {
+  .header-actions .btn {
+    font-size: 0.65rem;
+    padding: 6px 12px;
+  }
+}
+
+/* Login modal responsive */
+@media (max-width: 480px) {
+  .login-modal {
+    padding: 28px 20px 24px;
+  }
+
+  .login-modal-title {
+    font-size: 1.05rem;
+  }
+}
+
 /* Hamburger animations */
 .hamburger-btn.active .bar:nth-child(1) {
   transform: translateY(7px) rotate(45deg);

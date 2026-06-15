@@ -1,401 +1,282 @@
 # Roadmap Enrichie — Label Prestige Promotional Website
 
-> Roadmap originale issue de [ROADMAP.md](./ROADMAP.md), enrichie des textes du site extraits dans [RESULTATS_ANALYSE.md](./RESULTATS_ANALYSE.md) (section 3).
+> Dernière mise à jour : 15/06/2026 (permissions refondues : droits par `poste` ; ajout Concours management)
+> Les textes du site sont définis dans `CARTOGRAPHIE_TEXTE.md` et `TEXTES_MODIFIABLES.md`.
 
 ---
 
 ## Instructions pour l'agent IA
 
-1. **Pas de génération de contenu autonome** — Ne génère PAS toi-même les textes informatifs, descriptions ou copy des sections. Utilise les textes listés ci-dessous.
-2. **Consultation utilisateur obligatoire** — Demande toujours à l'utilisateur le texte spécifique si un placeholder est nécessaire.
-3. **Exécution séquentielle** — Suis chaque phase et tâche dans l'ordre.
-4. **Vérification** — Après chaque phase, confirme avec l'utilisateur avant de passer à la suivante.
-5. **Fidélité technique** — Respecte strictement la stack technique et les règles de branding définies dans `PROMOTIONAL_WEBSITE_SPEC.md`.
+1. **Pas de génération de contenu autonome** — Utilise toujours les textes listés dans `CARTOGRAPHIE_TEXTE.md`.
+2. **Exécution séquentielle** — Suis chaque phase dans l'ordre.
+3. **Vérification** — Après chaque phase, `npm run build` et confirmation utilisateur.
+4. **Fidélité technique** — Stack défini dans `PROMOTIONAL_WEBSITE_SPEC.md`.
 
 ---
 
 ## Phase 0 — Environment & Project Scaffolding
+**Statut : ✅ Terminée**
 
-> **Objectif :** Serveur de dev local fonctionnel, structure de dossiers en place, projet Firebase créé, dépendances installées.
+Objectif : Serveur de dev local, structure de dossiers, Firebase SDK, Google Fonts, CSS design tokens.
 
-**Textes du site concernés :** Aucun (phase d'infrastructure uniquement).
-
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 0.1 | Créer le dossier racine et `package.json` | DevOps | — |
-| 0.2 | Installer Vite | DevOps | — |
-| 0.3 | Créer la structure de dossiers | Frontend | Voir arborescence ci-dessous |
-| 0.4 | Créer un projet Firebase (Console) | DevOps | Activer Firestore, Storage, Auth |
-| 0.5 | Installer Firebase SDK | DevOps | — |
-| 0.6 | Créer `src/firebase.js` | Backend | — |
-| 0.7 | Ajouter Google Fonts : **Cinzel**, **Playfair Display**, **Inter** | Frontend | — |
-| 0.8 | Créer `main.css` avec les custom properties | Design | — |
-| 0.9 | Vérifier que `npm run dev` sert une page blanche avec les bonnes polices | DevOps | — |
+| # | Tâche | Notes |
+|---|-------|-------|
+| 0.1-0.9 | Création package.json, Vite, Firebase SDK, dossiers, fonts, CSS, firebase.js | Vérifié : `npm run dev` fonctionne |
 
 ---
 
 ## Phase 1 — Header & Navigation
+**Statut : ✅ Terminée**
 
-> **Objectif :** Header fixe luxueux avec liens de navigation et menu hamburger responsive.
+Objectif : Header fixe luxueux avec liens de navigation et menu hamburger responsive.
 
-**Textes du site concernés (source : section B) :**
-
-- **Logo :** `LABEL PRESTIGE`
-- **Liens de navigation :**
-  - `Histoire` → `#histoire`
-  - `Activités` → `#activites`
-  - `Documents` → `#documents`
-  - `Concours` → `#concours`
-  - `Serment Techno` → `#serment-techno`
-  - `Suggestions` → `#suggestions`
-
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 1.1 | Structure HTML du `<header>` et `<nav>` | Frontend | Utiliser les textes ci-dessus |
-| 1.2 | `Header.js` : smooth-scroll vers chaque section | Frontend | — |
-| 1.3 | Style glassmorphism, bordure dorée, police Cinzel | Design | — |
-| 1.4 | Bouton Login (UI uniquement) | Frontend | — |
-| 1.5 | Icône hamburger (CSS ou JS min) | Frontend | — |
-| 1.6 | Menu overlay mobile | Frontend | — |
-| 1.7 | Breakpoint responsive ≤ 768px | Design | — |
+| # | Tâche | Notes |
+|---|-------|-------|
+| 1.1-1.7 | Header HTML + Header.js (smooth-scroll) + CSS glassmorphism + hamburger + responsive | |
 
 ---
 
-## Phase 2 — Hero Section & Content Sections
+## Phase 2 — Hero & Content Sections
+**Statut : ✅ Terminée**
 
-> **Objectif :** Hero visuellement fort + sections de contenu statiques.
+Objectif : Hero visuellement fort + sections de contenu statiques (Histoire, Activités timeline, Concours, Serment Techno).
 
-### Hero (source : section C)
-
-- **Titre principal :** `SITE OFFICIEL DU LABEL PRESTIGE`
-- **Sous-titre :** `Association des Élèves Techno de l'INP-HB`
-- **CTA :** `Découvrir l'Association`
-
-### Section Notre Histoire (source : section D)
-
-- **Titre :** `Notre Histoire`
-- **Paragraphe 1 :**
-  ```
-  Le Label Prestige est une association d'élèves techno de l'INP-HB fondée avec pour mission de rassembler, représenter et accompagner les étudiants technologiques dans leur parcours académique et professionnel.
-  ```
-- **Paragraphe 2 :**
-  ```
-  Depuis sa création, l'association a su s'imposer comme un acteur majeur de la vie estudiantine à l'INP-HB, organisant des événements, des conférences et des activités qui renforcent la cohésion entre les étudiants et leur permettent de développer leurs compétences.
-  ```
-- **Paragraphe 3 :**
-  ```
-  Notre vision est de créer une communauté solidaire où chaque étudiant techno peut s'épanouir, progresser et contribuer au rayonnement de notre école et de notre pays.
-  ```
-
-### Section Nos Activités (source : section E)
-
-- **Titre :** `Nos Activités`
-- **8 activités** avec date, titre, description. Les activités futures (Otakunight, Soirée ciné, Collecte de fonds, Projection CAN, AKWABA TECHNO, Interclasses Techno) sont floutées (blur 8px) par défaut. Le survol supprime le flou et révèle une énigme en grec ancien avec sa traduction. La connexion admin supprime définitivement le flou.
-
-### Section Concours (source : section I)
-
-- **Titre :** `Concours`
-- **Catégorie INP-HB** : CAE, GIN, GCN, A2GP (cf. `CARTOGRAPHIE_TEXTE.md` section 9 pour les textes exacts)
-- **Catégorie Extérieur** : ISE-ECO, ECC, CCINP, FUI-FF
-- Chaque concours avec : école(s), frais, composition, matières, période, résultats, description
-
-### Section Serment Techno (source : section J)
-
-- **Titre :** `Serment Techno`
-- **Sous-titre :** `HONORE TON ENGAGEMENT`
-- **4 textes d'accompagnement :**
-  - Rejoins l'élite des Technos...
-  - Investis dans ton avenir...
-  - Sois reconnu et respecté...
-  - Ne sois pas celui qui manque à l'appel...
-- **Infos paiement :**
-  ```
-  Effectue ton Serment Techno par Wave, Orange Money ou MTN Mobile Money :
-  +225 0712344296 et +225 0710019161
-  "L'excellence n'est pas un acte, mais une habitude. Ton Serment Techno en est la première expression."
-  ```
-- **Galerie du pull exclusif :** 4 images, alt : `Pull Label Prestige`
-
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 2.1 | `<section id="hero">` avec titre, sous-titre, CTA | Frontend | Textes ci-dessus |
-| 2.2 | `Hero.js` : animation d'entrée | Frontend | — |
-| 2.3 | Style hero : plein écran, centré, overlay | Design | — |
-| 2.4 | `<section id="histoire">` avec les 3 paragraphes | Frontend | Police Playfair Display |
-| 2.5 | `<section id="activites">` structure timeline | Frontend | — |
-| 2.6 | `Timeline.js` avec les 8 activités, énigmes grecques et dates | Frontend | Activités futures masquées (classe `.future-activity`) ; énigmes et traductions dans le HTML au survol |
-| 2.7 | Style glassmorphism des cartes activités + flou des activités futures | Design | `.future-activity { filter: blur(8px); }` ; au hover `blur(0)` + affichage de l'énigme |
-| 2.8 | `<section id="concours">` en grille | Frontend | — |
-| 2.9 | `<section id="serment-techno">` | Frontend | — |
-| 2.10 | Animations scroll-triggered | Frontend | — |
+| # | Tâche | Notes |
+|---|-------|-------|
+| 2.1-2.3 | Hero (HTML + Hero.js animation entrée + styles) | Textes officiels |
+| 2.4 | Section Histoire (3 paragraphes) | |
+| 2.5-2.7 | Section Activités (structure timeline + Timeline.js avec 8 activités, énigmes, flou futur) | |
+| 2.8-2.9 | Sections Concours (grille) + Serment Techno | |
+| 2.10 | ScrollAnimations.js (IntersectionObserver) | |
 
 ---
 
 ## Phase 3 — 3D Canvas & Particle Background
+**Statut : ✅ Terminée**
 
-> **Objectif :** Scène Three.js légère derrière le hero. Fallback CSS animé sur mobile pour éviter les lags.
+Objectif : Scène Three.js légère derrière le hero. Fallback CSS animé sur mobile.
 
-**Textes du site concernés :** Aucun (élément visuel uniquement).
-
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 3.1 | Installer Three.js | DevOps | `npm install three` |
-| 3.2 | `Canvas3D.js` : renderer, scene, camera | Frontend | — |
-| 3.3 | Géométrie flottante low-poly | Frontend | — |
-| 3.4 | Animation lente | Frontend | — |
-| 3.5 | `Particles.js` : système de particules | Frontend | — |
-| 3.6 | Calque position fixe, z-index, pointer-events | Design | — |
-| 3.7 | Détection mobile + `prefers-reduced-motion` | Frontend | Si mobile ou `reduce-motion`, désactiver Three.js et activer CSS fallback |
-| 3.8 | CSS fallback animé | Frontend | `linear-gradient` animé via CSS (GPU-native) comme remplacement léger |
-| 3.9 | Audit performance | Frontend | Vérifier FPS sur mobile + desktop |
+| # | Tâche | Notes |
+|---|-------|-------|
+| 3.1 | Installer Three.js | `npm install three` |
+| 3.2-3.4 | Canvas3D.js : renderer, scene, camera, géométrie low-poly, animation lente | 4 icosaèdres wireframe dorés |
+| 3.5 | Particles.js : système de particules | 300 particules, mouvement brownien |
+| 3.6 | Calque position fixe, z-index, pointer-events | Déjà dans main.css |
+| 3.7 | Détection mobile + prefers-reduced-motion | Désactive Three.js si mobile/reduced-motion |
+| 3.8 | CSS fallback animé | linear-gradient animé via @keyframes (GPU) |
+| 3.9 | Audit performance | Build OK (34 modules) |
 
 ---
 
-## Phase 4 — Document Library Modal (Read-Only)
+## Phase 4 — Authentication & Admin Gating
+**Statut : ✅ Terminée**
 
-> **Objectif :** Modale bibliothèque de documents avec lecture depuis Firestore.
+Objectif : Connexion des membres du bureau, UI admin conditionnelle, permissions par poste.
 
-### Textes du site concernés
+### Firestore collections
+- **`users/{uid}`** : `{ name, email, role, poste, promotion, active }`
+  - Les permissions sont gérées par **`poste`** (pas `role`)
+  - `active: false` → déconnexion immédiate côté app
+- **`config/roles`** : `{ items: [...] }` — liste des postes (immuable, fournie par l'utilisateur)
 
-**Section Base de Documents (source : section F) :**
-- **Titre :** `Base de Documents`
-- **Formulaire d'accès** (pour le bureau) :
-  - Label : `Nom d'utilisateur` — Placeholder : `Entrez votre nom d'utilisateur`
-  - Label : `Mot de passe` — Placeholder : `Entrez votre mot de passe`
-  - Bouton : `Se connecter`
-- **Grille des catégories :**
-  - 1ère Année : Mathématiques, Physique, Chimie, Science Industrielle, Informatique
-  - 2ème Année : Mathématiques, Physique, Chimie, Science Industrielle
-  - Concours Spéciaux : CCINP, ISFA, X Polytechnique, École Centrale Casablanca, Gbinzin
+### Permission matrix
+| poste | Membres (éditer) | Membres (activer) | Activités (CRUD) | Concours (modifier) | Suggestions | Documents |
+|---|---|---|---|---|---|---|
+| `developpeur` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `président` | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `*bureau*` (autres) | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| non connecté | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 
-**Interface Bibliothèque Technique (source : section G) :**
-- **Titre modale :** `Bibliothèque Technique`
-- **Arborescence complète :**
-  - `1ère Année` → Mathématiques, Physique, Chimie, Sciences Industrielles, Informatique
-  - `2ème Année` → Mathématiques, Physique, Chimie, Sciences Industrielles
-  - `Concours Spéciaux` → CCINP, ISFA, X Polytechnique, École Centrale Casablanca, Gbinzin
-  - `Suggestions` (visible si connecté) → Gestion des Suggestions
-- **Upload (admin uniquement) :** titre, champs, bouton `Téléverser`
-- **Cartes de documents :** badge type, taille, description `Document partagé par {uploader}`, boutons `📥 Télécharger`, `🗑️ Supprimer`
-- **Messages :**
-  - Chargement : `Chargement des documents...`
-  - Vide : `Aucun document disponible` — `Les membres du bureau n'ont pas encore téléversé de documents pour cette catégorie.`
-  - Erreur : `Erreur de chargement` — `Impossible de charger les documents. Vérifiez votre connexion internet.`
+- Matching flexible des postes présidents : `"presidente_24"` match `"président"` (via `posteMatches()` : startsWith insensible à la casse et aux accents)
 
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 4.1 | Créer collection Firestore `documents` + seed | Backend | — |
-| 4.2 | Uploader fichiers sample dans Storage | Backend | — |
-| 4.3 | `DocumentLibrary.js` : modale overlay | Frontend | — |
-| 4.4 | Panneau gauche : arborescence | Frontend | Textes ci-dessus |
-| 4.5 | Expand/collapse des noeuds | Frontend | — |
-| 4.6 | Highlight sélection | Frontend | — |
-| 4.7 | `DocumentCard.js` | Frontend | — |
-| 4.8 | `fetchDocuments(category)` | Backend | — |
-| 4.9 | Clic arbre → requête → rendu cartes | Frontend | — |
-| 4.10 | Action Télécharger | Backend | — |
-| 4.11 | Fermeture modale | Frontend | — |
-| 4.12 | Animation ouverture/fermeture | Design | — |
+### Textes du site (source : CARTOGRAPHIE_TEXTE.md section F & K)
+- Login modal : Email, Mot de passe, "Se connecter"
+- Messages : `Veuillez remplir tous les champs.`, `Connexion réussie !`, `Identifiants incorrects.`
+- Placeholders : `Entrez votre email`, `Entrez votre mot de passe`
+
+| # | Tâche | Notes |
+|---|-------|-------|
+| 4.1 | LoginForm.js : modal email/password | UI + `signInWithEmailAndPassword()` |
+| 4.2 | `onAuthStateChanged` → lire `users/{uid}.role` dans Firestore | Stocker dans un état global simple |
+| 4.3 | Header : bouton "Panneau d'Administration" visible si connecté | + bouton Déconnexion |
+| 4.4 | Déblurrage des activités futures si connecté | Remove `.future-activity` class |
+| 4.5 | Gestion erreurs auth + feedback utilisateur | Messages FR |
+| 4.6 | Création comptes Firebase Auth via Console | Option B : hors scope UI |
 
 ---
 
-## Phase 5 — Authentication & Admin Gating
+## Phase 5 — Admin Dashboard (Hub central)
+**Statut : ✅ Terminée**
 
-> **Objectif :** Connexion des membres du bureau, UI admin conditionnelle.
+Objectif : Panneau central avec onglets pour gérer activités, membres, suggestions.
 
-### Textes du site concernés
-
-**Dialogues JS Login (source : section K) :**
-- `Veuillez remplir tous les champs.`
-- `Connexion réussie ! Accès aux fonctionnalités administrateur activé.`
-- `Identifiants incorrects. Accès réservé aux membres du bureau.`
-- `Bienvenue {username} dans l'espace administrateur du Label Prestige!`
-
-**Comptes d'administration (source : section L) — 25 membres** avec identifiants (à ne pas exposer en production).
-
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 5.1 | `LoginForm.js` : modale email/mot de passe | Frontend | Utiliser labels de la section F |
-| 5.2 | `signInWithEmailAndPassword()` | Backend | — |
-| 5.3 | Créer comptes admin test | DevOps | — |
-| 5.4 | Flag admin (Firestore `users` ou custom claims) | Backend | — |
-| 5.5 | `onAuthStateChanged()` + état global `isAdmin` | Backend | — |
-| 5.6 | UI admin conditionnelle (upload, delete, dashboard suggestions, déblurrage des activités futures) | Frontend | Supprimer la classe `.future-activity` des cartes après connexion admin |
-| 5.7 | Bouton Logout | Frontend | — |
-| 5.8 | Feedback utilisateur "Connecté en tant que..." | Frontend | — |
-| 5.9 | Gestion erreurs auth | Frontend | Messages de la section K |
+| # | Tâche | Notes |
+|---|-------|-------|
+| 5.1 | AdminDashboard.js : onglets avec visibilité par poste | Activités : `['developpeur','président']`, Membres : `['developpeur']`, Suggestions : tous |
+| 5.2 | CSS dashboard : tabs, cards, boutons d'action | |
+| 5.3 | Intégration Header : clic "Panneau d'Administration" → ouvre dashboard | Overlay ou page dédiée |
 
 ---
 
-## Phase 6 — Document Upload (Admin)
+## Phase 6 — Activities CRUD (Firestore + Admin Panel)
+**Statut : ✅ Terminée**
 
-> **Objectif :** Upload de documents par les admins.
+Objectif : Les activités passent d'un tableau statique à Firestore. Les membres avec poste `developpeur` ou `président` peuvent créer/modifier/supprimer des activités depuis l'admin. Les énigmes sont gérées via un pool dédié.
 
-### Textes du site concernés (source : section G)
+### Restriction d'accès
+- Onglet Activités visible uniquement si `poste ∈ ["developpeur", "président"]`
+- `président` ne peut renseigner que le nom et la date de l'activité ; les autres champs (description, énigme, ordre) sont gérés par `developpeur`
 
-- **Titre section upload :** `📤 Téléverser un document`
-- **Champs :** Nom du document, Catégorie (dropdown), Type de document (dropdown), Année (dropdown), Fichier
-- **Bouton :** `Téléverser`
-- **Dialogues JS :**
-  - `Vous devez être connecté pour téléverser un document.`
-  - `Veuillez remplir tous les champs et sélectionner un fichier`
-  - `Téléversement en cours...`
-  - `Document "{docName}" téléversé avec succès!`
-  - `Erreur lors du téléversement du document: {message}`
+### Firestore collections
+- **`activites/{autoId}`** : `{ date, title, description, enigme, enigmeHint, order, createdAt }`
+- **`enigmes/{autoId}`** : `{ enigme (grec ancien), enigmeHint (traduction), used (boolean) }`
 
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 6.1 | UI formulaire upload (visible admin uniquement) | Frontend | Textes ci-dessus |
-| 6.2 | Validation client-side | Frontend | — |
-| 6.3 | `uploadDocument()` vers Storage | Backend | — |
-| 6.4 | Écriture metadata Firestore | Backend | — |
-| 6.5 | Barre de progression | Frontend | — |
-| 6.6 | Notification succès | Frontend | — |
-| 6.7 | Notification erreur | Frontend | — |
-| 6.8 | Rafraîchir liste après upload | Frontend | — |
+### Logique de pioche des énigmes
+1. À la création d'une activité → pioche aléatoire d'une énigme `used: false`
+2. L'énigme passe à `used: true` après assignation
+3. Si plus aucune énigme disponible → toutes repassent à `used: false` (cycle)
 
----
+### Seed au premier lancement
+- **8 activités existantes** de `Timeline.js` vers Firestore si collection vide
+- **15 énigmes grecques** créées automatiquement
 
-## Phase 7 — Document Delete (Admin) + Storage Cleanup
-
-> **Objectif :** Suppression de documents par les admins.
-
-### Textes du site concernés (source : section G et K)
-
-- `🗑️ Supprimer` (bouton sur chaque carte, admin uniquement)
-- `Document non trouvé`
-- `Erreur lors du téléchargement du document: {message}`
-- `Vous devez être connecté pour supprimer un document.`
-- `Êtes-vous sûr de vouloir supprimer ce document ?`
-- `Document supprimé avec succès!`
-- `Erreur lors de la suppression du document: {message}`
-
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 7.1 | Bouton Delete sur chaque `DocumentCard` | Frontend | Visible admin uniquement |
-| 7.2 | Dialogue de confirmation | Frontend | Texte ci-dessus |
-| 7.3 | `deleteDocument()` : Firestore + Storage | Backend | — |
-| 7.4 | Notification succès | Frontend | — |
-| 7.5 | Mise à jour UI optimiste | Frontend | — |
-| 7.6 | Gestion erreurs | Backend | — |
+| # | Tâche | Notes |
+|---|-------|-------|
+| 6.1 | Créer collections `activites` + `enigmes` dans Firestore | |
+| 6.2 | Seed automatique des 8 activités + 15 énigmes au premier lancement | Si collections vides |
+| 6.3 | AdminActivities.js : liste des activités avec boutons Modifier/Supprimer/Ajouter | Onglet Activités du dashboard |
+| 6.4 | ActivityForm.js (modal) : date, titre, description, ordre | Énigme assignée auto, modifiable manuellement |
+| 6.5 | `addActivity()`, `updateActivity()`, `deleteActivity()` | Firestore writes |
+| 6.6 | Timeline.js refactor : lire depuis Firestore, fallback vers tableau statique si vide | Garder flou futur/passé existant |
+| 6.7 | Notifications succès/erreur FR | |
+| 6.8 | ActivityForm limité pour `président` : seuls nom + date sont modifiables | Autres champs en lecture seule |
 
 ---
 
-## Phase 8 — Suggestions System
+## Phase 6.5 — Concours Management (Admin Edit)
+**Statut : ✅ Terminée**
 
-> **Objectif :** Formulaire public de suggestions + dashboard admin.
+Objectif : Les président·es et le développeur peuvent ajouter et modifier les informations des concours depuis l'admin.
 
-### Textes du site concernés (source : section H et K)
+### Firestore
+- **Collection `concours/{autoId}`** : `{ category, name, ecole, option, filieres, frais, composition, matieres, periode, resultats, description, order, createdAt }`
+- 8 concours seedés au premier lancement (4 INP-HB + 4 Extérieur)
 
-**Section Boîte à Suggestions :**
-- **Titre :** `Boîte à Suggestions`
-- **Formulaire public :**
-  - Titre : `💡 Soumettre une Suggestion`
-  - Catégories : `Événements & Activités`, `Pédagogie & Cours`, `Infrastructure & Équipements`, `Communication & Réseaux sociaux`, `Vie Associative`, `Autres`
-  - Label : `Titre de la suggestion` — Placeholder : `Titre concis de votre suggestion`
-  - Label : `Description détaillée` — Placeholder : `Décrivez votre suggestion en détail...`
-  - Boutons : `Aperçu` | `Soumettre la Suggestion`
-- **Fenêtre d'aperçu :**
-  - Titre : `👁️ Aperçu de votre Suggestion`
-  - Placeholder : `Votre suggestion apparaîtra ici en temps réel`
+### Règles d'accès
+- Onglet Concours visible si `poste` matche `developpeur` ou `président` (matching flexible)
 
-**Tableau de Bord Admin :**
-- Titre : `📊 Tableau de Bord des Suggestions`
-- Statistiques : Total, Non lues, 7 derniers jours
-- Filtres : Toutes, Non lues, Événements, Pédagogie, Infrastructure, Communication, Vie Associative, Autres
-- Actions : `✓ Marquer comme lu` | `🗑️ Supprimer`
-- États : Chargement, vide, erreur
-
-**Dialogues JS Suggestions (source : section K) :**
-- `Veuillez remplir tous les champs du formulaire.`
-- `Envoi en cours...`
-- `Votre suggestion a été soumise avec succès ! Merci pour votre contribution.`
-- `Erreur lors de l'envoi de la suggestion: {message}`
-- `Erreur lors du marquage de la suggestion: {message}`
-- `Êtes-vous sûr de vouloir supprimer cette suggestion ?`
-- `Suggestion supprimée avec succès!`
-- `Erreur lors de la suppression de la suggestion: {message}`
-
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 8.1 | Créer collection Firestore `suggestions` | Backend | — |
-| 8.2 | `SuggestionsForm.js` avec catégories et champs | Frontend | Textes ci-dessus |
-| 8.3 | Live preview temps réel | Frontend | — |
-| 8.4 | `submitSuggestion()` | Backend | — |
-| 8.5 | Notification succès + reset formulaire | Frontend | — |
-| 8.6 | Dashboard admin : cartes stats | Frontend | — |
-| 8.7 | `SuggestionList.js` : liste des suggestions | Frontend | — |
-| 8.8 | Filtres par catégorie | Frontend | — |
-| 8.9 | Action "Marquer comme lu" | Backend | — |
-| 8.10 | Action "Supprimer" | Backend | — |
-| 8.11 | Dashboard accessible uniquement si admin | Frontend | — |
+| # | Tâche | Notes |
+|---|-------|-------|
+| 6.5.1 | Créer collection Firestore `concours` + seed automatique des 8 concours | Si collection vide |
+| 6.5.2 | AdminConcours.js : liste des concours avec bouton Modifier + Ajouter | Tableau : Ordre, Catégorie, Nom |
+| 6.5.3 | ConcoursForm.js : modal avec tous les champs (text + textarea) | Ajout + édition, catégorie (select) + nom + tous les champs |
+| 6.5.4 | Onglet Concours dans AdminDashboard | `requires: ['developpeur', 'président']` |
 
 ---
 
-## Phase 9 — Firebase Security Rules
+## Phase 7 — Members Management
+**Statut : ⏳ À faire**
 
-> **Objectif :** Règles de sécurité Firestore et Storage pour l'environnement de production.
+Objectif : Gérer les membres du bureau selon les permissions par poste.
 
-### Textes du site concernés (source : section L)
+### Règles d'affichage AdminMembers.js
+- `developpeur` : édition complète (rôle, poste, activation)
+- `président` : activation/désactivation uniquement (pas d'édition rôle/poste)
+- Autres : liste en lecture seule
 
-- **Configuration Firebase :**
-  - `apiKey`, `authDomain`, `projectId: "label-76667"`, `storageBucket`, `messagingSenderId`, `appId`, `measurementId`
-- **Collections :** `documents`, `suggestions`
-
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 9.1 | Règles Firestore | Backend | Template dans ROADMAP.md |
-| 9.2 | Règles Storage | Backend | Template dans ROADMAP.md |
-| 9.3 | Tests avec Firebase Emulator | Backend | — |
-| 9.4 | Tests cas positifs | Backend | — |
-| 9.5 | Tests cas négatifs | Backend | — |
-| 9.6 | Déploiement règles en production | DevOps | — |
-
----
-
-## Phase 10 — Polish, Responsiveness & Deployment
-
-> **Objectif :** Polish visuel final, accessibilité, responsive, déploiement.
-
-### Textes du site concernés (source : section A)
-
-- **Titre de l'onglet :** `Label Prestige - Site Officiel`
-
-| # | Tâche | Owner | Notes |
-|---|-------|-------|-------|
-| 10.1 | Audit design system | Design | — |
-| 10.2 | Cohérence glassmorphism | Design | — |
-| 10.3 | Micro-animations | Design | — |
-| 10.4 | Tests responsive | Frontend | — |
-| 10.5 | Hero simplifié mobile | Frontend | — |
-| 10.6 | Audit accessibilité | Frontend | — |
-| 10.7 | Balises meta | Frontend | — |
-| 10.8 | `<title>` avec `Label Prestige - Site Officiel` | Frontend | Section A |
-| 10.9 | Favicon | Design | — |
-| 10.10 | Optimisation assets | Frontend | — |
-| 10.11 | Audit Lighthouse ≥ 90 | Frontend | — |
-| 10.12 | Config hosting (Firebase/Netlify/Vercel) | DevOps | — |
-| 10.13 | Build + déploiement | DevOps | — |
-| 10.14 | Vérification production | DevOps | — |
+| # | Tâche | Notes |
+|---|-------|-------|
+| 7.1 | AdminMembers.js : liste des membres Firestore | Onglet Membres (visible `developpeur` uniquement) |
+| 7.2 | Édition rôle/poste par `developpeur` uniquement | Postes depuis `config/roles` |
+| 7.3 | Activation/désactivation (`active: true/false`) | `developpeur` + `président` |
+| 7.4 | Création des comptes via Firebase Console (documenté dans l'UI) | Hors scope de l'application |
+| 7.5 | CSS table membres + formulaires | |
 
 ---
 
-## Contenu non couvert par la roadmap
+## Phase 8 — Document Library Modal (Read-Only)
+**Statut : ⏳ À faire**
 
-Les textes suivants, présents dans le site, ne sont rattachables à aucune phase de la roadmap. Ils devraient être intégrés dans les phases correspondantes ou justifier des phases supplémentaires :
+Objectif : Modale bibliothèque de documents avec lecture depuis Firestore.
 
-### Section K — Dialogues JavaScript (compléments techniques)
-- Messages d'erreur et de confirmation pour les opérations CRUD (documents et suggestions). Déjà partiellement couverts dans les phases 6, 7, 8, mais les messages suivants sont absents :
-  - `Document non trouvé` (phase 7)
-  - `Erreur lors du téléchargement du document: {message}` (phase 4)
+### Textes du site (source : sections F & G)
+- Titre section : `Base de Documents`
+- Titre modale : `Bibliothèque Technique`
+- Arborescence : 1ère Année (Mathématiques, Physique, Chimie, Sciences Industrielles, Informatique), 2ème Année, Concours Spéciaux
+- Messages : `Chargement des documents...`, `Aucun document disponible`, `Erreur de chargement`
 
-### Section L — Données Techniques
-- **Configuration Firebase complète** (apiKey, authDomain, etc.) — utile pour la phase 0.6, mais les valeurs exactes ne sont pas mentionnées dans la roadmap.
-- **Liste des 25 comptes d'administration** (username + mot de passe) — utile pour la phase 5.3 (création des comptes test). Non listée dans la roadmap.
-
-### Messages d'état vides/erreur
-- États vides de la bibliothèque (`Aucun document disponible`) et du dashboard suggestions (`Aucune suggestion`) — présents dans le HTML mais pas explicitement listés dans les tâches roadmap.
+| # | Tâche | Notes |
+|---|-------|-------|
+| 8.1 | Créer collection Firestore `documents` | |
+| 8.2 | DocumentLibrary.js : modale overlay + arborescence | Expand/collapse, highlight |
+| 8.3 | DocumentCard.js : carte document | badge type, download |
+| 8.4 | `fetchDocuments(category)` : requête Firestore | |
+| 8.5 | Animation ouverture/fermeture modale | |
 
 ---
 
-*Généré le 2026-06-14 à partir de RESULTATS_ANALYSE.md section 3, ROADMAP.md et PROMOTIONAL_WEBSITE_SPEC.md.*
+## Phase 9 — Document Upload + Delete (Admin)
+**Statut : ⏳ À faire**
+
+Objectif : Upload/suppression de documents par les membres connectés.
+
+### Textes (sections G & K)
+- Titre upload : `📤 Téléverser un document`
+- Champs : Nom, Catégorie, Type (Cours/TD/Devoir/Correction/Autre), Année, Fichier
+- Dialogues : `Veuillez remplir tous les champs...`, `Téléversement en cours...`, succès/erreur
+
+| # | Tâche | Notes |
+|---|-------|-------|
+| 9.1 | UI formulaire upload (visible si connecté) | |
+| 9.2 | `uploadDocument()` : Storage + Firestore | |
+| 9.3 | Barre de progression + notification | |
+| 9.4 | Bouton Delete sur DocumentCard (admin) + confirmation | |
+| 9.5 | `deleteDocument()` : Firestore + Storage cleanup | |
+
+---
+
+## Phase 10 — Suggestions System
+**Statut : ⏳ À faire**
+
+Objectif : Formulaire public de suggestions + dashboard admin.
+
+### Textes (sections H & K)
+- Titre : `Boîte à Suggestions`
+- Catégories : Événements & Activités, Pédagogie & Cours, Infrastructure & Équipements, Communication & Réseaux sociaux, Vie Associative, Autres
+- Dashboard : stats (Total, Non lues, 7 jours), filtres, actions
+
+| # | Tâche | Notes |
+|---|-------|-------|
+| 10.1 | Créer collection Firestore `suggestions` | |
+| 10.2 | SuggestionsForm.js : formulaire + live preview | |
+| 10.3 | `submitSuggestion()` → Firestore | |
+| 10.4 | SuggestionList.js (admin) : stats + filtres + marquer lu + supprimer | Onglet Suggestions du dashboard |
+
+---
+
+## Phase 11 — Firebase Security Rules
+**Statut : ⏳ À faire**
+
+Objectif : Règles Firestore et Storage pour la production.
+
+| # | Tâche | Notes |
+|---|-------|-------|
+| 11.1 | Règles Firestore : `documents` (read all, write admin), `suggestions` (create all, read/modify admin), `activites` (read all, write bureau+super_admin), `enigmes` (read all, write admin), `concours` (read all, write developpeur+président), `users` (read/write super_admin only), `config` (read all, write super_admin) | |
+| 11.2 | Règles Storage : `/documents/{year}/{category}/{filename}` | Write admin only |
+| 11.3 | Tests avec Firebase Emulator | |
+| 11.4 | Déploiement règles | |
+
+---
+
+## Phase 12 — Polish, Responsiveness & Deployment
+**Statut : ⏳ À faire**
+
+Objectif : Audit visuel, responsive, accessibilité, déploiement.
+
+| # | Tâche | Notes |
+|---|-------|-------|
+| 12.1-12.14 | Audit design, responsive, accessibilité, Lighthouse, favicon, hosting, build, déploiement | |
+
+---
+
+*Roadmap générée le 15/06/2026 — 7 phases terminées (dont Phase 6.5), 6 à faire.*

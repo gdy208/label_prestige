@@ -59,6 +59,11 @@ Use these instead of guessing UI strings — all French text content is defined 
 
 ## Key behaviors to preserve
 - **Future activities** (date > now) are blurred (`filter: blur(8px)`); hover reveals content + ancient Greek riddle. Admin login permanently removes blur (removes `.future-activity` class)
+- **Activities are CRUD via Firestore**: `activites` collection, riddle pool in `enigmes` collection, auto-assign with no-repeat cycle
 - **Document library** is a modal with sidebar tree (categories/subjects) and card grid
 - **Suggestions**: public submit form with live preview; admin-only dashboard with stats (total, unread, last 7 days) and filters by category
-- **Admin gating**: Firebase Auth email/password; admin actions appear after `onAuthStateChanged` confirms login
+- **Admin gating**: Firebase Auth email/password. Two roles in Firestore `users/{uid}.role`:
+  - `super_admin` (Président/VP) — manages members + all bureau rights
+  - `bureau` — manages activities, documents, suggestions
+- **AdminDashboard.js** is the central hub with tabs: Activités, Membres (super_admin only), Suggestions
+- **Members created via Firebase Console** (Option B — not via app UI)
