@@ -100,4 +100,6 @@ firebase deploy --only hosting,firestore:rules
 
 ---
 
+Ce projet est sous licence MIT — voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
 Développé avec ❤️ par **Gédéon Kouamé**
