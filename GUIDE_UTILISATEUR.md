@@ -15,8 +15,6 @@ Pour que vous puissiez accéder au panneau d'administration, j'ai besoin de deux
 
 Rendez-vous sur : **https://label-website-cebde.web.app**
 
-![](https://via.placeholder.com/600x300/0A0E1A/C9A34D?text=Capture+écran+du+site)
-
 ---
 
 ## 3. Se connecter
@@ -24,8 +22,6 @@ Rendez-vous sur : **https://label-website-cebde.web.app**
 1. Cliquez sur le bouton **"Connexion Bureau"** en haut à droite de l'écran.
 2. Une fenêtre s'ouvre. Entrez votre **email** et votre **mot de passe**.
 3. Cliquez sur **"Valider"**.
-
-![](https://via.placeholder.com/400x300/0A0E1A/C9A34D?text=Fenêtre+de+connexion)
 
 ---
 
@@ -41,6 +37,7 @@ Le panneau d'administration s'ouvre. Vous y trouverez les onglets auxquels vous 
 
 | Onglet | Ce que vous pouvez faire |
 |---|---|
+| **Documents** | Voir tous les documents, et en téléverser de nouveaux (PDF, Word, images, etc.). |
 | **Suggestions** | Voir les suggestions, les marquer "lu", ou les supprimer. |
 | **Serment Techno** | Modifier les numéros de téléphone pour les paiements. |
 
@@ -50,6 +47,7 @@ Le panneau d'administration s'ouvre. Vous y trouverez les onglets auxquels vous 
 
 | Onglet | Ce que vous pouvez faire |
 |---|---|
+| **Documents** | Voir tous les documents, et en téléverser de nouveaux (PDF, Word, images, etc.). |
 | **Activités** | Ajouter, modifier ou supprimer des activités. |
 | **Concours** | Ajouter, modifier ou supprimer des concours. |
 | **Suggestions** | Voir les suggestions, les marquer "lu", ou les supprimer. |
@@ -80,15 +78,30 @@ Tout le monde (bureau et président) peut gérer les suggestions.
 4. Cliquez sur **"Enregistrer"**.
 5. Les nouveaux numéros s'affichent immédiatement sur la page d'accueil.
 
+
 ---
 
-## 7. Se déconnecter
+## 7. Téléverser des documents (pour les admins)
+
+Tous les administrateurs (bureau et président) peuvent ajouter des documents.
+
+1. Cliquez sur **"Documents"** dans le menu du haut.
+2. Cliquez sur le bouton **"Téléverser"** en haut à droite.
+3. Remplissez les champs : nom, type (Cours, TD, Devoir…), année académique.
+4. Sélectionnez le fichier sur votre ordinateur.
+5. Cliquez sur **"Téléverser"** pour confirmer.
+
+**Attention — limite de stockage :** L'espace de stockage total est de **1 Go** pour tous les documents. Si on dépasse, plus personne ne pourra rien uploader. Ne mettez que des documents utiles, et supprimez les anciens fichiers devenus inutiles.
+
+---
+
+## 8. Se déconnecter
 
 Cliquez sur le bouton **"Déconnexion"** en haut à droite de l'écran.
 
 ---
 
-## 8. En cas de problème
+## 9. En cas de problème
 
 - **Mot de passe oublié ?** Prévenez-moi, je peux le réinitialiser depuis la console Firebase.
 - **Le site ne charge pas ?** Vérifiez votre connexion internet.
