@@ -2,7 +2,8 @@
 
 Site vitrine de l'association **Label Prestige** (Association des Élèves Techno de l'INP-HB).
 
-> **URL :** [label-website-cebde.web.app](https://label-website-cebde.web.app)
+> **URL :** [label-website-cebde.web.app](https://label-website-cebde.web.app)  
+> **Licence :** [MIT](LICENSE)
 
 ---
 
