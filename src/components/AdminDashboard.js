@@ -57,6 +57,7 @@ function renderDevNote() {
 
   container.innerHTML = `
     <div class="devnote-banner">
+      <button class="devnote-close" id="devnote-close" aria-label="Fermer">&times;</button>
       ${devNote ? `<div class="devnote-message">${esc(devNote)}</div>` : ''}
       ${isDev ? `
         <div class="devnote-edit">
@@ -66,6 +67,10 @@ function renderDevNote() {
       ` : ''}
     </div>
   `;
+
+  document.getElementById('devnote-close')?.addEventListener('click', () => {
+    container.innerHTML = '';
+  });
 
   if (isDev) {
     document.getElementById('devnote-save')?.addEventListener('click', saveDevNote);

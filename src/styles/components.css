@@ -718,6 +718,26 @@
   background: rgba(201, 163, 77, 0.08);
   border: 1px solid rgba(201, 163, 77, 0.25);
   border-radius: var(--radius-button);
+  position: relative;
+}
+
+.devnote-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--color-gold);
+  font-size: 1.3rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 6px;
+  opacity: 0.6;
+  transition: opacity var(--transition-smooth);
+}
+
+.devnote-close:hover {
+  opacity: 1;
 }
 
 .devnote-message {
