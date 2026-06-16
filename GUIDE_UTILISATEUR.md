@@ -37,18 +37,31 @@ Le panneau d'administration s'ouvre. Vous y trouverez les onglets auxquels vous 
 
 ### Vos accès
 
-En tant que membre du **bureau**, vous avez accès à :
+**Si vous êtes membre du bureau :**
 
 | Onglet | Ce que vous pouvez faire |
 |---|---|
-| **Suggestions** | Voir les suggestions envoyées par les visiteurs du site. Lire, marquer comme "lu", ou supprimer. |
-| **Serment Techno** | Modifier les numéros de téléphone Wave/Orange Money/MTN pour les paiements du Serment Techno. |
+| **Suggestions** | Voir les suggestions, les marquer "lu", ou les supprimer. |
+| **Serment Techno** | Modifier les numéros de téléphone pour les paiements. |
 
 **Vous ne pouvez pas** modifier les activités, les concours, ni les membres.
+
+**Si vous êtes président(e) :**
+
+| Onglet | Ce que vous pouvez faire |
+|---|---|
+| **Activités** | Ajouter, modifier ou supprimer des activités. |
+| **Concours** | Ajouter, modifier ou supprimer des concours. |
+| **Suggestions** | Voir les suggestions, les marquer "lu", ou les supprimer. |
+| **Serment Techno** | Modifier les numéros de téléphone et l'image du pull. |
+
+**Vous ne pouvez pas** modifier les membres.
 
 ---
 
 ## 5. Gérer les suggestions
+
+Tout le monde (bureau et président) peut gérer les suggestions.
 
 1. Allez dans l'onglet **"Suggestions"**.
 2. La liste des suggestions s'affiche. Les nouvelles suggestions sont marquées **"Non lu"**.
