@@ -11,10 +11,24 @@ dist/
 dist-ssr/
 build/
 
-# Local env files
-.env*.local
+# Environment files (contain API keys)
+.env
+.env.*
+!.env.example
 
-# Log files
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -22,17 +36,7 @@ pnpm-debug.log*
 lerna-debug.log*
 *.log
 
-# Editor directories and files
-.idea/
-.vscode/
-*.suo
-*.ntvs?
-*.njsproj
-*.sln
-*.sw?
-.DS_Store
-
-# Firebase
+# Firebase CLI artifacts
 .firebase/
 firebase-debug.log
 firestore-debug.log
