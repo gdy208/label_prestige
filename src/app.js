@@ -6,11 +6,12 @@ import { seedIfNeeded } from './seed.js';
 import { setupHeader } from './components/Header.js';
 import { setupHero } from './components/Hero.js';
 import { setupTimeline } from './components/Timeline.js';
+import { setupConcoursSection } from './components/ConcoursSection.js';
 import { setupScrollAnimations } from './components/ScrollAnimations.js';
-import { setupCanvas3D, destroyCanvas3D } from './components/Canvas3D.js';
-import { setupParticles, destroyParticles } from './components/Particles.js';
-
-console.log("Label Prestige promotional website loaded.");
+import { setupCanvas3D } from './components/Canvas3D.js';
+import { setupParticles } from './components/Particles.js';
+import { setupSuggestionsForm } from './components/SuggestionsForm.js';
+import { setupSermentSection } from './components/SermentSection.js';
 
 function isLowPowerDevice() {
   const mobile = window.innerWidth < 768 || 'maxTouchPoints' in navigator && navigator.maxTouchPoints > 0;
@@ -34,14 +35,23 @@ function setupBackground() {
 }
 
 function initApp() {
-  console.log("Initializing Application...");
-
   setupHeader();
   setupHero();
-  setupTimeline();
+  setupTimeline(false);
+  setupConcoursSection();
+  setupSermentSection();
+  setupSuggestionsForm();
   setupScrollAnimations();
   setupBackground();
   setupMobileNav();
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.admin-overlay.active, .login-modal-overlay.active').forEach(el => {
+        el.classList.remove('active');
+      });
+    }
+  });
 
   seedIfNeeded().catch(e => console.warn('Seed non effectué :', e.message));
 

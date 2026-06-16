@@ -1,6 +1,6 @@
 # Roadmap Enrichie — Label Prestige Promotional Website
 
-> Dernière mise à jour : 15/06/2026 (permissions refondues : droits par `poste` ; ajout Concours management)
+> Dernière mise à jour : 16/06/2026 (Phase 10 — Suggestions ; Phase 11 — Security Rules)
 > Les textes du site sont définis dans `CARTOGRAPHIE_TEXTE.md` et `TEXTES_MODIFIABLES.md`.
 
 ---
@@ -45,7 +45,7 @@ Objectif : Hero visuellement fort + sections de contenu statiques (Histoire, Act
 |---|-------|-------|
 | 2.1-2.3 | Hero (HTML + Hero.js animation entrée + styles) | Textes officiels |
 | 2.4 | Section Histoire (3 paragraphes) | |
-| 2.5-2.7 | Section Activités (structure timeline + Timeline.js avec 8 activités, énigmes, flou futur) | |
+| 2.5-2.7 | Section Activités (structure timeline + Timeline.js avec 8 activités, flou futur) | |
 | 2.8-2.9 | Sections Concours (grille) + Serment Techno | |
 | 2.10 | ScrollAnimations.js (IntersectionObserver) | |
 
@@ -121,35 +121,26 @@ Objectif : Panneau central avec onglets pour gérer activités, membres, suggest
 ## Phase 6 — Activities CRUD (Firestore + Admin Panel)
 **Statut : ✅ Terminée**
 
-Objectif : Les activités passent d'un tableau statique à Firestore. Les membres avec poste `developpeur` ou `président` peuvent créer/modifier/supprimer des activités depuis l'admin. Les énigmes sont gérées via un pool dédié.
+Objectif : Les activités passent d'un tableau statique à Firestore. Les membres avec poste `developpeur` ou `président` peuvent créer/modifier/supprimer des activités depuis l'admin. Les activités futures sont floutées (`filter: blur(8px)`), défloutées pour les admins.
 
 ### Restriction d'accès
 - Onglet Activités visible uniquement si `poste ∈ ["developpeur", "président"]`
-- `président` ne peut renseigner que le nom et la date de l'activité ; les autres champs (description, énigme, ordre) sont gérés par `developpeur`
 
-### Firestore collections
-- **`activites/{autoId}`** : `{ date, title, description, enigme, enigmeHint, order, createdAt }`
-- **`enigmes/{autoId}`** : `{ enigme (grec ancien), enigmeHint (traduction), used (boolean) }`
-
-### Logique de pioche des énigmes
-1. À la création d'une activité → pioche aléatoire d'une énigme `used: false`
-2. L'énigme passe à `used: true` après assignation
-3. Si plus aucune énigme disponible → toutes repassent à `used: false` (cycle)
+### Firestore collection
+- **`activites/{autoId}`** : `{ date, title, description, order, createdAt }`
 
 ### Seed au premier lancement
-- **8 activités existantes** de `Timeline.js` vers Firestore si collection vide
-- **15 énigmes grecques** créées automatiquement
+- **8 activités** seedées dans Firestore si collection vide
 
 | # | Tâche | Notes |
 |---|-------|-------|
-| 6.1 | Créer collections `activites` + `enigmes` dans Firestore | |
-| 6.2 | Seed automatique des 8 activités + 15 énigmes au premier lancement | Si collections vides |
+| 6.1 | Créer collection `activites` dans Firestore | |
+| 6.2 | Seed automatique des 8 activités au premier lancement | Si collection vide |
 | 6.3 | AdminActivities.js : liste des activités avec boutons Modifier/Supprimer/Ajouter | Onglet Activités du dashboard |
-| 6.4 | ActivityForm.js (modal) : date, titre, description, ordre | Énigme assignée auto, modifiable manuellement |
+| 6.4 | ActivityForm.js (modal) : date, titre, description, ordre | |
 | 6.5 | `addActivity()`, `updateActivity()`, `deleteActivity()` | Firestore writes |
-| 6.6 | Timeline.js refactor : lire depuis Firestore, fallback vers tableau statique si vide | Garder flou futur/passé existant |
+| 6.6 | Timeline.js refactor : lire depuis Firestore, fallback vers tableau statique si vide | Flou futur/passé existant |
 | 6.7 | Notifications succès/erreur FR | |
-| 6.8 | ActivityForm limité pour `président` : seuls nom + date sont modifiables | Autres champs en lecture seule |
 
 ---
 
@@ -255,16 +246,32 @@ Objectif : Formulaire public de suggestions + dashboard admin.
 ---
 
 ## Phase 11 — Firebase Security Rules
-**Statut : ⏳ À faire**
+**Statut : ✅ Terminée**
 
-Objectif : Règles Firestore et Storage pour la production.
+Objectif : Règles Firestore et documentation Storage pour la production.
+
+### Firestore Rules (`firestore.rules`)
+- `activites` — read all, write developpeur+président
+- `concours` — read all, write developpeur+président
+- `suggestions` — read admin, create all, update/delete admin
+- `documents` — read all, write admin (any active user)
+- `users/{uid}` — read by owner + developpeur ; write developpeur (full), président (active only), owner (name/promotion only)
+- `config/*` — read all, write developpeur+président
+
+### Firebase project config (`firebase.json`)
+- Projet : `label-website-cebde`
+- Règles Firestore liées
+- Hosting config prête (public: dist, rewrites SPA)
+
+### Storage
+Le projet utilise **Supabase Storage** (pas Firebase Storage). Documentation RLS dans `for_opencode/SUPABASE_STORAGE_RLS.md`.
 
 | # | Tâche | Notes |
 |---|-------|-------|
-| 11.1 | Règles Firestore : `documents` (read all, write admin), `suggestions` (create all, read/modify admin), `activites` (read all, write bureau+super_admin), `enigmes` (read all, write admin), `concours` (read all, write developpeur+président), `users` (read/write super_admin only), `config` (read all, write super_admin) | |
-| 11.2 | Règles Storage : `/documents/{year}/{category}/{filename}` | Write admin only |
-| 11.3 | Tests avec Firebase Emulator | |
-| 11.4 | Déploiement règles | |
+| 11.1 | Règles Firestore complètes | Fichier `firestore.rules` créé |
+| 11.2 | firebase.json | Lié au projet `label-website-cebde` |
+| 11.3 | Documentation Storage RLS | `for_opencode/SUPABASE_STORAGE_RLS.md` |
+| 11.4 | Déploiement | Nécessite Firebase CLI : `firebase deploy --only firestore:rules` |
 
 ---
 
@@ -279,4 +286,4 @@ Objectif : Audit visuel, responsive, accessibilité, déploiement.
 
 ---
 
-*Roadmap générée le 15/06/2026 — 10 phases terminées (dont Phase 6.5), 3 à faire.*
+*Roadmap générée le 16/06/2026 — 11 phases terminées, 1 à faire (Phase 12). Système d'énigmes retiré par décision.*

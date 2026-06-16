@@ -24,7 +24,7 @@ A luxury-branded promotional website for an academic/association audience. Key g
 ## Sections
 1. **Hero** — branded title, subtitle, CTA
 2. **Histoire** — Association mission & vision (3 paragraphs)
-3. **Activités** — Timeline roadmap with activity cards from Firestore. Future activities blurred (blur 8px); hover reveals content + ancient Greek riddle. Admin login removes blur permanently.
+3. **Activités** — Timeline roadmap with activity cards from Firestore. Future activities blurred (`filter: blur(8px)`). Admin login removes blur permanently.
 4. **Documents** — "Base de Documents" modal/library with sidebar tree and document viewer
 5. **Concours** — Contest descriptions (CAE, GIN, GCN, A2GP + ISE-ECO, ECC, CCINP, FUI-FF)
 6. **Serment Techno** — Membership, commitments, payment/promo
@@ -56,14 +56,11 @@ Les droits sont gérés par le champ **`poste`** (pas `role`). Le `role` est un 
 - Désactivation : `active: false` dans Firestore → déconnexion immédiate via `onSnapshot`
 
 ## Activities system (Firestore CRUD)
-- **Collection `activites`**: `{ date, title, description, enigme, enigmeHint, order, createdAt }`
-- **Collection `enigmes`**: `{ enigme (grec ancien), enigmeHint (traduction), used: boolean }`
-  - 15 énigmes seedées au premier lancement
-  - À chaque création d'activité : pioche aléatoire d'une énigme `used: false` → passe à `true`
-  - Si toutes les énigmes sont utilisées, réinitialisation complète (cycle)
+- **Collection `activites`**: `{ date, title, description, order, createdAt }`
 - AdminActivities panel (dans AdminDashboard) : créer, modifier, supprimer une activité
 - **Restreint aux postes** `developpeur` et `président`
 - Timeline.js lit depuis Firestore ; fallback vers tableau statique si collection vide
+- Activités futures (date > now) : flou `filter: blur(8px)` sur `.future-activity` ; retiré si admin connecté
 
 ## Concours system (Firestore edit)
 - **Collection `concours`** : `{ category, name, ecole, option, filieres, frais, composition, matieres, periode, resultats, description, order, createdAt }`
@@ -119,8 +116,7 @@ Les droits sont gérés par le champ **`poste`** (pas `role`). Le `role` est un 
 |---|---|
 | `documents` | Document metadata (name, category, type, academicYear, storagePath, filename, createdBy, createdAt) |
 | `suggestions` | User suggestions (category, title, description, status, createdAt, email) |
-| `activites` | Activities for timeline (date, title, description, enigme, enigmeHint, order) |
-| `enigmes` | Riddle pool (enigme, enigmeHint, used) |
+| `activites` | Activities for timeline (date, title, description, order) |
 | `concours` | Contest data (category, name, ecole, option, filieres, frais, composition, matieres, periode, resultats, description, order) |
 | `users` | User roles (uid, name, email, role, poste, promotion, active) |
 | `config/roles` | Predefined role list (items array) |
@@ -160,11 +156,11 @@ src/
 - [x] Phase 3: 3D Canvas + particles + CSS fallback
 - [x] Phase 4: Auth + admin gating (login/logout, permission detection, admin UI conditional)
 - [x] Phase 5: Admin Dashboard hub (tabs: Activités, Membres, Suggestions)
-- [x] Phase 6: Activities CRUD (Firestore + AdminActivities + Timeline refactor + riddle pool)
+- [x] Phase 6: Activities CRUD (Firestore + AdminActivities + Timeline refactor, future blur)
 - [x] Phase 6.5: Concours management (Firestore + AdminConcours + ConcoursForm ajout/édition)
 - [x] Phase 7: Members management (Firestore users + AdminMembers) — permission par `poste`
 - [x] Phase 8: Document Library modal (Firestore read)
 - [x] Phase 9: Document upload + delete (admin only)
-- [ ] Phase 10: Suggestions form + admin dashboard
-- [ ] Phase 11: Firebase Security Rules
+- [x] Phase 10: Suggestions form + admin dashboard
+- [x] Phase 11: Firebase Security Rules (firestore.rules, firebase.json, Supabase RLS doc)
 - [ ] Phase 12: Polish, responsiveness, deployment

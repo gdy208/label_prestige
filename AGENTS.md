@@ -2,104 +2,73 @@
 
 ## Quick start
 ```bash
-npm run dev      # Vite dev server
+npm run dev      # Vite dev server (no vite.config.* — pure defaults)
 npm run build    # Vite production build
 npm run preview  # Preview production build
 ```
-
 No testing, linting, typechecking, or formatter tooling configured. Assume none.
 
 ## Stack
-- **Build**: Vite 8 (vanilla JS, ES modules — `"type": "module"` in package.json)
-- **Runtime**: Firebase 12 (Auth, Firestore, Storage)
-- **3D**: Three.js (low-poly floating geometry + particles, CSS fallback on mobile)
-- **Fonts**: Cinzel (display), Playfair Display (headings), Inter (body)
+- **Build**: Vite 8, vanilla JS ES modules (`"type": "module"` in package.json)
+- **Runtime**: Firebase 12 (Auth, Firestore), Supabase Storage (bucket `documents`, public)
+- **3D**: Three.js — `isLowPowerDevice()` (mobile/touch/reduced-motion) disables 3D, uses CSS gradient fallback
+- **Fonts**: Cinzel (display), Playfair Display (headings), Inter (body) — loaded via `<link>` in `index.html`
+- **Design tokens**: CSS custom properties in `src/styles/main.css` (gold #C9A34D, navy #0A0E1A, glass effects)
 
-## Project state — Phases 0-9 complete (10 done, 3 to go)
+## Project state — 11 phases done, 1 pending
+All components implemented.
 
-### Components implemented
-| Component | Status | Description |
-|---|---|---|
-| Header.js | ✅ | Smooth-scroll, hamburger toggle, login/admin/logout buttons wired to auth state |
-| Hero.js | ✅ | Entrance fade-in/stagger animation |
-| Timeline.js | ✅ | Reads from Firestore `activites`, fallback to static array; future-date blur, Greek riddles on hover; real-time blur removal on login |
-| ScrollAnimations.js | ✅ | IntersectionObserver for sections and cards |
-| Canvas3D.js | ✅ | 4 low-poly icosahedrons wireframe (Three.js) |
-| Particles.js | ✅ | 300 gold particles with brownian motion |
-| LoginForm.js | ✅ | Email/password modal, Firestore role+poste check, specific error messages per auth code, recreates DOM on each open |
-| AdminDashboard.js | ✅ | Hub with tabs (Activités, Concours, Membres, Suggestions), tab visibility by poste, matching flexible des postes présidents |
-| AdminActivities.js | ✅ | CRUD table for activities (add/edit/delete) with Firestore |
-| ActivityForm.js | ✅ | Modal form with auto riddle assignment from `enigmes` pool (cycle) |
-| AdminConcours.js | ✅ | Liste + ajouter + modifier concours (8 seedés) |
-| ConcoursForm.js | ✅ | Modal with all fields (text, select, textarea) — add/edit |
-| AdminMembers.js | ✅ | Liste + édition rôle/poste/actif, permissions par poste (dev/président/bureau) |
-| DocumentLibrary.js | ✅ | Modal bibliothèque avec arborescence (1ère/2ème avec sous-catégories, Sujets Concours) + upload/delete admin |
-| DocumentCard.js | ✅ | Carte document avec badge type, meta, bouton télécharger |
-| seed.js | ✅ | Auto-seed activites (8), enigmes (15), concours (8) if collections empty |
-| auth.js | ✅ | Global state store with subscribe pattern (user, role, poste, isAdmin) |
+Pending: Phase 12 (polish/responsive/deploy).
 
-### Stubs (0 lines)
-- SuggestionsForm.js
-- SuggestionList.js
+`firebase.json` and `firestore.rules` exist at root. No `.firebaserc` — Firebase used client-side only (Auth + Firestore). Storage via Supabase (bucket `documents`, public). `public/assets/fonts/` and `public/assets/images/` are empty directories.
 
 ## Architecture
+Each component is a pure JS module exporting a `setup*()` function. No framework — direct DOM manipulation via `querySelector`/`innerHTML`/template literals. All overlays inject into `<div id="modal-root">`.
+
+### Key modules
+- `src/supabase.js` — Supabase client init (Storage bucket `documents`, also used for serment pull images)
+- `src/auth.js` — Firebase Auth pub/sub store
+- `src/firebase.js` — Firebase init (Auth, Firestore)
+- `src/seed.js` — Auto-seeds Firestore collections if empty
+- `src/components/AdminSerment.js` — Serment config panel (phones + pull image upload)
+- `src/components/SermentSection.js` — Dynamic serment section rendering (Firestore + real-time)
 
 ### Entrypoint
-`index.html` → `<script type="module" src="/src/app.js">`
-- `app.js` imports Firebase, auth, all components, seed
+`index.html → <script type="module" src="/src/app.js">`
+- `app.js` on `DOMContentLoaded`: sets up Header, Hero, Timeline, ScrollAnimations, background (3D or CSS fallback), seed
 - `onAuthStateChanged` + `onSnapshot` on `users/{uid}` for real-time permission/activation changes
-- All overlays injected into `<div id="modal-root">`
+- `active: false` in Firestore → instant `signOut`
 
-### Auth state (src/auth.js)
-```js
-{ user, role, poste, isAdmin }
-```
-- `subscribe(fn)` — called on every state change
-- `getState()` — sync read
-- `setState(partial)` — Object.assign + notify listeners
+### Auth state (`src/auth.js`)
+`{ user, role, poste, isAdmin }` — simple pub/sub: `subscribe(fn)`, `getState()`, `setState(partial)`.
 
 ### Permission model — by `poste` (not `role`)
 | poste | Membres (éditer) | Membres (activer) | Activités | Concours | Suggestions | Documents |
 |---|---|---|---|---|---|---|
 | developpeur | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | président* | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| *bureau* (autres) | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| *bureau* | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
 
-* Matching flexible : `"presidente_24"` match `"président"` (startsWith, insensible à la casse et aux accents)
+`posteMatches()` in `AdminDashboard.js:17`: `startsWith`, case+accent insensitive (NFD decomposition) — so `"presidente_24"` matches `"président"`.
 
 ### Firestore collections
 | Collection | Fields |
 |---|---|
-| `activites` | date, title, description, enigme, enigmeHint, order, createdAt |
-| `enigmes` | enigme (grec ancien), enigmeHint (traduction), used (boolean) |
+| `activites` | date, title, description, order, createdAt |
 | `concours` | category, name, ecole, option, filieres, frais, composition, matieres, periode, resultats, description, order, createdAt |
 | `suggestions` | category, title, description, status (unread/read), createdAt, email |
 | `documents` | name, category, type, academicYear, storagePath, storageRef, filename, createdBy, createdAt |
 | `users/{uid}` | name, email, role (super_admin/bureau), poste, promotion, active |
-| `config/roles` | items (array of poste names) — plus utilisé, poste est texte libre |
+| `config/roles` | deprecated — poste is free text |
 
-## Key behaviors to preserve
-- **Future activities** (date > now) blurred (`filter: blur(8px)`); hover reveals content + Greek riddle. Admin login removes blur (`.future-activity` class removed via `renderTimeline(true)`)
-- **Riddle assignment**: random pick from `enigmes` where `used: false` → mark `used: true`. If all used, reset all to `false` (cycle)
+## Key behaviors
+- **Future activities** (date > now): blurred (`filter: blur(8px)`). Admin login removes blur (`.future-activity` class removed via `renderTimeline(true)`)
 - **Admin dashboard tabs**: Activités + Concours (developpeur/président), Membres (developpeur only), Suggestions (all admins)
-- **Modal overflow**: All admin modals use `max-height:85vh; overflow-y:auto`
-- **Account creation**: via Firebase Console only (Option B). Never from UI.
-- **Deactivation**: `active: false` in Firestore → instant signOut via `onSnapshot`
-- **Real-time monitoring**: `onSnapshot` on `users/{uid}` catches role/poste/active changes live
+- **Account creation**: Firebase Console only. Never from UI.
+- **Seed**: `seed.js` auto-seeds `activites` (8), `concours` (8) if collections empty — runs on every page load
 
-## Reference documents (in `for_opencode/`)
-| File | Use |
-|---|---|
-| `PROMOTIONAL_WEBSITE_SPEC.md` | Full feature spec, UI behavior, data models |
-| `ROADMAP_ENRICHIE.md` | Step-by-step build plan with phase status |
-| `CARTOGRAPHIE_TEXTE.md` | Audit of all visible text (French) |
-| `TEXTES_MODIFIABLES.md` | ~80 editable text fields grouped by section |
-
-## Upcoming phases
-- Phase 10: SuggestionsForm.js + SuggestionList.js
-- Phase 11: Firebase Security Rules
-- Phase 12: Polish, responsiveness, deployment
-- Phase 11: Firebase Security Rules
-- Phase 12: Polish, responsiveness, deployment
-- Phase 11: Firebase Security Rules
-- Phase 12: Polish, responsiveness, deployment
+## Reference docs (`for_opencode/`)
+- `PROMOTIONAL_WEBSITE_SPEC.md` — full spec, UI behavior, data models
+- `ROADMAP_ENRICHIE.md` — build plan with phase status
+- `CARTOGRAPHIE_TEXTE.md` — audit of all visible text (French)
+- `TEXTES_MODIFIABLES.md` — ~80 editable text fields grouped by section

@@ -1,58 +1,7 @@
-import { db } from './firebase.js';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { db } from '../firebase.js';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
-const activities = [
-  {
-    date: 'Septembre 2025',
-    title: 'Rentrée Académique',
-    description: "Favoriser la cohésion et l'intégration des nouveaux étudiants.",
-    order: 0,
-  },
-  {
-    date: '8 Novembre 2025',
-    title: 'Réunion avec les P2',
-    description: 'Échanges et coordination avec les étudiants de deuxième année.',
-    order: 1,
-  },
-  {
-    date: '29 Novembre 2025',
-    title: 'Otakunight',
-    description: 'Soirée mangas, animés, J-pop. Valoriser la culture japonaise et geek, moment de détente.',
-    order: 2,
-  },
-  {
-    date: '13 Décembre 2025',
-    title: 'Soirée ciné gratuite',
-    description: 'Détente collective. Projecteur, film, chaises, collation payante.',
-    order: 3,
-  },
-  {
-    date: '20 Décembre 2025',
-    title: 'Collecte de fonds',
-    description: 'Action caritative pour des bénéficiaires choisis.',
-    order: 4,
-  },
-  {
-    date: '4 & 18 Janvier 2026',
-    title: 'Projection CAN',
-    description: "Créer une ambiance conviviale autour du sport.",
-    order: 5,
-  },
-  {
-    date: '9 Janvier 2026',
-    title: 'AKWABA TECHNO (Bal de promo)',
-    description: 'Accueillir la nouvelle promo et célébrer les réussites.',
-    order: 6,
-  },
-  {
-    date: '10 - 17 Janvier 2026',
-    title: 'Interclasses Techno',
-    description: "Renforcer l'esprit d'équipe et la compétition saine.",
-    order: 7,
-  },
-];
-
-const concours = [
+const fallbackConcours = [
   { category: 'INP-HB', name: 'Concours CAE', ecole: 'ESCAE (École Supérieure de Commerce et d\'Administration des Entreprises) — INP-HB Yamoussoukro', option: 'Mathématiques, Sciences de l\'Ingénieur et Physique (CAE-MATHS)', filieres: 'HEA-BF, ILT-SCM', frais: '20 000 FCFA (+ 3 000 FCFA frais dossier + 1 000 FCFA photo)', composition: 'Écrit', matieres: 'Mathématiques 1 (3h), Culture générale — français, philosophie (3h), Anglais 1 (3h)', periode: 'Avril', resultats: 'Mai', description: '', order: 0 },
   { category: 'INP-HB', name: 'Concours GIN', ecole: 'ESI (École Supérieure d\'Industrie) — INP-HB Yamoussoukro', option: 'Mathématiques | Physique et Chimie | Sciences de l\'Ingénieur', filieres: 'STGI (→ EAI, MIP, PGE), STIC (→ EIT, INFO, TLR), ISEM', frais: '20 000 FCFA', composition: 'Écrit', matieres: 'Mathématiques 2 (5h), Informatique 1 (3h), Français 2 (3h), Anglais 2 (2h), Physique 1-2 (5h), Sciences Industrielles 1-2 (3h), Chimie 1-2 (3h)', periode: 'Avril', resultats: '', description: '', order: 1 },
   { category: 'INP-HB', name: 'Concours GCN', ecole: 'INP-HB Yamoussoukro + Université de San-Pedro (USP)', option: 'Mathématiques | Physique et Chimie | Sciences de l\'Ingénieur', filieres: 'GCTP (→ GCBU, GCHE, GCIT), GCGT, TCCN (USP), BTP (USP)', frais: '20 000 FCFA', composition: 'Écrit', matieres: 'Mathématiques 2 (5h), Informatique 1 (3h), Français 2 (3h), Anglais 2 (2h), Physique 1-2 (5h), Sciences Industrielles 1-2 (3h), Chimie 1-2 (3h)', periode: 'Avril', resultats: '', description: '', order: 2 },
@@ -63,22 +12,84 @@ const concours = [
   { category: 'Extérieur', name: 'FUI-FF', ecole: 'X-Polytechnique de Paris', option: '', filieres: '', frais: 'Gratuit jusqu\'à nouvel ordre', composition: 'Écrit, Oral et Entretien de motivation', matieres: 'Mathématiques, Physiques, Anglais et Français', periode: 'Début Mars', resultats: 'Avril/Mai', description: 'Loic Koné, Christ Dakou, etc. Ces étudiants ont, pas plus tard que l\'année dernière eu la chance de franchir les portes de l\'école polytechnique. Vous avez toutes vos chances. Dès maintenant, mettez vous au travail, vous serez la fierté de votre famille, de l\'INP-HB et de toute la nation ivoirienne.', order: 7 },
 ];
 
-export async function seedIfNeeded() {
-  const activitiesSnap = await getDocs(collection(db, 'activites'));
-  if (activitiesSnap.empty) {
-    for (const a of activities) {
-      await addDoc(collection(db, 'activites'), { ...a, createdAt: new Date() });
-    }
-    console.log('Activités seedées :', activities.length);
-  }
+let cachedConcours = [];
 
-  const concoursSnap = await getDocs(collection(db, 'concours'));
-  if (concoursSnap.empty) {
-    for (const c of concours) {
-      await addDoc(collection(db, 'concours'), { ...c, createdAt: new Date() });
-    }
-    console.log('Concours seedés :', concours.length);
-  }
+function esc(str) {
+  if (typeof str !== 'string') return '';
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  return str.replace(/[&<>"']/g, c => map[c]);
 }
 
-export { activities as seedActivities, concours as seedConcours };
+function renderCard(concours) {
+  const card = document.createElement('div');
+  card.className = 'concours-card';
+
+  let html = `<h4 class="concours-name">${esc(concours.name)}</h4>`;
+
+  if (concours.ecole) html += `<p class="concours-ecole"><strong>École :</strong> ${esc(concours.ecole)}</p>`;
+  if (concours.option) html += `<p class="concours-filiere"><strong>Option :</strong> ${esc(concours.option)}</p>`;
+  if (concours.filieres) html += `<p class="concours-filiere"><strong>Filières :</strong> ${esc(concours.filieres)}</p>`;
+  if (concours.frais) html += `<p class="concours-frais"><strong>Frais :</strong> ${esc(concours.frais)}</p>`;
+  if (concours.composition) html += `<p class="concours-composition"><strong>Composition :</strong> ${esc(concours.composition)}</p>`;
+  if (concours.matieres) html += `<p class="concours-matieres"><strong>Matières :</strong> ${esc(concours.matieres)}</p>`;
+  if (concours.periode) html += `<p class="concours-periode"><strong>Période :</strong> ${esc(concours.periode)}</p>`;
+  if (concours.resultats) html += `<p class="concours-resultats"><strong>Résultats :</strong> ${esc(concours.resultats)}</p>`;
+  if (concours.description) html += `<p class="concours-description">${esc(concours.description)}</p>`;
+
+  card.innerHTML = html;
+  return card;
+}
+
+function render() {
+  const container = document.getElementById('concours-container');
+  if (!container) return;
+
+  const data = cachedConcours.length ? cachedConcours : fallbackConcours;
+  const sorted = [...data].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  const categories = {};
+  sorted.forEach(c => {
+    if (!categories[c.category]) categories[c.category] = [];
+    categories[c.category].push(c);
+  });
+
+  container.innerHTML = '';
+
+  Object.entries(categories).forEach(([catName, concoursList]) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'concours-category';
+
+    const title = document.createElement('h3');
+    title.className = 'concours-category-title';
+    title.textContent = catName === 'INP-HB' ? 'Concours INP-HB' : 'Concours Extérieur';
+    wrapper.appendChild(title);
+
+    const grid = document.createElement('div');
+    grid.className = 'concours-grid';
+
+    concoursList.forEach(c => {
+      grid.appendChild(renderCard(c));
+    });
+
+    wrapper.appendChild(grid);
+    container.appendChild(wrapper);
+  });
+}
+
+async function loadFromFirestore() {
+  try {
+    const q = query(collection(db, 'concours'), orderBy('order'));
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      cachedConcours = snap.docs.map(d => ({ ...d.data() }));
+    }
+  } catch (e) {
+    console.warn('Firestore indisponible pour Concours, utilisation du fallback :', e.message);
+  }
+  render();
+}
+
+export function setupConcoursSection() {
+  render();
+  loadFromFirestore();
+}

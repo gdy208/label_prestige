@@ -1,0 +1,79 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helpers ──────────────────────────────────────────
+
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    function userData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isActive() {
+      return isAuth() && userData().active == true;
+    }
+
+    function posteLower() {
+      return isActive() ? userData().poste.lower() : '';
+    }
+
+    function isDeveloppeur() {
+      return posteLower() == 'developpeur';
+    }
+
+    function isPresident() {
+      let p = posteLower();
+      return p == 'président' || p == 'presidente'
+          || p.startsWith('président')
+          || p.startsWith('presidente');
+    }
+
+    function isPresidentOrDev() {
+      return isDeveloppeur() || isPresident();
+    }
+
+    // ─── Collections ──────────────────────────────────────
+
+    match /activites/{docId} {
+      allow read: if true;
+      allow create, update, delete: if isPresidentOrDev();
+    }
+
+    match /concours/{docId} {
+      allow read: if true;
+      allow create, update, delete: if isPresidentOrDev();
+    }
+
+    match /suggestions/{docId} {
+      allow read: if isActive();
+      allow create: if true;
+      allow update, delete: if isActive();
+    }
+
+    match /documents/{docId} {
+      allow read: if true;
+      allow create, update, delete: if isActive();
+    }
+
+    match /users/{uid} {
+      allow read: if isAuth() && (request.auth.uid == uid || isDeveloppeur());
+      allow write: if isAuth() && (
+        // dev can write everything
+        isDeveloppeur()
+        // président can toggle active
+        || (isPresident() && request.resource.data.keys().hasOnly(['active']))
+        // user can write their own (limited to non-role fields)
+        || (request.auth.uid == uid && request.resource.data.keys().hasOnly(['name', 'promotion']))
+      );
+    }
+
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if isPresidentOrDev();
+    }
+  }
+}

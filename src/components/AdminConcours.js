@@ -1,5 +1,5 @@
 import { db } from '../firebase.js';
-import { collection, getDocs, updateDoc, doc, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { openConcoursForm } from './ConcoursForm.js';
 
 let container = null;

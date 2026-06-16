@@ -132,6 +132,39 @@
   }
 }
 
+/* Admin Dashboard responsive */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .admin-tabs {
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 12px 12px 0;
+  }
+
+  .admin-tab {
+    font-size: 0.7rem;
+    padding: 8px 12px;
+  }
+
+  .admin-content {
+    padding: 16px;
+  }
+
+  .admin-serment-pulls {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-serment-pulls {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Hamburger animations */
 .hamburger-btn.active .bar:nth-child(1) {
   transform: translateY(7px) rotate(45deg);

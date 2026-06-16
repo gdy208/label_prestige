@@ -1,6 +1,6 @@
-import { db, storage, auth } from '../firebase.js';
+import { db, auth } from '../firebase.js';
 import { collection, getDocs, query, where, addDoc, deleteDoc, doc, Timestamp } from 'firebase/firestore';
-import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
+import { supabase } from '../supabase.js';
 import { createDocumentCard } from './DocumentCard.js';
 import { getState } from '../auth.js';
 
@@ -124,9 +124,6 @@ function createUploadForm() {
       <label class="doc-upload-label">Fichier (PDF)</label>
       <input type="file" class="doc-upload-input doc-upload-file" id="upload-file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.zip" />
     </div>
-    <div class="doc-upload-progress" id="upload-progress" style="display:none">
-      <div class="doc-progress-bar" id="progress-bar"><span id="progress-text">0%</span></div>
-    </div>
     <div class="doc-upload-actions">
       <button class="btn btn-gold" id="upload-submit" style="font-size:0.8rem">Téléverser</button>
       <button class="btn btn-outline" id="upload-cancel" style="font-size:0.8rem">Annuler</button>
@@ -166,47 +163,31 @@ async function handleUpload() {
   submitBtn.disabled = true;
   submitBtn.textContent = 'Téléversement...';
 
-  const progressContainer = document.getElementById('upload-progress');
-  progressContainer.style.display = 'block';
-
   try {
     const ext = file.name.split('.').pop();
     const safeName = `${name.replace(/[^a-zA-Z0-9_-]/g, '_')}_${Date.now()}.${ext}`;
-    const storagePath = `documents/${year}/${category}/${safeName}`;
-    const storageRef = ref(storage, storagePath);
+    const filePath = `${year}/${category}/${safeName}`;
 
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const { error: uploadError } = await supabase.storage
+      .from('documents')
+      .upload(filePath, file);
 
-    await new Promise((resolve, reject) => {
-      uploadTask.on('state_changed',
-        snapshot => {
-          const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          const bar = document.getElementById('progress-bar');
-          const txt = document.getElementById('progress-text');
-          bar.style.width = `${pct}%`;
-          txt.textContent = `${pct}%`;
-        },
-        error => reject(error),
-        async () => {
-          try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            await addDoc(collection(db, 'documents'), {
-              name,
-              type,
-              academicYear: year,
-              category,
-              storagePath: downloadURL,
-              storageRef: storagePath,
-              filename: file.name,
-              createdBy: user.uid,
-              createdAt: Timestamp.now(),
-            });
-            resolve();
-          } catch (err) {
-            reject(err);
-          }
-        }
-      );
+    if (uploadError) throw uploadError;
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('documents')
+      .getPublicUrl(filePath);
+
+    await addDoc(collection(db, 'documents'), {
+      name,
+      type,
+      academicYear: year,
+      category,
+      storagePath: publicUrl,
+      storageRef: filePath,
+      filename: file.name,
+      createdBy: user.uid,
+      createdAt: Timestamp.now(),
     });
 
     showNotification('Document téléversé avec succès !', 'success');
@@ -218,7 +199,6 @@ async function handleUpload() {
     showNotification("Erreur lors du téléversement. Vérifiez votre connexion et réessayez.", 'error');
     submitBtn.disabled = false;
     submitBtn.textContent = 'Téléverser';
-    document.getElementById('upload-progress').style.display = 'none';
   }
 }
 
@@ -227,11 +207,12 @@ async function handleDelete(docToDelete) {
 
   try {
     if (docToDelete.storageRef) {
-      try {
-        const storageRefObj = ref(storage, docToDelete.storageRef);
-        await deleteObject(storageRefObj);
-      } catch (storageErr) {
-        console.warn('Impossible de supprimer du Storage (fichier peut-être déjà effacé) :', storageErr);
+      const { error: removeError } = await supabase.storage
+        .from('documents')
+        .remove([docToDelete.storageRef]);
+
+      if (removeError) {
+        console.warn('Impossible de supprimer du Storage (fichier peut-être déjà effacé) :', removeError);
       }
     }
 

@@ -2,6 +2,8 @@ import { getState, subscribe } from '../auth.js';
 import { setupAdminActivities } from './AdminActivities.js';
 import { setupAdminConcours } from './AdminConcours.js';
 import { setupAdminMembers } from './AdminMembers.js';
+import { setupSuggestionList } from './SuggestionList.js';
+import { setupAdminSerment } from './AdminSerment.js';
 
 let overlay = null;
 let currentPoste = null;
@@ -12,6 +14,7 @@ const tabs = [
   { id: 'concours', label: 'Concours', requires: ['developpeur', 'président'] },
   { id: 'members', label: 'Membres', requires: ['developpeur'] },
   { id: 'suggestions', label: 'Suggestions' },
+  { id: 'serment', label: 'Serment Techno' },
 ];
 
 function posteMatches(poste, required) {
@@ -89,6 +92,7 @@ function selectTab(tabId) {
     concours: 'Gestion des Concours',
     members: 'Gestion des Membres',
     suggestions: 'Gestion des Suggestions',
+    serment: 'Gestion du Serment Techno',
   };
 
   content.innerHTML = `
@@ -103,6 +107,10 @@ function selectTab(tabId) {
     setupAdminConcours(panel);
   } else if (tabId === 'members') {
     setupAdminMembers(panel);
+  } else if (tabId === 'suggestions') {
+    setupSuggestionList(panel);
+  } else if (tabId === 'serment') {
+    setupAdminSerment(panel);
   }
 }
 

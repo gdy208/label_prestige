@@ -1,5 +1,5 @@
 import { db } from '../firebase.js';
-import { collection, addDoc, getDocs, updateDoc, doc as fDoc, query, where } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, doc as fDoc } from 'firebase/firestore';
 
 let overlay = null;
 let editingId = null;
@@ -42,26 +42,6 @@ function createModal() {
   document.getElementById('activity-form').addEventListener('submit', handleSubmit);
 }
 
-async function pickEnigme() {
-  const q = query(collection(db, 'enigmes'), where('used', '==', false));
-  const snap = await getDocs(q);
-
-  let docs = snap.docs;
-  if (docs.length === 0) {
-    const all = await getDocs(collection(db, 'enigmes'));
-    docs = all.docs;
-    for (const d of docs) {
-      await updateDoc(fDoc(db, 'enigmes', d.id), { used: false });
-    }
-  }
-
-  if (docs.length === 0) return { enigme: '', enigmeHint: '' };
-
-  const pick = docs[Math.floor(Math.random() * docs.length)];
-  await updateDoc(fDoc(db, 'enigmes', pick.id), { used: true });
-  return { id: pick.id, ...pick.data() };
-}
-
 async function handleSubmit(e) {
   e.preventDefault();
 
@@ -85,13 +65,10 @@ async function handleSubmit(e) {
     if (editingId) {
       await updateDoc(fDoc(db, 'activites', editingId), { date, title, description, order });
     } else {
-      const enigme = await pickEnigme();
       await addDoc(collection(db, 'activites'), {
         date,
         title,
         description,
-        enigme: enigme.enigme || '',
-        enigmeHint: enigme.enigmeHint || '',
         order,
         createdAt: new Date(),
       });
