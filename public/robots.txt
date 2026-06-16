@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gdy208.github.io/label_prestige/sitemap.xml
+Sitemap: https://label-website-cebde.web.app/sitemap.xml
