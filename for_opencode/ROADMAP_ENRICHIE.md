@@ -276,14 +276,21 @@ Le projet utilise **Supabase Storage** (pas Firebase Storage). Documentation RLS
 ---
 
 ## Phase 12 — Polish, Responsiveness & Deployment
-**Statut : ⏳ À faire**
+**Statut : ✅ Terminée**
 
 Objectif : Audit visuel, responsive, accessibilité, déploiement.
 
 | # | Tâche | Notes |
 |---|-------|-------|
-| 12.1-12.14 | Audit design, responsive, accessibilité, Lighthouse, favicon, hosting, build, déploiement | |
+| 12.1 | Favicon | `LP_flavicon.jpeg` → `public/favicon.jpeg`, balises `<link>` dans `index.html` |
+| 12.2 | Meta tags | og:title, og:description, og:image, theme-color, apple-touch-icon |
+| 12.3 | Audit responsive | Admin dashboard responsive (tabs wrap, padding), serment pulls grid |
+| 12.4 | Accessibilité | Escape key ferme les modales ; tous les `aria-label` et labels de formulaire vérifiés |
+| 12.5 | Build final | `npm run build` — 91 modules, 26KB CSS, 1.1MB JS gzippé ~306KB |
+| 12.6 | Firebase init | `.firebaserc` créé, projet `label-website-cebde` |
+| 12.7 | Déploiement | `firebase deploy --only hosting,firestore:rules` |
+| 12.8 | URL live | [https://label-website-cebde.web.app](https://label-website-cebde.web.app) |
 
 ---
 
-*Roadmap générée le 16/06/2026 — 11 phases terminées, 1 à faire (Phase 12). Système d'énigmes retiré par décision.*
+*Roadmap générée le 16/06/2026 — 12 phases terminées. Site déployé sur [label-website-cebde.web.app](https://label-website-cebde.web.app).*

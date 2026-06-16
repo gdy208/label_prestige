@@ -15,10 +15,10 @@ No testing, linting, typechecking, or formatter tooling configured. Assume none.
 - **Fonts**: Cinzel (display), Playfair Display (headings), Inter (body) — loaded via `<link>` in `index.html`
 - **Design tokens**: CSS custom properties in `src/styles/main.css` (gold #C9A34D, navy #0A0E1A, glass effects)
 
-## Project state — 11 phases done, 1 pending
-All components implemented.
+## Project state — 12 phases done, site live
+All components implemented. Site déployé sur Firebase Hosting.
 
-Pending: Phase 12 (polish/responsive/deploy).
+URL : https://label-website-cebde.web.app
 
 `firebase.json` and `firestore.rules` exist at root. No `.firebaserc` — Firebase used client-side only (Auth + Firestore). Storage via Supabase (bucket `documents`, public). `public/assets/fonts/` and `public/assets/images/` are empty directories.
 

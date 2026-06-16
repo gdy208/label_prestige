@@ -163,4 +163,4 @@ src/
 - [x] Phase 9: Document upload + delete (admin only)
 - [x] Phase 10: Suggestions form + admin dashboard
 - [x] Phase 11: Firebase Security Rules (firestore.rules, firebase.json, Supabase RLS doc)
-- [ ] Phase 12: Polish, responsiveness, deployment
+- [x] Phase 12: Polish, responsiveness, deployment
