@@ -5,7 +5,7 @@ import { setupAdminMembers } from './AdminMembers.js';
 import { setupSuggestionList } from './SuggestionList.js';
 import { setupAdminSerment } from './AdminSerment.js';
 import { db } from '../firebase.js';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, getDocs, collection } from 'firebase/firestore';
 
 let overlay = null;
 let currentPoste = null;
@@ -13,6 +13,7 @@ let currentTab = null;
 let devNote = '';
 
 const tabs = [
+  { id: 'overview', label: 'Vue d\'Ensemble' },
   { id: 'activities', label: 'Activités', requires: ['developpeur', 'président'] },
   { id: 'concours', label: 'Concours', requires: ['developpeur', 'président'] },
   { id: 'members', label: 'Membres', requires: ['developpeur'] },
@@ -104,12 +105,15 @@ function createDashboard() {
   overlay = document.createElement('div');
   overlay.className = 'admin-overlay';
   overlay.innerHTML = `
-    <div class="admin-dashboard">
-      <button class="admin-close" aria-label="Fermer">&times;</button>
-      <h2 class="admin-title">Panneau d'Administration</h2>
-      <div id="devnote-container"></div>
-      <div class="admin-tabs" id="admin-tabs"></div>
-      <div class="admin-content" id="admin-content"></div>
+    <div class="admin-dashboard" style="background:rgba(3,3,3,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.14);border-radius:24px;max-width:1300px;width:95%;max-height:92vh;overflow-y:auto;margin:auto;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1000;padding:0">
+      <button class="admin-close" style="position:absolute;top:16px;right:20px;background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.75rem;cursor:pointer;padding:4px 10px;line-height:1;z-index:10">&times;</button>
+      <div class="glass rounded-[1.75rem] p-8 md:p-10 m-8">
+        <p class="font-sans text-sm font-semibold uppercase tracking-[0.18em] text-[#d8b56d]">Interface connectée</p>
+        <h1 class="mt-6 font-heading text-4xl font-bold text-[#f7f2e8] md:text-5xl">Dashboard Admin</h1>
+      </div>
+      <div id="devnote-container" class="px-8 md:px-10"></div>
+      <div class="flex gap-2 px-8 md:px-10 pt-4 border-b border-white/5 overflow-x-auto" id="admin-tabs"></div>
+      <div class="flex-1 overflow-y-auto p-8 md:p-10" id="admin-content"></div>
     </div>
   `;
 
@@ -136,7 +140,7 @@ function renderTabs() {
   tabs.forEach(t => {
     if (!hasAccess(poste, t.requires)) return;
     const btn = document.createElement('button');
-    btn.className = 'admin-tab';
+    btn.className = 'px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#a9a9a9] bg-transparent border-b-2 border-transparent cursor-pointer transition-all duration-300 hover:text-[#d8b56d] whitespace-nowrap';
     btn.dataset.tab = t.id;
     btn.textContent = t.label;
     btn.addEventListener('click', () => selectTab(t.id));
@@ -145,7 +149,7 @@ function renderTabs() {
 }
 
 function selectTab(tabId) {
-  const tabBtn = document.querySelector(`.admin-tab[data-tab="${tabId}"]`);
+  const tabBtn = document.querySelector(`[data-tab="${tabId}"]`);
   if (!tabBtn) {
     const first = firstVisibleTab();
     if (first) return selectTab(first.id);
@@ -153,26 +157,23 @@ function selectTab(tabId) {
   }
 
   currentTab = tabId;
-  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
-  tabBtn.classList.add('active');
+  document.querySelectorAll('#admin-tabs [data-tab]').forEach(b => {
+    b.classList.remove('text-[#d8b56d]', 'border-[#d8b56d]');
+    b.classList.add('text-[#a9a9a9]', 'border-transparent');
+  });
+  tabBtn.classList.remove('text-[#a9a9a9]', 'border-transparent');
+  tabBtn.classList.add('text-[#d8b56d]', 'border-[#d8b56d]');
 
   const content = document.getElementById('admin-content');
 
-  const labels = {
-    activities: 'Gestion des Activités',
-    concours: 'Gestion des Concours',
-    members: 'Gestion des Membres',
-    suggestions: 'Gestion des Suggestions',
-    serment: 'Gestion du Serment Techno',
-  };
-
   content.innerHTML = `
-    <h3 class="admin-section-title">${labels[tabId] || ''}</h3>
     <div id="admin-${tabId}" class="admin-panel"></div>
   `;
 
   const panel = document.getElementById(`admin-${tabId}`);
-  if (tabId === 'activities') {
+  if (tabId === 'overview') {
+    renderOverview(panel);
+  } else if (tabId === 'activities') {
     setupAdminActivities(panel);
   } else if (tabId === 'concours') {
     setupAdminConcours(panel);
@@ -185,6 +186,51 @@ function selectTab(tabId) {
   }
 }
 
+function renderOverview(panel) {
+  panel.innerHTML = `
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-10">
+      <article class="glass rounded-3xl p-8 text-center">
+        <p class="font-display text-4xl font-bold text-[#f7f2e8]" id="stat-activities">-</p>
+        <p class="mt-4 font-sans text-sm font-semibold uppercase tracking-[0.16em] text-[#a9a9a9]">Activités</p>
+      </article>
+      <article class="glass rounded-3xl p-8 text-center">
+        <p class="font-display text-4xl font-bold text-[#f7f2e8]" id="stat-concours">-</p>
+        <p class="mt-4 font-sans text-sm font-semibold uppercase tracking-[0.16em] text-[#a9a9a9]">Concours</p>
+      </article>
+      <article class="glass rounded-3xl p-8 text-center">
+        <p class="font-display text-4xl font-bold text-[#f7f2e8]" id="stat-membres">-</p>
+        <p class="mt-4 font-sans text-sm font-semibold uppercase tracking-[0.16em] text-[#a9a9a9]">Membres</p>
+      </article>
+      <article class="glass rounded-3xl p-8 text-center">
+        <p class="font-display text-4xl font-bold text-[#f7f2e8]" id="stat-suggestions">-</p>
+        <p class="mt-4 font-sans text-sm font-semibold uppercase tracking-[0.16em] text-[#a9a9a9]">Suggestions</p>
+      </article>
+    </div>
+    <p class="text-sm text-[#a9a9a9] italic">Les statistiques se mettent à jour en temps réel.</p>
+  `;
+
+  loadStats();
+}
+
+async function loadStats() {
+  try {
+    const [actSnap, concSnap, memSnap, sugSnap] = await Promise.all([
+      getDocs(collection(db, 'activites')),
+      getDocs(collection(db, 'concours')),
+      getDocs(collection(db, 'users')),
+      getDocs(collection(db, 'suggestions')),
+    ]);
+
+    const el = id => document.getElementById(id);
+    if (el('stat-activities')) el('stat-activities').textContent = actSnap.size;
+    if (el('stat-concours')) el('stat-concours').textContent = concSnap.size;
+    if (el('stat-membres')) el('stat-membres').textContent = memSnap.size;
+    if (el('stat-suggestions')) el('stat-suggestions').textContent = sugSnap.size;
+  } catch (e) {
+    console.warn('Impossible de charger les stats :', e.message);
+  }
+}
+
 function close() {
   if (overlay) overlay.classList.remove('active');
 }
@@ -194,7 +240,7 @@ function open() {
   if (!overlay) createDashboard();
   overlay.classList.add('active');
   renderTabs();
-  const tabBtn = document.querySelector(`.admin-tab[data-tab="${currentTab}"]`);
+  const tabBtn = document.querySelector(`[data-tab="${currentTab}"]`);
   if (!tabBtn) {
     const first = firstVisibleTab();
     if (first) selectTab(first.id);
@@ -208,7 +254,7 @@ subscribe(state => {
     close();
   } else if (state.isAdmin && prevPoste !== state.poste && overlay?.classList.contains('active')) {
     renderTabs();
-    const tabBtn = document.querySelector(`.admin-tab[data-tab="${currentTab}"]`);
+    const tabBtn = document.querySelector(`[data-tab="${currentTab}"]`);
     if (!tabBtn) {
       const first = firstVisibleTab();
       if (first) selectTab(first.id);

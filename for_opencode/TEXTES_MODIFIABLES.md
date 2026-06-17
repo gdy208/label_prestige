@@ -32,7 +32,7 @@ Textes d'information à externaliser (JSON / CMS / config) pour permettre au cli
 | Champ | Valeur par défaut |
 |---|---|
 | Titre section | `Notre Histoire` |
-| Paragraphe 1 | *Le Label Prestige est une association d'élèves techno de l'INP-HB fondée avec pour mission de rassembler, représenter et accompagner les étudiants technologiques dans leur parcours académique et professionnel.* |
+| Paragraphe 1 | *Le Label Prestige est une association d'étudiants en classes préparatoires techno de l'INP-HB fondée avec pour mission de rassembler, représenter et accompagner les étudiants technologiques dans leur parcours académique et professionnel.* |
 | Paragraphe 2 | *Depuis sa création, l'association a su s'imposer comme un acteur majeur de la vie estudiantine à l'INP-HB, organisant des événements, des conférences et des activités qui renforcent la cohésion entre les étudiants et leur permettent de développer leurs compétences.* |
 | Paragraphe 3 | *Notre vision est de créer une communauté solidaire où chaque étudiant techno peut s'épanouir, progresser et contribuer au rayonnement de notre école et de notre pays.* |
 
@@ -72,7 +72,7 @@ Textes d'information à externaliser (JSON / CMS / config) pour permettre au cli
 | Champ | Exemple |
 |---|---|
 | École(s) | `ESCAE — INP-HB Yamoussoukro` |
-| Frais | `20.000 XOF` |
+| Frais | `12 000 FCFA` |
 | Composition | `Écrit uniquement` |
 | Matières | `Mathématiques 1, Culture générale, Anglais 1...` |
 | Période | `Avril` |

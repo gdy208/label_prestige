@@ -42,19 +42,19 @@ function render() {
   if (!container) return;
 
   container.innerHTML = `
-    <p style="color:var(--color-text-secondary);font-size:0.85rem;margin-bottom:16px">${members.length} membre(s)</p>
-    ${members.length === 0 ? '<p class="admin-placeholder">Aucun membre trouvé.</p>' : `
-    <div style="overflow-x:auto">
-      <table class="admin-table" id="members-table">
+    <p class="text-base text-[#9CA3AF] mb-6">${members.length} membre(s)</p>
+    ${members.length === 0 ? '<p class="text-center italic text-[#9CA3AF] py-16">Aucun membre trouvé.</p>' : `
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-sm" id="members-table">
         <thead>
           <tr>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Rôle</th>
-            <th>Poste</th>
-            <th>Promotion</th>
-            <th>Actif</th>
-            ${canEdit() ? '<th>Actions</th>' : ''}
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Nom</th>
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Email</th>
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Rôle</th>
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Poste</th>
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Promotion</th>
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Actif</th>
+            ${canEdit() ? '<th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Actions</th>' : ''}
           </tr>
         </thead>
         <tbody>
@@ -108,30 +108,30 @@ function renderRow(m) {
     <option value="super_admin" ${m.role === 'super_admin' ? 'selected' : ''}>super_admin</option>
   `;
 
-  const fieldStyle = 'padding:4px 6px;font-size:0.8rem;width:100%;min-width:120px;background:var(--color-navy);color:var(--color-text-primary);border:1px solid var(--color-glass-border);border-radius:var(--radius-button)';
+  const inputStyle = 'padding:6px 8px;font-size:0.85rem;width:100%;min-width:130px;background:#000;color:#FFFAF0;border:1px solid rgba(201,163,77,0.25);border-radius:6px';
 
   const actions = isDev
-    ? `<td><button class="btn btn-gold save-member" data-id="${m.id}" disabled style="font-size:0.7rem;padding:4px 10px">Sauvegarder</button></td>`
+    ? `<td class="px-4 py-3 border-b border-white/5"><button class="px-4 py-2 rounded text-[0.75rem] font-semibold bg-[#C9A34D]/20 text-[#C9A34D] hover:bg-[#C9A34D]/30 border-none cursor-pointer transition-all save-member" data-id="${m.id}" disabled>Sauvegarder</button></td>`
     : '';
 
   return `
-    <tr>
-      <td>${esc(m.name || '—')}</td>
-      <td>${esc(m.email || '—')}</td>
-      <td>${isDev
-        ? `<select class="member-role" style="${fieldStyle}">${roleOpts}</select>`
-        : `<span style="color:var(--color-text-secondary)">${esc(m.role || '—')}</span>`
+    <tr class="hover:bg-[#C9A34D]/5 transition-colors">
+      <td class="px-4 py-3 text-white border-b border-white/5">${esc(m.name || '—')}</td>
+      <td class="px-4 py-3 text-white border-b border-white/5">${esc(m.email || '—')}</td>
+      <td class="px-4 py-3 border-b border-white/5">${isDev
+        ? `<select class="member-role" style="${inputStyle}">${roleOpts}</select>`
+        : `<span class="text-[#9CA3AF]">${esc(m.role || '—')}</span>`
       }</td>
-      <td>${isDev
-        ? `<input type="text" class="member-field member-poste" value="${esc(m.poste || '')}" style="${fieldStyle}" placeholder="poste" />`
-        : `<span style="color:var(--color-text-secondary)">${esc(m.poste || '—')}</span>`
+      <td class="px-4 py-3 border-b border-white/5">${isDev
+        ? `<input type="text" class="member-field member-poste" value="${esc(m.poste || '')}" style="${inputStyle}" placeholder="poste" />`
+        : `<span class="text-[#9CA3AF]">${esc(m.poste || '—')}</span>`
       }</td>
-      <td>${isDev
-        ? `<input type="text" class="member-field member-promotion" value="${esc(m.promotion || '')}" style="${fieldStyle}" placeholder="promotion" />`
-        : `<span style="color:var(--color-text-secondary)">${esc(m.promotion || '—')}</span>`
+      <td class="px-4 py-3 border-b border-white/5">${isDev
+        ? `<input type="text" class="member-field member-promotion" value="${esc(m.promotion || '')}" style="${inputStyle}" placeholder="promotion" />`
+        : `<span class="text-[#9CA3AF]">${esc(m.promotion || '—')}</span>`
       }</td>
-      <td style="text-align:center">
-        <input type="checkbox" class="toggle-active" data-id="${m.id}" ${active ? 'checked' : ''} ${!canToggle() ? 'disabled' : ''} style="width:18px;height:18px;cursor:${canToggle() ? 'pointer' : 'default'};accent-color:var(--color-gold)" />
+      <td class="px-4 py-3 border-b border-white/5 text-center">
+        <input type="checkbox" class="toggle-active" data-id="${m.id}" ${active ? 'checked' : ''} ${!canToggle() ? 'disabled' : ''} style="width:18px;height:18px;cursor:${canToggle() ? 'pointer' : 'default'};accent-color:#C9A34D" />
       </td>
       ${actions}
     </tr>

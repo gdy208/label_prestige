@@ -54,7 +54,7 @@ Notre Histoire
 
 **Paragraphes :**
 ```
-Le Label Prestige est une association d'élèves techno de l'INP-HB fondée avec pour mission de rassembler, représenter et accompagner les étudiants technologiques dans leur parcours académique et professionnel.
+Le Label Prestige est une association d'étudiants en classes préparatoires techno de l'INP-HB fondée avec pour mission de rassembler, représenter et accompagner les étudiants technologiques dans leur parcours académique et professionnel.
 
 Depuis sa création, l'association a su s'imposer comme un acteur majeur de la vie estudiantine à l'INP-HB, organisant des événements, des conférences et des activités qui renforcent la cohésion entre les étudiants et leur permettent de développer leurs compétences.
 
@@ -357,7 +357,7 @@ Concours CAE
 École : ESCAE (École Supérieure de Commerce et d'Administration des Entreprises)
 Option : Mathématiques, Sciences de l'Ingénieur et Physique (CAE-MATHS)
 Filières : HEA-BF (Banque Finance et Assurance), ILT-SCM (Supply Chain Management)
-Frais : 20.000 XOF
+Frais : 20 000 FCFA
 Composition : Écrit uniquement
 Matières : Mathématiques 1, Culture générale (français, philosophie), Anglais 1
 Période : Avril
@@ -370,7 +370,7 @@ Concours GIN
 École : ESI (École Supérieure d'Industrie)
 Filières : STGI (→ EAI, MIP, PGE), STIC (→ EIT, INFO, TLR), ISEM
 Options : Mathématiques | Physique et Chimie | Sciences de l'Ingénieur
-Frais : 20.000 XOF
+Frais : 20 000 FCFA
 Composition : Écrit uniquement
 Matières : Mathématiques 2, Informatique 1, Français 2, Anglais 2, Physique 1/2, Sciences Industrielles 1/2, Chimie 1/2
 Période : Avril
@@ -382,7 +382,7 @@ Concours GCN (CCGIU)
 Écoles : INP-HB Yamoussoukro + Université de San-Pedro (USP)
 Filières : GCTP (→ GCBU, GCHE, GCIT), GCGT, TCCN (USP), BTP (USP)
 Options : Mathématiques | Physique et Chimie | Sciences de l'Ingénieur
-Frais : 20.000 XOF
+Frais : 20 000 FCFA
 Composition : Écrit uniquement
 Matières : Mathématiques 2, Informatique 1, Français 2, Anglais 2, Physique 1/2, Sciences Industrielles 1/2, Chimie 1/2
 Période : Avril
@@ -394,7 +394,7 @@ Concours A2GP
 Écoles : ESMG, ESA, ESPE (École Supérieure de Chimie, de Pétrole et d'Énergie)
 Options : Maths, Sciences de l'Ingénieur et Physique | Chimie
 Filières : TCCGP (→ GPI, FPF, GBP), TCMG (→ ETDE, MICA, PE)
-Frais : 20.000 XOF
+Frais : 20 000 FCFA
 Composition : Écrit uniquement
 Matières : Mathématiques 3, Informatique 1, Français 2, Anglais 2, Physique 3, Chimie 1/2
 Période : Avril
@@ -416,7 +416,7 @@ Contact : 27 30 64 66 99 / 05 84 14 42 42 / concours@inphb.ci
 ```
 Concours ISE-ECO
 Composition : Ecrit uniquement
-Frais de concours : 10.000 XOF
+Frais de concours : 10 000 FCFA
 Matières de composition : Mathématiques et Français
 Période de composition : Début Avril
 Annonce de résultats : Fin Juin
@@ -427,7 +427,7 @@ Description : L'actuariat, l'économie ou encore les statistiques. Si l'un de ce
 ```
 Concours ECC
 Composition : Etude de dossiers, Ecrit et Entretien de motivation
-Frais de concours : 12.000 XOF
+Frais de concours : 12 000 FCFA
 Matières de composition : Mathématiques, Physiques et Anglais
 Période de composition : Mai
 Annonce de résultats : Juin

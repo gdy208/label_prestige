@@ -4,11 +4,12 @@
 A luxury-branded promotional website for an academic/association audience. Key goals: showcase history and activities, provide a document library (public + admin upload), manage suggestions from users, and present a high-end visual identity with 3D canvas + particle effects.
 
 ## Tech stack
-- **Build**: Vite 8 (vanilla JS, ES modules)
+- **Build**: Vite 8 (vanilla JS, ES modules) — `@tailwindcss/vite` plugin
 - **Runtime**: Firebase 12 (Auth, Firestore, Storage)
 - **3D**: Three.js (low-poly floating geometry + particles), CSS gradient fallback on mobile/reduced-motion
 - **Fonts**: Cinzel (display), Playfair Display (headings), Inter (body)
 - **Hosting**: Firebase Hosting or Netlify/Vercel
+- **Tailwind v4 note**: Spacing/sizing/margin/padding utilities are **not generated in dev mode** by `@tailwindcss/vite`. Fixed with explicit CSS rules in `src/styles/main.css` (`.py-section`, `.px-section`, `.py-24`, `.px-4`, `.gap-*`, `.mt-*`, etc.). Text/color/flex/grid arbitrary-value classes (`text-[#f7f2e8]`, `bg-white/[0.07]`) do work in dev mode.
 
 ## Branding & typography
 - Theme: Luxury (gold/glass, glassmorphism, subtle motion)
@@ -16,19 +17,23 @@ A luxury-branded promotional website for an academic/association audience. Key g
 - Fonts: Cinzel (display/luxury), Playfair Display (headings), Inter (body)
 
 ## Navigation & layout
-- Fixed header with links: Histoire | Activités | Documents | Concours | Serment Techno | Suggestions
-- Hero section: branded title, subtitle, CTA button
+- Fixed header with links: Histoire | Activités | Documents | Concours | Cotisations | Suggestions
+- "Connexion" button in navbar: gold-gradient (`#f4d58d → #b99045`), `rounded-full`, black text, `h-11`, shadow glow, hover scale — same style as the hero CTA. No redundant "Accéder" button (Documents link covers it).
+- Mobile hamburger menu: same nav links + gold-gradient "Connexion" button (full width) + "Admin" / "Déconnexion" (conditional)
+- Hero section: branded title, subtitle, CTA button "Accéder aux Ressources" → `#documents`
 - Background: 3D canvas + particle effects (Three.js); CSS gradient fallback on mobile or prefers-reduced-motion
 - Responsive: collapsed mobile header, hamburger menu, simplified hero
 
 ## Sections
+Each content section uses `py-section` + `px-section` (128px vertical padding, 16px/32px horizontal responsive). Title-to-content gap: `64px` (`mt-16`).
+
 1. **Hero** — branded title, subtitle, CTA
-2. **Histoire** — Association mission & vision (3 paragraphs)
-3. **Activités** — Timeline roadmap with activity cards from Firestore. Future activities blurred (`filter: blur(8px)`). Admin login removes blur permanently.
+2. **Histoire** — Association mission & vision (3 paragraphs) in a glass card (`p-8 md:p-10`)
+3. **Activités** — Timeline roadmap with activity cards from Firestore. Future activities blurred (`filter: blur(8px)`). Admin login removes blur permanently. Timeline items gap: `24px` (`space-y-6`).
 4. **Documents** — "Base de Documents" modal/library with sidebar tree and document viewer
 5. **Concours** — Contest descriptions (CAE, GIN, GCN, A2GP + ISE-ECO, ECC, CCINP, FUI-FF)
 6. **Serment Techno** — Membership, commitments, payment/promo
-7. **Suggestions** — Public suggestion form + live preview; admin dashboard for management
+7. **Suggestions** — Public suggestion form + live preview; admin dashboard for management. Category `<select>` uses `bg-[#111]` background and `<option style="background:#111;color:#f7f2e8">` to avoid white-on-white OS-native dropdown.
 
 ## Authentication & Permissions
 
@@ -71,12 +76,22 @@ Les droits sont gérés par le champ **`poste`** (pas `role`). Le `role` est un 
 - Le nom et la catégorie (INP-HB / Extérieur) sont requis à la création ; `order` est auto-incrémenté
 
 ## Admin Dashboard
-- `AdminDashboard.js` : hub central accessible via bouton "Panneau d'Administration" dans le header (visible si connecté)
+- `AdminDashboard.js` : hub central accessible via bouton "Panneau d'Administration" dans le header (visible si connecté) ou depuis l'URL `/admin`
+- **UI spacieuse** (v2 post-déploiement) :
+  - Modale : `max-width: 1300px`, `max-height: 92vh`, fond `rgba(3,3,3,0.96)` + `backdrop-filter: blur(20px)`
+  - Header carte : `p-8 md:p-10 m-8`, label "Interface connectée" en `text-sm`, titre "Dashboard Admin" en `text-4xl md:text-5xl`
+  - Barre d'onglets : `px-8 md:px-10 pt-4 gap-2`, boutons `px-6 py-3 text-sm` (plus grands, navigation aisée)
+  - Zone de contenu : `p-8 md:p-10`
+  - Tableaux : en-têtes `px-4 py-3 text-[0.75rem]`, cellules `px-4 py-3`, boutons d'action `px-4 py-2 text-[0.75rem]`
+  - Vue d'ensemble : 4 cartes stats `p-8 gap-6 sm:grid-cols-2 lg:grid-cols-4`
+  - Suggestions (admin) : cartes stats `padding:24px`, items `padding:20px gap:16px`, filtres `padding:8px 18px gap:8px`
 - Onglets :
-  - **Activités** : visible si `poste` matche `developpeur` ou `président`
-  - **Concours** : visible si `poste` matche `developpeur` ou `président`
-  - **Membres** : visible si `poste === "developpeur"`
-  - **Suggestions** : visible pour tout admin connecté
+  - **Vue d'Ensemble** (par défaut) : stats temps réel (activités, concours, membres, suggestions)
+  - **Activités** : visible si `poste` matche `developpeur` ou `président` — tableau CRUD
+  - **Concours** : visible si `poste` matche `developpeur` ou `président` — tableau + formulaire
+  - **Membres** : visible si `poste === "developpeur"` — tableau avec inline editing
+  - **Suggestions** : visible pour tout admin connecté — stats, filtres, marquer lu/supprimer
+  - **Serment Techno** : configuration téléphones + upload photos pull
 - Matching flexible des postes : `"presidente_24"` match `"président"` (startsWith insensible à la casse et aux accents)
 
 ## Members management
@@ -141,9 +156,11 @@ src/
     LoginForm.js
     AdminDashboard.js
     AdminActivities.js
+    ActivityForm.js
     AdminConcours.js
     ConcoursForm.js
     AdminMembers.js
+    AdminSerment.js
     SuggestionsForm.js
     SuggestionList.js
     ScrollAnimations.js
@@ -164,3 +181,8 @@ src/
 - [x] Phase 10: Suggestions form + admin dashboard
 - [x] Phase 11: Firebase Security Rules (firestore.rules, firebase.json, Supabase RLS doc)
 - [x] Phase 12: Polish, responsiveness, deployment
+  - Post-deployment UI improvements: section padding 96px → 128px, gap/title spacing increased, glass cards more spacious
+  - Navbar cleanup: removed redundant "Accéder" CTA, "Connexion" restyled as gold-gradient rounded button
+  - Admin dashboard: modal widened (1300px), tabs/tables/cards spaced out for easier navigation
+  - Suggestions dropdown: fixed white-on-white OS-native `<option>` with explicit `background:#111;color:#f7f2e8`
+  - Tailwind v4 dev-mode spacing gap documented + CSS fallback classes added to `main.css`

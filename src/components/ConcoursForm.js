@@ -25,41 +25,42 @@ const dataFields = [
 
 function fieldHTML(f, value) {
   const val = esc(value || '');
+  const baseStyle = 'width:100%;padding:12px 16px;font-family:Inter,sans-serif;font-size:0.95rem;color:#FFFAF0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;outline:none;transition:border-color 0.2s';
   if (f.type === 'textarea') {
-    return `<textarea id="cf-${f.key}" rows="3" style="width:100%;padding:10px 14px;font-family:var(--font-body);font-size:0.95rem;color:var(--color-text-primary);background:rgba(255,255,255,0.05);border:1px solid var(--color-glass-border);border-radius:var(--radius-button);outline:none;resize:vertical">${val}</textarea>`;
+    return `<textarea id="cf-${f.key}" rows="3" style="${baseStyle};resize:vertical">${val}</textarea>`;
   }
   if (f.type === 'select') {
     const opts = (f.options || []).map(o =>
       `<option value="${esc(o)}"${o === value ? ' selected' : ''}>${esc(o)}</option>`
     ).join('');
-    return `<select id="cf-${f.key}" style="width:100%;padding:10px 14px;font-family:var(--font-body);font-size:0.95rem;color:var(--color-text-primary);background:rgba(255,255,255,0.05);border:1px solid var(--color-glass-border);border-radius:var(--radius-button);outline:none">${opts}</select>`;
+    return `<select id="cf-${f.key}" style="${baseStyle}">${opts}</select>`;
   }
-  return `<input type="text" id="cf-${f.key}" value="${val}" style="width:100%;padding:10px 14px;font-family:var(--font-body);font-size:0.95rem;color:var(--color-text-primary);background:rgba(255,255,255,0.05);border:1px solid var(--color-glass-border);border-radius:var(--radius-button);outline:none" />`;
+  return `<input type="text" id="cf-${f.key}" value="${val}" style="${baseStyle}" />`;
 }
 
 function createModal(concours, isNew) {
   overlay = document.createElement('div');
   overlay.className = 'login-modal-overlay';
   overlay.innerHTML = `
-    <div class="login-modal" style="max-width:600px;max-height:85vh;overflow-y:auto">
-      <button class="login-modal-close" aria-label="Fermer">&times;</button>
-      <h2 class="login-modal-title">${isNew ? 'Ajouter un concours' : 'Modifier : ' + esc(concours.name)}</h2>
+    <div class="login-modal" style="background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(201,163,77,0.2);border-radius:16px;padding:40px;max-width:600px;max-height:85vh;overflow-y:auto;width:90%;position:relative">
+      <button class="login-modal-close" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1">&times;</button>
+      <h2 class="login-modal-title" style="font-family:Playfair Display,serif;font-size:1.5rem;color:#C9A34D;margin-bottom:24px;text-align:center">${isNew ? 'Ajouter un concours' : 'Modifier : ' + esc(concours.name)}</h2>
       <form id="concours-form">
         ${infoFields.map(f => `
-          <div class="login-field">
-            <label for="cf-${f.key}">${f.label}</label>
+          <div class="login-field" style="margin-bottom:16px">
+            <label for="cf-${f.key}" style="display:block;font-size:0.8rem;color:rgba(255,255,255,0.6);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em">${f.label}</label>
             ${fieldHTML(f, isNew ? '' : concours[f.key])}
           </div>
         `).join('')}
-        <hr style="border:none;border-top:1px solid var(--color-glass-border);margin:16px 0" />
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08);margin:20px 0" />
         ${dataFields.map(f => `
-          <div class="login-field">
-            <label for="cf-${f.key}">${f.label}</label>
+          <div class="login-field" style="margin-bottom:16px">
+            <label for="cf-${f.key}" style="display:block;font-size:0.8rem;color:rgba(255,255,255,0.6);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em">${f.label}</label>
             ${fieldHTML(f, isNew ? '' : concours[f.key])}
           </div>
         `).join('')}
-        <p class="login-error" id="cf-error"></p>
-        <button type="submit" class="btn btn-gold login-submit">Enregistrer</button>
+        <p class="login-error" id="cf-error" style="color:#ef4444;font-size:0.85rem;margin-bottom:12px;text-align:center"></p>
+        <button type="submit" class="login-submit" style="width:100%;padding:12px 24px;font-size:0.95rem;font-weight:600;color:#000;background:linear-gradient(135deg,#C9A34D,#A8882D);border:none;border-radius:8px;cursor:pointer;transition:opacity 0.2s">Enregistrer</button>
       </form>
     </div>
   `;
@@ -113,7 +114,13 @@ async function handleSubmit(e) {
 }
 
 function close() {
-  if (overlay) overlay.classList.remove('active');
+  if (overlay) {
+    overlay.remove();
+    overlay = null;
+    editingId = null;
+    editingData = null;
+    onSubmit = null;
+  }
 }
 
 function open(concours, cb) {

@@ -1,6 +1,6 @@
 # Roadmap Enrichie — Label Prestige Promotional Website
 
-> Dernière mise à jour : 16/06/2026 (Phase 10 — Suggestions ; Phase 11 — Security Rules)
+> Dernière mise à jour : 17/06/2026 (Phase 12 — Polish, Responsiveness & Deployment)
 > Les textes du site sont définis dans `CARTOGRAPHIE_TEXTE.md` et `TEXTES_MODIFIABLES.md`.
 
 ---
@@ -227,7 +227,7 @@ Objectif : Upload/suppression de documents par les membres connectés.
 ---
 
 ## Phase 10 — Suggestions System
-**Statut : ⏳ À faire**
+**Statut : ✅ Terminée**
 
 Objectif : Formulaire public de suggestions + dashboard admin.
 
@@ -293,4 +293,4 @@ Objectif : Audit visuel, responsive, accessibilité, déploiement.
 
 ---
 
-*Roadmap générée le 16/06/2026 — 12 phases terminées. Site déployé sur [label-website-cebde.web.app](https://label-website-cebde.web.app).*
+*Roadmap générée le 17/06/2026 — 12 phases terminées. Site déployé sur [label-website-cebde.web.app](https://label-website-cebde.web.app).*

@@ -28,29 +28,29 @@ function render() {
   if (!container) return;
 
   container.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <span style="color:var(--color-text-secondary);font-size:0.85rem">${concoursList.length} concours</span>
-      <button class="btn btn-gold" id="add-concours-btn" style="font-size:0.75rem;padding:8px 16px">+ Ajouter</button>
+    <div class="flex justify-between items-center mb-6">
+      <span class="text-base text-[#9CA3AF]">${concoursList.length} concours</span>
+      <button class="px-5 py-2.5 rounded-lg bg-[#C9A34D] text-black text-sm font-bold uppercase tracking-wider hover:shadow-[0_0_15px_rgba(201,163,77,0.3)] transition-all cursor-pointer border-none" id="add-concours-btn">+ Ajouter</button>
     </div>
-    ${concoursList.length === 0 ? '<p class="admin-placeholder">Aucun concours.</p>' : `
-    <div style="overflow-x:auto">
-      <table class="admin-table">
+    ${concoursList.length === 0 ? '<p class="text-center italic text-[#9CA3AF] py-16">Aucun concours.</p>' : `
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-sm">
         <thead>
           <tr>
-            <th>Ordre</th>
-            <th>Catégorie</th>
-            <th>Nom</th>
-            <th>Modifier</th>
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Ordre</th>
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Catégorie</th>
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Nom</th>
+            <th class="text-left px-4 py-3 font-semibold uppercase tracking-wider text-[0.75rem] text-[#C9A34D] border-b border-[#C9A34D]/10">Actions</th>
           </tr>
         </thead>
         <tbody>
           ${concoursList.map(c => `
-            <tr>
-              <td>${c.order}</td>
-              <td>${esc(c.category)}</td>
-              <td>${esc(c.name)}</td>
-              <td>
-                <button class="btn btn-outline-gold edit-concours" data-id="${c.id}" style="font-size:0.7rem;padding:4px 10px">Modifier</button>
+            <tr class="hover:bg-[#C9A34D]/5 transition-colors">
+              <td class="px-4 py-3 text-white border-b border-white/5">${c.order}</td>
+              <td class="px-4 py-3 text-white border-b border-white/5">${esc(c.category)}</td>
+              <td class="px-4 py-3 text-white border-b border-white/5">${esc(c.name)}</td>
+              <td class="px-4 py-3 border-b border-white/5">
+                <button class="px-4 py-2 rounded text-[0.75rem] font-semibold bg-[#C9A34D]/20 text-[#C9A34D] hover:bg-[#C9A34D]/30 border-none cursor-pointer transition-all edit-concours" data-id="${c.id}">Modifier</button>
               </td>
             </tr>
           `).join('')}

@@ -80,8 +80,8 @@ function render() {
               <h4 class="suggestion-item-title">${esc(s.title)}</h4>
               <p class="suggestion-item-desc">${esc(s.description)}</p>
               <div class="suggestion-item-actions">
-                ${s.status === 'unread' ? `<button class="btn btn-outline-gold mark-read-btn" style="font-size:0.7rem;padding:4px 10px">Marquer comme lu</button>` : ''}
-                <button class="btn btn-outline delete-sug-btn" style="font-size:0.7rem;padding:4px 10px">Supprimer</button>
+                ${s.status === 'unread' ? `<button class="btn btn-outline-gold mark-read-btn" style="font-size:0.75rem;padding:6px 14px">Marquer comme lu</button>` : ''}
+                <button class="btn btn-outline delete-sug-btn" style="font-size:0.75rem;padding:6px 14px">Supprimer</button>
               </div>
             </div>
           `).join('')}
