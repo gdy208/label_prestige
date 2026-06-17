@@ -36,6 +36,22 @@ pnpm-debug.log*
 lerna-debug.log*
 *.log
 
+# Playwright test artifacts
+.playwright-mcp/
+
+# Old project directories
+label-prestige-redesign/
+label-prestige-redesign-v2/
+
+# Session notes / personal files
+*derniere session*
+session_build_label*
+*session*.md
+
+# Backups
+*.bak
+*.backup
+
 # Firebase CLI artifacts
 .firebase/
 firebase-debug.log
