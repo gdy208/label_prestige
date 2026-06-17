@@ -41,13 +41,16 @@ function render() {
           <label for="serment-phone2-input">Numéro 2</label>
           <input type="text" id="serment-phone2-input" class="admin-serment-input" value="${esc(currentData.phone2 || '')}" placeholder="ex: +225 0710019161" />
         </div>
-        <button class="btn btn-gold" id="serment-save-phones" style="font-size:0.8rem;padding:8px 20px">Sauvegarder les numéros</button>
+        <button id="serment-save-phones" style="font-size:0.85rem;padding:10px 24px;border:none;border-radius:8px;background:#C9A34D;color:#000;font-weight:700;cursor:pointer;transition:all 0.3s">Sauvegarder les numéros</button>
         <p class="login-error" id="serment-phones-error"></p>
       </div>
     </div>
   `;
 
-  document.getElementById('serment-save-phones')?.addEventListener('click', savePhones);
+  const saveBtn = document.getElementById('serment-save-phones');
+  saveBtn?.addEventListener('click', savePhones);
+  saveBtn?.addEventListener('mouseenter', () => { saveBtn.style.boxShadow = '0 0 15px rgba(201,163,77,0.3)'; });
+  saveBtn?.addEventListener('mouseleave', () => { saveBtn.style.boxShadow = 'none'; });
 }
 
 async function savePhones() {
