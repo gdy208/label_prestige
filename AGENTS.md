@@ -9,7 +9,7 @@ npm run preview  # Preview production build
 ```
 
 **GitHub Pages** : https://labelprestigeoff.github.io/label_prestige/
-Déploiement auto via `.github/workflows/deploy.yml` — push sur `master` → build `:gh` → push sur `gh-pages`.
+Déploiement manuel : `npm run build:gh && rm -rf docs && cp -r dist docs`
 Le `base` est défini via `BASE_URL` dans `vite.config.js`. Pour un build local :
 ```bash
 BASE_URL=/label_prestige/ npm run build
