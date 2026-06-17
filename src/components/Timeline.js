@@ -2,6 +2,9 @@ import { db } from '../firebase.js';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { getState, subscribe } from '../auth.js';
 
+let mobileView = 'collapsed';
+let autoSlideTimer = null;
+
 const fallbackActivities = [
   { date: 'Septembre 2025', title: 'Rentrée Académique', description: "Favoriser la cohésion et l'intégration des nouveaux étudiants.", order: 0 },
   { date: '8 Novembre 2025', title: 'Réunion avec les P2', description: 'Échanges et coordination avec les étudiants de deuxième année.', order: 1 },
@@ -52,6 +55,11 @@ function renderTimeline(isAdmin) {
   const container = document.getElementById('timeline-container');
   if (!container) return;
 
+  if (window.innerWidth < 768) {
+    renderMobile(container, isAdmin);
+    return;
+  }
+
   const data = cachedActivities.length ? cachedActivities : fallbackActivities;
   const sorted = [...data].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
@@ -94,6 +102,94 @@ function renderTimeline(isAdmin) {
     card.appendChild(div);
     container.appendChild(card);
   });
+}
+
+function esc(str) {
+  if (typeof str !== 'string') return '';
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  return str.replace(/[&<>"']/g, c => map[c]);
+}
+
+function renderMobile(container, isAdmin) {
+  if (mobileView === 'carousel') {
+    renderMobileCarousel(container, isAdmin);
+  } else {
+    renderMobileCollapsed(container);
+  }
+}
+
+function renderMobileCollapsed(container) {
+  container.innerHTML = `
+    <div class="text-center mt-8">
+      <button class="mobile-collapse-btn" id="show-activities-btn">Voir les activités</button>
+    </div>
+  `;
+  document.getElementById('show-activities-btn')?.addEventListener('click', () => {
+    mobileView = 'carousel';
+    renderTimeline(getState().isAdmin);
+  });
+}
+
+function renderMobileCarousel(container, isAdmin) {
+  const data = cachedActivities.length ? cachedActivities : fallbackActivities;
+  const sorted = [...data].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  const isFuture = (dateStr) => parseActivityDate(dateStr) > new Date();
+
+  container.innerHTML = `
+    <div class="activity-carousel-wrapper">
+      <div class="activity-carousel" id="activity-carousel">
+        ${sorted.map((a, i) => {
+          const future = isFuture(a.date);
+          return `
+            <article class="activity-carousel-card glass rounded-3xl p-6${future ? ' opacity-60 blur-sm' : ''}" style="animation-delay:${i * 0.08}s">
+              <p class="font-display text-xl font-bold text-[#d8b56d]">${getMonth(a.date)}</p>
+              ${future ? '<span class="inline-block text-[0.65rem] font-semibold uppercase tracking-wider px-2 py-1 rounded mt-2 bg-[#d8b56d]/20 text-[#d8b56d]">À Venir</span>' : ''}
+              <h3 class="font-heading text-xl font-bold text-[#f7f2e8] mt-2">${esc(a.title || '')}</h3>
+              <p class="mt-2 font-sans text-sm leading-7 text-[#a9a9a9]">${esc(a.description || '')}</p>
+            </article>
+          `;
+        }).join('')}
+      </div>
+      <div class="text-center mt-6">
+        <button class="mobile-collapse-btn" id="close-carousel-btn">Fermer</button>
+      </div>
+    </div>
+  `;
+
+  startAutoSlide();
+
+  document.getElementById('close-carousel-btn')?.addEventListener('click', () => {
+    mobileView = 'collapsed';
+    stopAutoSlide();
+    renderTimeline(getState().isAdmin);
+  });
+}
+
+function startAutoSlide() {
+  stopAutoSlide();
+  const carousel = document.getElementById('activity-carousel');
+  if (!carousel) return;
+
+  autoSlideTimer = setInterval(() => {
+    const card = carousel.querySelector('.activity-carousel-card');
+    if (!card) return;
+    const step = card.offsetWidth + 16;
+    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+
+    if (carousel.scrollLeft >= maxScroll - 5) {
+      carousel.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      carousel.scrollTo({ left: Math.min(carousel.scrollLeft + step, maxScroll), behavior: 'smooth' });
+    }
+  }, 3500);
+}
+
+function stopAutoSlide() {
+  if (autoSlideTimer) {
+    clearInterval(autoSlideTimer);
+    autoSlideTimer = null;
+  }
 }
 
 async function loadFromFirestore() {

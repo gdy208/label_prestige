@@ -1,6 +1,8 @@
 import { db } from '../firebase.js';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
+let mobileView = 'collapsed';
+
 const fallbackConcours = [
   { category: 'INP-HB', name: 'Concours CAE', ecole: 'ESCAE (École Supérieure de Commerce et d\'Administration des Entreprises) — INP-HB Yamoussoukro', option: 'Mathématiques, Sciences de l\'Ingénieur et Physique (CAE-MATHS)', filieres: 'HEA-BF, ILT-SCM', frais: '20 000 FCFA (+ 3 000 FCFA frais dossier + 1 000 FCFA photo)', composition: 'Écrit', matieres: 'Mathématiques 1 (3h), Culture générale — français, philosophie (3h), Anglais 1 (3h)', periode: 'Avril', resultats: 'Mai', description: '', order: 0 },
   { category: 'INP-HB', name: 'Concours GIN', ecole: 'ESI (École Supérieure d\'Industrie) — INP-HB Yamoussoukro', option: 'Mathématiques | Physique et Chimie | Sciences de l\'Ingénieur', filieres: 'STGI (→ EAI, MIP, PGE), STIC (→ EIT, INFO, TLR), ISEM', frais: '20 000 FCFA', composition: 'Écrit', matieres: 'Mathématiques 2 (5h), Informatique 1 (3h), Français 2 (3h), Anglais 2 (2h), Physique 1-2 (5h), Sciences Industrielles 1-2 (3h), Chimie 1-2 (3h)', periode: 'Avril', resultats: '', description: '', order: 1 },
@@ -55,6 +57,11 @@ function render() {
   const container = document.getElementById('concours-container');
   if (!container) return;
 
+  if (window.innerWidth < 768) {
+    renderMobile(container);
+    return;
+  }
+
   const data = cachedConcours.length ? cachedConcours : fallbackConcours;
   const sorted = [...data].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
@@ -68,6 +75,53 @@ function render() {
   });
 
   container.appendChild(grid);
+}
+
+function renderMobile(container) {
+  if (mobileView === 'page') {
+    renderMobilePage(container);
+  } else {
+    renderMobileCollapsed(container);
+  }
+}
+
+function renderMobileCollapsed(container) {
+  container.innerHTML = `
+    <div class="text-center mt-8">
+      <button class="mobile-collapse-btn" id="show-concours-btn">Explorer les concours</button>
+    </div>
+  `;
+  document.getElementById('show-concours-btn')?.addEventListener('click', () => {
+    mobileView = 'page';
+    render();
+  });
+}
+
+function renderMobilePage(container) {
+  const data = cachedConcours.length ? cachedConcours : fallbackConcours;
+  const sorted = [...data].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+  container.innerHTML = '';
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'concours-page';
+
+  sorted.forEach(c => {
+    wrapper.appendChild(renderCard(c));
+  });
+
+  const backBtn = document.createElement('button');
+  backBtn.className = 'mobile-collapse-btn';
+  backBtn.textContent = 'Retour';
+  backBtn.style.margin = '32px auto 0';
+  backBtn.style.display = 'block';
+  backBtn.addEventListener('click', () => {
+    mobileView = 'collapsed';
+    render();
+  });
+  wrapper.appendChild(backBtn);
+
+  container.appendChild(wrapper);
 }
 
 async function loadFromFirestore() {

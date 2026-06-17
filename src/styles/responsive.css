@@ -8,3 +8,69 @@
     font-size: 1.05rem;
   }
 }
+
+/* Mobile collapse button */
+.mobile-collapse-btn {
+  display: inline-block;
+  padding: 14px 36px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f4d58d, #b99045);
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 18px 60px rgba(216,181,109,0.22);
+}
+
+.mobile-collapse-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 22px 70px rgba(216,181,109,0.32);
+}
+
+/* Activity carousel */
+.activity-carousel-wrapper {
+  width: 100%;
+}
+
+.activity-carousel {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 8px 4px;
+}
+
+.activity-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.activity-carousel-card {
+  flex: 0 0 85vw;
+  scroll-snap-align: start;
+  animation: slideIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Concours page */
+.concours-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
