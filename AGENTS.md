@@ -9,7 +9,7 @@ npm run preview  # Preview production build
 ```
 
 **GitHub Pages** : https://labelprestigeoff.github.io/label_prestige/
-Se déclenche en pushant sur `master` (GitHub Actions ou manuel).
+Déploiement auto via `.github/workflows/deploy.yml` — push sur `master` → build `:gh` → push sur `gh-pages`.
 Le `base` est défini via `BASE_URL` dans `vite.config.js`. Pour un build local :
 ```bash
 BASE_URL=/label_prestige/ npm run build
@@ -29,7 +29,7 @@ All components implemented. Site déployé sur Firebase Hosting.
 
 URL : https://label-website-cebde.web.app
 
-`firebase.json` and `firestore.rules` exist at root. No `.firebaserc` — Firebase used client-side only (Auth + Firestore). Storage via Supabase (bucket `documents`, public). `public/assets/fonts/` and `public/assets/images/` are empty directories.
+`firebase.json` and `firestore.rules` exist at root. No `.firebaserc` — Firebase used client-side only (Auth + Firestore). Storage via Supabase (bucket `documents`, public). `public/assets/fonts/` is empty (fonts from CDN). `public/assets/images/serment/` has local serment photos.
 
 ## Architecture
 Each component is a pure JS module exporting a `setup*()` function. No framework — direct DOM manipulation via `querySelector`/`innerHTML`/template literals. All overlays inject into `<div id="modal-root">`.
@@ -39,7 +39,7 @@ Each component is a pure JS module exporting a `setup*()` function. No framework
 - `src/auth.js` — Firebase Auth pub/sub store
 - `src/firebase.js` — Firebase init (Auth, Firestore)
 - `src/seed.js` — Auto-seeds Firestore collections if empty
-- `src/components/AdminSerment.js` — Serment config panel (phones + pull image upload)
+- `src/components/AdminSerment.js` — Serment config panel (phones only)
 - `src/components/SermentSection.js` — Dynamic serment section rendering (Firestore + real-time)
 
 ### Entrypoint

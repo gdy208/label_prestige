@@ -42,7 +42,7 @@
   <div id="canvas-container"></div>
 
   <!-- Navbar v2 -->
-  <header class="sticky top-4 z-50 mx-auto w-full max-w-7xl px-4" style="pointer-events:none">
+  <header class="sticky top-4 z-[65] mx-auto w-full max-w-7xl px-4" style="pointer-events:none">
     <nav class="glass flex items-center justify-between rounded-full px-5 py-4 md:px-8" style="pointer-events:auto">
       <a href="#" class="flex items-center gap-3 no-underline">
         <span class="text-[#d8b56d] text-lg">◆</span>
@@ -68,6 +68,7 @@
   </header>
   <!-- Mobile Nav Overlay -->
   <div id="mobile-nav-overlay" class="glass" style="display:none;position:fixed;top:0;right:0;width:250px;height:100vh;z-index:55;padding:80px 32px 32px;border-radius:0">
+    <button id="mobile-close-btn" aria-label="Fermer le menu" style="position:absolute;top:20px;right:20px;background:none;border:none;cursor:pointer;color:#f7f2e8;font-size:24px;line-height:1;padding:4px;z-index:1">✕</button>
     <a href="#histoire" class="nav-link block font-sans text-sm font-semibold uppercase tracking-[0.16em] text-[#a9a9a9] no-underline transition hover:text-[#f7f2e8]" style="margin-bottom:20px">Histoire</a>
     <a href="#activites" class="nav-link block font-sans text-sm font-semibold uppercase tracking-[0.16em] text-[#a9a9a9] no-underline transition hover:text-[#f7f2e8]" style="margin-bottom:20px">Activités</a>
     <a href="#documents" class="nav-link block font-sans text-sm font-semibold uppercase tracking-[0.16em] text-[#a9a9a9] no-underline transition hover:text-[#f7f2e8]" style="margin-bottom:20px">Documents</a>

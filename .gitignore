@@ -52,6 +52,10 @@ session_build_label*
 *.bak
 *.backup
 
+# OpenCode AI assistant (local config)
+.opencode/
+opencode.json
+
 # Firebase CLI artifacts
 .firebase/
 firebase-debug.log

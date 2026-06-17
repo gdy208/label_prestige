@@ -31,7 +31,7 @@ export function setupHeader() {
   const adminBtns = [document.getElementById('admin-btn'), document.getElementById('mobile-admin-btn')];
   const logoutBtns = [document.getElementById('logout-btn'), document.getElementById('mobile-logout-btn')];
 
-  loginBtns.forEach(btn => { if (btn) btn.addEventListener('click', openLoginModal); });
+  loginBtns.forEach(btn => { if (btn) btn.addEventListener('click', () => { closeMobileNav(); openLoginModal(); }); });
   logoutBtns.forEach(btn => {
     if (btn) btn.addEventListener('click', async () => {
       try {
@@ -40,9 +40,10 @@ export function setupHeader() {
       } catch (err) {
         console.error('Erreur déconnexion :', err);
       }
+      closeMobileNav();
     });
   });
-  adminBtns.forEach(btn => { if (btn) btn.addEventListener('click', openAdminDashboard); });
+  adminBtns.forEach(btn => { if (btn) btn.addEventListener('click', () => { closeMobileNav(); openAdminDashboard(); }); });
 
   const hamburger = document.getElementById('hamburger-btn');
   const overlay = document.getElementById('mobile-nav-overlay');
@@ -60,7 +61,12 @@ export function setupHeader() {
         }
       });
     });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeMobileNav();
+    });
   }
+  const closeBtn = document.getElementById('mobile-close-btn');
+  if (closeBtn) closeBtn.addEventListener('click', closeMobileNav);
 
   function closeMobileNav() {
     if (overlay) overlay.style.display = 'none';
