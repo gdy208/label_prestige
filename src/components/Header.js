@@ -65,8 +65,6 @@ export function setupHeader() {
       if (e.target === overlay) closeMobileNav();
     });
   }
-  const closeBtn = document.getElementById('mobile-close-btn');
-  if (closeBtn) closeBtn.addEventListener('click', closeMobileNav);
 
   function closeMobileNav() {
     if (overlay) overlay.style.display = 'none';
