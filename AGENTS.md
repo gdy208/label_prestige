@@ -2,10 +2,19 @@
 
 ## Quick start
 ```bash
-npm run dev      # Vite dev server (no vite.config.* — pure defaults)
-npm run build    # Vite production build
+npm run dev      # Vite dev server
+npm run build    # Vite production build (base: '/', pour Firebase)
+npm run build:gh # Vite production build (base: '/label_prestige/', pour GitHub Pages)
 npm run preview  # Preview production build
 ```
+
+**GitHub Pages** : https://labelprestigeoff.github.io/label_prestige/
+Se déclenche en pushant sur `master` (GitHub Actions ou manuel).
+Le `base` est défini via `BASE_URL` dans `vite.config.js`. Pour un build local :
+```bash
+BASE_URL=/label_prestige/ npm run build
+```
+
 No testing, linting, typechecking, or formatter tooling configured. Assume none.
 
 ## Stack
