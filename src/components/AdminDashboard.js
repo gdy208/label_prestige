@@ -105,14 +105,14 @@ function createDashboard() {
   overlay = document.createElement('div');
   overlay.className = 'admin-overlay';
   overlay.innerHTML = `
-    <div class="admin-dashboard" style="background:rgba(3,3,3,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.14);border-radius:24px;max-width:1300px;width:95%;max-height:92vh;overflow-y:auto;margin:auto;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1000;padding:0">
+    <div class="admin-dashboard" style="background:rgba(3,3,3,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.14);border-radius:24px;max-width:1300px;width:95%;max-height:92vh;overflow:hidden;margin:auto;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1000;padding:0">
       <button class="admin-close" style="position:absolute;top:16px;right:20px;background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.75rem;cursor:pointer;padding:4px 10px;line-height:1;z-index:10">&times;</button>
-      <div class="glass rounded-[1.75rem] p-8 md:p-10 m-8">
+      <div class="glass rounded-[1.75rem] p-8 md:p-10 m-8" style="flex-shrink:0">
         <p class="font-sans text-sm font-semibold uppercase tracking-[0.18em] text-[#d8b56d]">Interface connectée</p>
         <h1 class="mt-6 font-heading text-4xl font-bold text-[#f7f2e8] md:text-5xl">Dashboard Admin</h1>
       </div>
       <div id="devnote-container" class="px-8 md:px-10"></div>
-      <div class="flex gap-2 px-8 md:px-10 pt-4 border-b border-white/5 overflow-x-auto" id="admin-tabs"></div>
+      <div class="flex gap-2 px-8 md:px-10 pt-4 border-b border-white/5 overflow-x-auto" id="admin-tabs" style="flex-shrink:0"></div>
       <div class="flex-1 overflow-y-auto p-8 md:p-10" id="admin-content"></div>
     </div>
   `;

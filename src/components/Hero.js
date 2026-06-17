@@ -31,6 +31,7 @@ export function setupHero() {
 function setup3DTilt() {
   const el = document.querySelector('[data-3d-tilt]');
   if (!el) return;
+  if (window.matchMedia('(pointer: coarse)').matches) return;
 
   el.style.willChange = 'transform';
 
