@@ -317,7 +317,7 @@ async function loadDocuments(categoryNode) {
     const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
     if (docs.length === 0) {
-      content.innerHTML = '<p class="admin-placeholder">Aucun document dans cette catégorie.</p>';
+      content.innerHTML = '<p class="admin-placeholder">Echouweyyy. Allez demander à vos parrains laba !!</p>';
       return;
     }
 
