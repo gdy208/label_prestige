@@ -4,6 +4,8 @@ import { doc, onSnapshot } from 'firebase/firestore';
 const LOCAL_IMAGES = [
   { slot: 'face', src: '/assets/images/serment/pull1.jpeg', alt: 'Pull Label Prestige — face' },
   { slot: 'dos', src: '/assets/images/serment/pull2.jpeg', alt: 'Pull Label Prestige — dos' },
+  { slot: 'detail', src: '/assets/images/serment/blouse1.jpeg', alt: 'Blouse Label Prestige — détail' },
+  { slot: 'porte', src: '/assets/images/serment/blouse2.jpeg', alt: 'Blouse Label Prestige — porté' },
 ];
 
 function loadLocalImages() {
