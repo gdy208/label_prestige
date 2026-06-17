@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://label-website-cebde.web.app/sitemap.xml
