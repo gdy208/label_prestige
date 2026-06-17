@@ -1,26 +1,27 @@
 export function createDocumentCard(doc, opts = {}) {
   const { showDelete = false, onDelete } = opts;
   const card = document.createElement('div');
-  card.className = 'doc-card';
+  card.className = 'glassmorphic-card';
+  card.style.cssText = 'padding:20px';
 
   const typeBadge = doc.type
-    ? `<span class="doc-badge doc-badge-${doc.type.toLowerCase().replace(/[\s-]+/g, '-')}">${esc(doc.type)}</span>`
+    ? `<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;background:rgba(201,163,77,0.15);color:#C9A34D">${esc(doc.type)}</span>`
     : '';
 
   card.innerHTML = `
-    <div class="doc-card-header">
-      <h4 class="doc-card-title">${esc(doc.name || 'Sans titre')}</h4>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px">
+      <h4 style="font-family:Playfair Display,serif;font-size:1rem;color:#FFFAF0;margin:0">${esc(doc.name || 'Sans titre')}</h4>
       ${typeBadge}
     </div>
-    <div class="doc-card-meta">
-      ${doc.academicYear ? `<span class="doc-meta-item">${esc(doc.academicYear)}</span>` : ''}
-      ${doc.filename ? `<span class="doc-meta-item">${esc(doc.filename)}</span>` : ''}
+    <div style="display:flex;gap:16px;margin-bottom:16px;font-size:0.8rem;color:rgba(255,255,255,0.5)">
+      ${doc.academicYear ? `<span>${esc(doc.academicYear)}</span>` : ''}
+      ${doc.filename ? `<span>${esc(doc.filename)}</span>` : ''}
     </div>
-    <div class="doc-card-actions">
-      <button class="btn btn-outline-gold doc-download" style="font-size:0.7rem;padding:6px 14px">
+    <div style="display:flex;gap:8px">
+      <button class="doc-download" style="padding:8px 18px;font-size:0.75rem;font-weight:600;color:#C9A34D;background:rgba(201,163,77,0.1);border:1px solid rgba(201,163,77,0.3);border-radius:6px;cursor:pointer;transition:all 0.2s">
         Télécharger
       </button>
-      ${showDelete ? '<button class="btn btn-outline doc-delete" style="font-size:0.7rem;padding:6px 14px;border-color:rgba(255,80,80,0.3);color:#ff5050">Supprimer</button>' : ''}
+      ${showDelete ? '<button class="doc-delete" style="padding:8px 18px;font-size:0.75rem;font-weight:600;color:#ef4444;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;cursor:pointer;transition:all 0.2s">Supprimer</button>' : ''}
     </div>
   `;
 

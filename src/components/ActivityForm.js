@@ -9,28 +9,28 @@ function createModal() {
   overlay = document.createElement('div');
   overlay.className = 'login-modal-overlay';
   overlay.innerHTML = `
-    <div class="login-modal" style="max-width:520px">
-      <button class="login-modal-close" aria-label="Fermer">&times;</button>
-      <h2 class="login-modal-title" id="activity-form-title">Ajouter une activité</h2>
+    <div class="login-modal" style="background:rgba(0,0,0,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(201,163,77,0.2);border-radius:16px;padding:40px;max-width:520px;width:90%;position:relative">
+      <button class="login-modal-close" style="position:absolute;top:12px;right:16px;background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1">&times;</button>
+      <h2 class="login-modal-title" id="activity-form-title" style="font-family:Playfair Display,serif;font-size:1.5rem;color:#C9A34D;margin-bottom:24px;text-align:center">Ajouter une activité</h2>
       <form id="activity-form">
-        <div class="login-field">
-          <label for="act-date">Date</label>
-          <input type="text" id="act-date" placeholder="ex: 15 Mars 2026" required />
+        <div class="login-field" style="margin-bottom:16px">
+          <label for="act-date" style="display:block;font-size:0.8rem;color:rgba(255,255,255,0.6);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em">Date</label>
+          <input type="text" id="act-date" placeholder="ex: 15 Mars 2026" required style="width:100%;padding:12px 16px;font-size:0.95rem;color:#FFFAF0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;outline:none;transition:border-color 0.2s" />
         </div>
-        <div class="login-field">
-          <label for="act-title">Titre</label>
-          <input type="text" id="act-title" placeholder="Titre de l'activité" required />
+        <div class="login-field" style="margin-bottom:16px">
+          <label for="act-title" style="display:block;font-size:0.8rem;color:rgba(255,255,255,0.6);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em">Titre</label>
+          <input type="text" id="act-title" placeholder="Titre de l'activité" required style="width:100%;padding:12px 16px;font-size:0.95rem;color:#FFFAF0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;outline:none;transition:border-color 0.2s" />
         </div>
-        <div class="login-field">
-          <label for="act-description">Description</label>
-          <textarea id="act-description" rows="3" placeholder="Description de l'activité" required style="width:100%;padding:10px 14px;font-family:var(--font-body);font-size:0.95rem;color:var(--color-text-primary);background:rgba(255,255,255,0.05);border:1px solid var(--color-glass-border);border-radius:var(--radius-button);outline:none;resize:vertical"></textarea>
+        <div class="login-field" style="margin-bottom:16px">
+          <label for="act-description" style="display:block;font-size:0.8rem;color:rgba(255,255,255,0.6);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em">Description</label>
+          <textarea id="act-description" rows="3" placeholder="Description de l'activité" required style="width:100%;padding:12px 16px;font-family:Inter,sans-serif;font-size:0.95rem;color:#FFFAF0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;outline:none;resize:vertical;transition:border-color 0.2s"></textarea>
         </div>
-        <div class="login-field">
-          <label for="act-order">Ordre d'affichage</label>
-          <input type="number" id="act-order" value="0" min="0" />
+        <div class="login-field" style="margin-bottom:20px">
+          <label for="act-order" style="display:block;font-size:0.8rem;color:rgba(255,255,255,0.6);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em">Ordre d'affichage</label>
+          <input type="number" id="act-order" value="0" min="0" style="width:100%;padding:12px 16px;font-size:0.95rem;color:#FFFAF0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;outline:none;transition:border-color 0.2s" />
         </div>
-        <p class="login-error" id="act-error"></p>
-        <button type="submit" class="btn btn-gold login-submit">Enregistrer</button>
+        <p class="login-error" id="act-error" style="color:#ef4444;font-size:0.85rem;margin-bottom:12px;text-align:center"></p>
+        <button type="submit" class="login-submit" style="width:100%;padding:12px 24px;font-size:0.95rem;font-weight:600;color:#000;background:linear-gradient(135deg,#C9A34D,#A8882D);border:none;border-radius:8px;cursor:pointer;transition:opacity 0.2s">Enregistrer</button>
       </form>
     </div>
   `;

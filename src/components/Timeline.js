@@ -37,6 +37,17 @@ function isFutureActivity(dateStr) {
   return parseActivityDate(dateStr) > new Date();
 }
 
+function getMonth(dateStr) {
+  const months = {
+    'Janvier': 'Janv.', 'Février': 'Févr.', 'Mars': 'Mars', 'Avril': 'Avr.', 'Mai': 'Mai', 'Juin': 'Juin',
+    'Juillet': 'Juil.', 'Août': 'Août', 'Septembre': 'Sept.', 'Octobre': 'Oct.', 'Novembre': 'Nov.', 'Décembre': 'Déc.'
+  };
+  for (const [full, short] of Object.entries(months)) {
+    if ((dateStr || '').includes(full)) return short;
+  }
+  return dateStr || '';
+}
+
 function renderTimeline(isAdmin) {
   const container = document.getElementById('timeline-container');
   if (!container) return;
@@ -46,48 +57,43 @@ function renderTimeline(isAdmin) {
 
   container.innerHTML = '';
 
-  const wrapper = document.createElement('div');
-  wrapper.className = 'timeline-wrapper';
-
-  const line = document.createElement('div');
-  line.className = 'timeline-line';
-  wrapper.appendChild(line);
-
-  sorted.forEach((activity, index) => {
+  sorted.forEach((activity) => {
     const isFuture = isFutureActivity(activity.date);
-    const card = document.createElement('div');
-    card.className = `timeline-card${isFuture && !isAdmin ? ' future-activity' : ''}`;
-    card.dataset.index = index;
+    const futureClass = isFuture && !isAdmin ? ' opacity-60 blur-sm hover:opacity-100 hover:blur-none' : '';
+    const month = getMonth(activity.date);
+    const isMulti = (activity.date || '').includes('&');
 
-    const dot = document.createElement('div');
-    dot.className = 'timeline-dot';
-    card.appendChild(dot);
+    const card = document.createElement('article');
+    card.className = `glass grid gap-4 rounded-3xl p-6${futureClass}`;
+    card.style.gridTemplateColumns = isMulti ? '140px 1fr' : '90px 1fr';
 
-    const content = document.createElement('div');
-    content.className = 'timeline-content';
+    const monthEl = document.createElement('p');
+    monthEl.className = 'font-display text-xl font-bold text-[#d8b56d]';
+    monthEl.textContent = month;
+    card.appendChild(monthEl);
 
-    const dateEl = document.createElement('span');
-    dateEl.className = 'activity-date';
-    dateEl.textContent = activity.date || '';
-    content.appendChild(dateEl);
+    const div = document.createElement('div');
+
+    if (isFuture) {
+      const badge = document.createElement('span');
+      badge.className = 'inline-block text-[0.65rem] font-semibold uppercase tracking-wider px-2 py-1 rounded mb-2 bg-[#d8b56d]/20 text-[#d8b56d]';
+      badge.textContent = 'À Venir';
+      div.appendChild(badge);
+    }
 
     const titleEl = document.createElement('h3');
-    titleEl.className = 'activity-title';
+    titleEl.className = 'font-heading text-xl font-bold text-[#f7f2e8]';
     titleEl.textContent = activity.title || '';
-    content.appendChild(titleEl);
+    div.appendChild(titleEl);
 
     const descEl = document.createElement('p');
-    descEl.className = 'activity-description';
+    descEl.className = 'mt-2 font-sans text-sm leading-7 text-[#a9a9a9]';
     descEl.textContent = activity.description || '';
-    content.appendChild(descEl);
+    div.appendChild(descEl);
 
-    card.appendChild(content);
-
-    card.classList.add(index % 2 === 0 ? 'timeline-left' : 'timeline-right');
-    wrapper.appendChild(card);
+    card.appendChild(div);
+    container.appendChild(card);
   });
-
-  container.appendChild(wrapper);
 }
 
 async function loadFromFirestore() {

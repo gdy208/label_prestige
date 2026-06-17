@@ -22,28 +22,18 @@ export function setupHeader() {
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+        closeMobileNav();
       }
     });
   });
 
-  const heroDocsBtn = document.querySelector('.hero-actions .btn-outline[href="#documents"]');
-  if (heroDocsBtn) {
-    heroDocsBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      openDocumentLibrary();
-    });
-  }
+  const loginBtns = [document.getElementById('login-btn'), document.getElementById('mobile-login-btn')];
+  const adminBtns = [document.getElementById('admin-btn'), document.getElementById('mobile-admin-btn')];
+  const logoutBtns = [document.getElementById('logout-btn'), document.getElementById('mobile-logout-btn')];
 
-  const loginBtn = document.getElementById('login-btn');
-  const adminBtn = document.getElementById('admin-btn');
-  const logoutBtn = document.getElementById('logout-btn');
-
-  if (loginBtn) {
-    loginBtn.addEventListener('click', openLoginModal);
-  }
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
+  loginBtns.forEach(btn => { if (btn) btn.addEventListener('click', openLoginModal); });
+  logoutBtns.forEach(btn => {
+    if (btn) btn.addEventListener('click', async () => {
       try {
         await signOut(auth);
         setState({ user: null, role: null, poste: null, isAdmin: false });
@@ -51,15 +41,38 @@ export function setupHeader() {
         console.error('Erreur déconnexion :', err);
       }
     });
+  });
+  adminBtns.forEach(btn => { if (btn) btn.addEventListener('click', openAdminDashboard); });
+
+  const hamburger = document.getElementById('hamburger-btn');
+  const overlay = document.getElementById('mobile-nav-overlay');
+  if (hamburger && overlay) {
+    hamburger.addEventListener('click', () => {
+      const open = overlay.style.display !== 'block';
+      overlay.style.display = open ? 'block' : 'none';
+      hamburger.querySelectorAll('.bar').forEach((bar, i) => {
+        if (open) {
+          bar.style.transform = i === 0 ? 'translateY(6px) rotate(45deg)' : i === 2 ? 'translateY(-6px) rotate(-45deg)' : 'opacity:0';
+          if (i === 1) bar.style.opacity = '0';
+        } else {
+          bar.style.transform = '';
+          bar.style.opacity = '1';
+        }
+      });
+    });
   }
 
-  if (adminBtn) {
-    adminBtn.addEventListener('click', openAdminDashboard);
+  function closeMobileNav() {
+    if (overlay) overlay.style.display = 'none';
+    if (hamburger) hamburger.querySelectorAll('.bar').forEach(bar => { bar.style.transform = ''; bar.style.opacity = '1'; });
   }
 
   subscribe(authState => {
-    if (loginBtn) loginBtn.style.display = authState.isAdmin ? 'none' : '';
-    if (adminBtn) adminBtn.style.display = authState.isAdmin ? '' : 'none';
-    if (logoutBtn) logoutBtn.style.display = authState.isAdmin ? '' : 'none';
+    [loginBtns, adminBtns, logoutBtns].forEach(group => group.forEach(btn => {
+      if (!btn) return;
+      if (btn.id.includes('login')) btn.style.display = authState.isAdmin ? 'none' : '';
+      if (btn.id.includes('admin')) btn.style.display = authState.isAdmin ? '' : 'none';
+      if (btn.id.includes('logout')) btn.style.display = authState.isAdmin ? '' : 'none';
+    }));
   });
 }
